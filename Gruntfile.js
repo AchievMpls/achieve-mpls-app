@@ -69,6 +69,13 @@ module.exports = function(grunt){
         src: ['**/*'],
         dest: 'server/public/vendors/angular-messages'
       },
+      angularDataTables: {
+        expand: true,
+        cwd: 'node_modules/angular-material-data-table/dist',
+        src: ['**/*'],
+        dest: 'server/public/vendors/angular-material-data-table'
+      },
+
       javascript: {
         expand: true,
         cwd: 'client/scripts/',

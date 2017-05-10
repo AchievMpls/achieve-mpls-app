@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('server/public'));
 
 //Routes
-app.use('/', index);
+app.use('/*', index);
 
 //listen
 app.listen(app.get('port'), function(){
