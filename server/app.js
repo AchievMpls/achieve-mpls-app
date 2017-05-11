@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 
 //Route Modules
 var index = require('./routes/index.js');
+var users = require('./routes/users.js');
 
 //app config
 app.set('port', (process.env.PORT || 5000));
@@ -16,7 +17,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('server/public'));
 
 //Routes
+app.use('/users', users);
 app.use('/*', index);
+
 
 //listen
 app.listen(app.get('port'), function(){
