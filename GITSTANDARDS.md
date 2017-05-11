@@ -3,6 +3,9 @@
 git branch -a
   - shows all of the branches available on your computer, what are available on remote, and what branch you are currently working on
 
+git branch <branch>
+    - creates branch
+
 git checkout <branch>
   - checks out the branch that you want to work on.
 
