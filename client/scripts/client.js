@@ -6,7 +6,7 @@
 */
 
 console.log('client.js sourced');
-var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'md.data.table', 'ngAria']);
+var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'ngAria']);
 
 /// Routes ///
 myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
@@ -16,8 +16,8 @@ myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
 
   $routeProvider
     .when('/home', {
-      templateUrl: '/views/tableTester.html',
-      controller: 'TableTesterController',
+      templateUrl: '',
+      controller: '',
     })
     .otherwise({
       redirectTo: 'home'
