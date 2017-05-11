@@ -12,12 +12,13 @@ var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'ngA
 myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
       function($routeProvider, $locationProvider, $mdThemingProvider) {
   $locationProvider.hashPrefix('');
-  $mdThemingProvider.theme('default');
+  $mdThemingProvider.theme('default')
+    .accentPalette('red');
 
   $routeProvider
     .when('/home', {
-      templateUrl: '',
-      controller: '',
+      templateUrl: '/views/templates/adminHome',
+      controller: 'home as AdminHomeController',
     })
     .otherwise({
       redirectTo: 'home'

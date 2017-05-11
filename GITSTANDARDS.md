@@ -24,3 +24,7 @@ git stash apply
 Naming for Branches
 
 feature_<featurename>_<initials>
+
+Merging:
+
+git push <featurebranch>
