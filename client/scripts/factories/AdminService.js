@@ -4,6 +4,7 @@
 * @param $http, $location
 * @return
 */
+
 myApp.factory('AdminService', ['$http', '$location',
 function($http, $location){
 
