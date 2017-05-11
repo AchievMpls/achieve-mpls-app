@@ -1,0 +1,12 @@
+.header {
+  background-color: black;
+  color: white;
+}
+
+.nav-links {
+  color: white;
+}
+
+md-nav-item .md-nav-item {
+  color: white;
+}
