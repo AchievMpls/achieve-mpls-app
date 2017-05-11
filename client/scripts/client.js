@@ -19,6 +19,10 @@ myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
       templateUrl: '',
       controller: '',
     })
+    .when('/users', {
+      templateUrl: '/views/users.html',
+      controller: 'UserController',
+    })
     .otherwise({
       redirectTo: 'home'
     });
