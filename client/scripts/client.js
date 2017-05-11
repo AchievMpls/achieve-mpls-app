@@ -17,8 +17,20 @@ myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
 
   $routeProvider
     .when('/home', {
-      templateUrl: '/views/templates/adminHome',
-      controller: 'home as AdminHomeController',
+      templateUrl: '/views/templates/adminHome.html',
+      controller: 'AdminHomeController as home',
+    })
+    .when('/forms', {
+      templateUrl: '/views/templates/adminForms.html',
+      controller: 'AdminFormsController as forms',
+    })
+    .when('/sessions', {
+      templateUrl: '/views/templates/adminSessions.html',
+      controller: 'AdminSessionsController as sessions',
+    })
+    .when('/users', {
+      templateUrl: '/views/templates/adminUsers.html',
+      controller: 'AdminUsersController as Users',
     })
     .otherwise({
       redirectTo: 'home'
