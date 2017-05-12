@@ -3,6 +3,8 @@
 -- Open 'achieveDB'.
 -- Open 'SQL Query', and run the following:
 
+
+
 CREATE TABLE "users" (
   "id" serial primary key,
   "fname" varchar(80) not null,
