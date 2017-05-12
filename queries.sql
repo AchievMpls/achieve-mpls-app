@@ -3,6 +3,8 @@
 -- Open 'achieveDB'.
 -- Open 'SQL Query', and run the following:
 
+--SESSION TABLE HERE
+
 CREATE TABLE "users" (
   "id" serial primary key,
   "fname" varchar(80) not null,
@@ -17,7 +19,7 @@ CREATE TABLE "users" (
 
 -- DO NOT RUN THE BELOW CODE.
 -- First, find all for 'ypaulsussman' and replace with your personal Gmail address.
-
+  --@TODO: after creating JOIN above, remove "session_id" from INSERT below
 INSERT INTO "users" ("fname", "lname", "email", "password", "role", "session_id") VALUES ('Sung','Slama','ypaulsussman+1@gmail.com','Slama25','coach','20');
 INSERT INTO "users" ("fname", "lname", "email", "password", "role", "session_id") VALUES ('Leah','Largo','ypaulsussman+2@gmail.com','Largo72','coach','12');
 INSERT INTO "users" ("fname", "lname", "email", "password", "role", "session_id") VALUES ('Georgina','Grieb','ypaulsussman+3@gmail.com','Grieb91','coach','4');
