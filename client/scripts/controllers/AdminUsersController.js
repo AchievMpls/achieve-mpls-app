@@ -8,6 +8,8 @@
 myApp.controller('AdminUsersController', ['AdminService', '$mdPanel',
 function(AdminService, $mdPanel, mdPanelRef){
   var users = this;
+  users.roleArray = ['9', '12'];
+  users.sessionArray = [1,2,3,4,5,6,7,8,9,10];
   this._mdPanel = $mdPanel;
 
 
@@ -23,7 +25,6 @@ function(AdminService, $mdPanel, mdPanelRef){
       panelClass: 'demo-dialog-example',
       position: position,
       trapFocus: true,
-      zIndex: 150,
       clickOutsideToClose: true,
       escapeToClose: true,
       focusOnOpen: true
