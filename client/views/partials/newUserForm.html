@@ -1,0 +1,29 @@
+<md-card>
+  <div flex-xs flex-gt-xs="200" class="dialog-container">
+  <div layout="column">
+    <div layout = "row">
+      <md-input-container>
+        <label>First Name</label>
+        <input ng-model="user.firstName">
+      </md-input-container>
+    </div>
+    <div layout="row">
+      <md-input-container>
+        <label>Last Name</label>
+        <input ng-model="user.lastName">
+      </md-input-container>
+    </div>
+    <div layout = "row">
+      <md-input-container>
+        <label>E-Mail</label>
+        <input ng-model="user.email">
+      </md-input-container>
+    </div>
+    <div layout = "row">
+    <md-button class="md-fab md-primary md-hue-1" aria-label="Submit Run" ng-click="enterRun.addRun(enterRun.savedRun)">
+      <i class="material-icons" id="addButton">done</i>
+    </md-button>
+  </div>
+  </div>
+</div>
+</md-card>
