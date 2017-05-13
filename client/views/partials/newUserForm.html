@@ -1,0 +1,49 @@
+<div ng-controller="AdminUsersController as users">
+  <div flex-xs flex-gt-xs="200" class="dialog-container">
+    <div layout="column">
+      <div layout = "row">
+        <div layout = "column">
+          <md-input-container>
+            <label>First Name</label>
+            <input ng-model="users.firstName">
+          </md-input-container>
+        </div>
+        <div layout="column">
+          <md-input-container>
+            <label>Last Name</label>
+            <input ng-model="users.lastName">
+          </md-input-container>
+        </div>
+      </div>
+      <div layout = "row">
+        <md-input-container>
+          <label>E-Mail</label>
+          <input ng-model="users.email">
+        </md-input-container>
+      </div>
+      <div layout = "row">
+        <div layout = "column">
+        <md-input-container>
+          <label>Role</label>
+          <md-select ng-model="users.role">
+            <md-option ng-repeat="role in users.roleArray" value="{{role}}">{{role}}</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div layout = "column">
+        <md-input-container>
+          <label>Session</label>
+          <md-select ng-model="users.session">
+            <md-option ng-repeat="session in users.sessionArray" value="{{session}}">{{session}}</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+    </div>
+      <div layout = "row">
+        <md-button class="md-fab md-primary" aria-label="Submit New User" ng-click="">
+          <i class="material-icons" id="addButton">done</i>
+        </md-button>
+      </div>
+    </div>
+  </div>
+</div>
