@@ -1,14 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var pg = require('pg');
-//var pool = require('../modules/db');
+var pool = require('../modules/db');
 
 /**
 * @desc router get request the list of coach only
 * @param
 * @return the results
 */
-router.get('/getUser', function(req, res) {
+
+router.get('/', function(req, res) {
   pool.connect(function(errorConnectingToDb, db, done) {
     if (errorConnectingToDb) {
       res.sendStatus(500);
