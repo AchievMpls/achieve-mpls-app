@@ -30,7 +30,7 @@ myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
     })
     .when('/adminUsers', {
       templateUrl: '/views/templates/adminUsers.html',
-      controller: 'AdminUsersController as Users',
+      controller: 'AdminUsersController as users',
     })
     .when('/users', {
       templateUrl: '/views/users.html',
