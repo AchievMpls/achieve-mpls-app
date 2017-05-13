@@ -23,8 +23,17 @@ git stash apply
 
 Naming for Branches
 
-feature_<featurename>_<initials>
+feature-<featurename>-<initials>
 
 Merging:
 
-git push <featurebranch>
+1. Commit feature (git add and git commit)
+2. git checkout develop
+3. git pull develop
+4. git checkout <feature>
+5. git merge --no-ff develop
+6. Resolve Conflicts
+7. git add
+8. git commit
+9. git push origin <feature>
+10. Submit git pull request
