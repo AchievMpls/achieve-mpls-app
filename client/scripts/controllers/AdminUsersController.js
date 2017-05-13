@@ -8,8 +8,12 @@
 myApp.controller('AdminUsersController', ['AdminService', '$mdPanel',
 function(AdminService, $mdPanel, mdPanelRef){
   var users = this;
+
+  //hard coding data for the dropdown menus. this will be removed later
   users.roleArray = ['9', '12'];
   users.sessionArray = [1,2,3,4,5,6,7,8,9,10];
+
+  //the rest of this is code to get $mdPanel to work.
   this._mdPanel = $mdPanel;
 
 
