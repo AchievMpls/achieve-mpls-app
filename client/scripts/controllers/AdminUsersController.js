@@ -4,17 +4,17 @@
 * @param AdminService
 * @return AllUser objects
 */
-<<<<<<< HEAD
-myApp.controller('AdminUsersController', ['$scope', '$http', '$location',
-'$mdDialog', 'AdminService', function($scope, $http, $location, $mdDialog, AdminService){
-console.log('Admin Users sourced: ');
-=======
+
+// myApp.controller('AdminUsersController', ['$scope', '$http', '$location',
+// '$mdDialog', 'AdminService', function($scope, $http, $location, $mdDialog, AdminService){
+
+
 
 myApp.controller('AdminUsersController', ['AdminService', '$mdPanel',
 function(AdminService, $mdPanel, mdPanelRef){
->>>>>>> 8e82efdd48d8bc5a3f20b647d6171a70ee3ccd24
+console.log('Admin Users sourced: ');
   var users = this;
-  
+
 
   //hard coding data for the dropdown menus. this will be removed later
   users.roleArray = ['9', '12'];
