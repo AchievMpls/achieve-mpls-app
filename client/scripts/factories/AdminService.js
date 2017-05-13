@@ -7,24 +7,5 @@
 
 myApp.factory('AdminService', ['$http', '$location',
 function($http, $location){
-var allUsers = {
-  users: []
-};
-/**
 
-* @desc Admin gets the list of users
-* @param
-* @return AllUsers object
-*/
-  function getAllUsers() {
-   $http.get('/users').then(function(response) {
-     allUsers.users = response.data;
-   });
- }
-
-
-  return{
-    getAllUsers: getAllUsers,
-    allUsers: allUsers
-  };
 }]);
