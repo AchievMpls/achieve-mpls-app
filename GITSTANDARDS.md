@@ -23,9 +23,7 @@ git stash apply
 
 Naming for Branches
 
-feature_<featurename>_<initials>
-
-Merging:
+feature-<featurename>-<initials>
 
 git push <featurebranch>
 
@@ -60,3 +58,16 @@ git checkout develop  // switch back to develop and merge changes
 git merge --no-ff feature-task1  //
 git push -u origin develop // push local changes to repo
 git branch -d feature-task1 // delete old branches
+
+Merging:
+
+1. Commit feature (git add and git commit)
+2. git checkout develop
+3. git pull develop
+4. git checkout <feature>
+5. git merge --no-ff develop
+6. Resolve Conflicts
+7. git add
+8. git commit
+9. git push origin <feature>
+10. Submit git pull request
