@@ -5,15 +5,21 @@
 * @return AllUser objects
 */
 
+
+//eh commented --pls delete when everything deleted
 // myApp.controller('AdminUsersController', ['$scope', '$http', '$location',
 // '$mdDialog', 'AdminService', function($scope, $http, $location, $mdDialog, AdminService){
-
 
 
 myApp.controller('AdminUsersController', ['AdminService', '$mdPanel',
 function(AdminService, $mdPanel, mdPanelRef){
 console.log('Admin Users sourced: ');
   var users = this;
+
+
+  AdminService.getAllUsers();
+  users.allUsers = AdminService.allUsers;
+  console.log('users', users.allUsers);
 
 
   //hard coding data for the dropdown menus. this will be removed later
