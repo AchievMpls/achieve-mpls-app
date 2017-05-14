@@ -59,9 +59,9 @@
           </thead>
           <tbody md-body>
 
-            <tr md-row md-select="item" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="form in forms.allForms.returnedForms | orderBy: forms.query.order | limitTo: forms.query.limit : (forms.query.page -1) * forms.query.limit">
+            <tr md-row md-auto-select="options.autoSelect" ng-repeat="form in forms.allForms.returnedForms | orderBy: forms.query.order | limitTo: forms.query.limit : (forms.query.page -1) * forms.query.limit">
               <td md-cell>
-                <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="confirmDelete(item)">
+                <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="forms.confirmDelete(form)">
                   Delete
                   <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_clear_black_48px.svg"></md-icon> -->
                 </md-button>

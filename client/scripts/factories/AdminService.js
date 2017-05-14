@@ -14,10 +14,10 @@ myApp.factory('AdminService', ['$http', '$location',
 
 
     /**
-    * @desc Admin gets the list of users
-    * @param
-    * @return AllUsers object
-    */
+     * @desc Admin gets the list of users
+     * @param
+     * @return AllUsers object
+     */
     function getAllUsers() {
       $http.get('/users').then(function(response) {
         allUsers.users = response.data;
@@ -25,10 +25,10 @@ myApp.factory('AdminService', ['$http', '$location',
     }
 
     /**
-    * @desc gets all forms from db
-    * @param
-    * @return AllForms object
-    */
+     * @desc gets all forms from db
+     * @param
+     * @return AllForms object
+     */
     function getAllForms() {
       $http.get('/forms').then(function(response) {
         allForms.returnedForms = response.data;
@@ -36,24 +36,37 @@ myApp.factory('AdminService', ['$http', '$location',
     }
 
     /**
-    * @desc adds new form to db
-    * @param {object} formToSend the exit-ticket form to be created
-    */
+     * @desc adds new form to db
+     * @param {object} formToSend the exit-ticket form to be created
+     */
     function addNewForm(formToSend) {
       $http.post('/forms/add', formToSend).then(function(response) {
         getAllForms();
-    });
+      });
     }
 
     /**
-    * @desc updates form
-    * @param {object} formToSend the exit-ticket form to be created
-    */
+     * @desc updates form
+     * @param {object} formToSend the exit-ticket form to be created
+     */
     function updateForm(formToSend) {
       $http.put('/forms/update', formToSend).then(function(response) {
         getAllForms();
       });
     }
+
+    /**
+     * @desc removes an exit-ticket form, per its ID.
+     * @param {number} id - The form to be removed (specified in AdminFormsController.)
+     */
+    function deleteForm(id) {
+      console.log('number you got: ', id);
+      $http.delete('/forms/delete/' + id).then(function() {
+        getAllForms();
+      });
+    }
+
+
 
     return {
       getAllUsers: getAllUsers,
@@ -61,7 +74,8 @@ myApp.factory('AdminService', ['$http', '$location',
       getAllForms: getAllForms,
       allForms: allForms,
       addNewForm: addNewForm,
-      updateForm: updateForm
+      updateForm: updateForm,
+      deleteForm: deleteForm
     };
 
   }
