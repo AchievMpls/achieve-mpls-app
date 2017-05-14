@@ -3,7 +3,8 @@
 -- Open 'achieveDB'.
 -- Open 'SQL Query', and run the following:
 
---SESSION TABLE HERE
+
+--SESSION TABLE HERE LOLOLO
 
 CREATE TABLE "users" (
   "id" serial primary key,
