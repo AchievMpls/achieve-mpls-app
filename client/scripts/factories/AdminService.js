@@ -64,7 +64,6 @@ myApp.factory('AdminService', ['$http', '$location',
      * @param {number} id - The form to be removed (specified in AdminFormsController.)
      */
     function deleteForm(id) {
-      console.log('number you got: ', id);
       $http.delete('/forms/delete/' + id).then(function() {
         getAllForms();
       });
