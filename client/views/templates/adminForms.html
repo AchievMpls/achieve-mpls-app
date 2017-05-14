@@ -2,6 +2,48 @@
 
 <div layout="row" layout-align="center center" class="admin_table">
     <md-card md-whiteframe="8" flex="90">
+      <div layout="row" layout-align="space-around none" class="admin_table">
+        <md-input-container>
+          <label>Form Name</label>
+          <textarea rows="2" cols="50" ng-model="forms.form_name"></textarea>
+        </md-input-container>
+
+        <md-input-container>
+          <label>Question 01</label>
+          <textarea rows="2" cols="50" ng-model="forms.q1_prompt"></textarea>
+        </md-input-container>
+
+        <md-input-container>
+          <label>Question 02</label>
+          <textarea rows="2" cols="50" ng-model="forms.q2_prompt"></textarea>
+        </md-input-container>
+</div>
+    <div layout="row" layout-align="space-around none" class="admin_table">
+        <md-input-container>
+          <label>Question 03</label>
+          <textarea rows="2" cols="50" ng-model="forms.q3_prompt"></textarea>
+        </md-input-container>
+
+        <md-input-container>
+          <label>Question 04</label>
+          <textarea rows="2" cols="50" ng-model="forms.q4_prompt"></textarea>
+        </md-input-container>
+
+        <md-input-container>
+          <label>Question 05</label>
+          <textarea rows="2" cols="50" ng-model="forms.q5_prompt"></textarea>
+        </md-input-container>
+</div>
+    <div layout="row" layout-align="space-around none" class="admin_table">
+        <md-input-container>
+          <md-button class="md-primary md-raised" ng-click="forms.sendForm()">Create New Form</button>
+        </md-input-container>
+      </div>
+    </md-card>
+  </div>
+
+<div layout="row" layout-align="center center" class="admin_table">
+    <md-card md-whiteframe="8" flex="90">
       <md-table-container>
         <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
           <thead md-head md-order="forms.query.order">
@@ -20,9 +62,11 @@
             <tr md-row md-select="item" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="form in forms.allForms.returnedForms | orderBy: forms.query.order | limitTo: forms.query.limit : (forms.query.page -1) * forms.query.limit">
               <td md-cell>
                 <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="confirmDelete(item)">
+                  Delete
                   <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_clear_black_48px.svg"></md-icon> -->
                 </md-button>
                 <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="editItem(item)">
+                  Edit
                   <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_mode_edit_white_48px.svg"></md-icon> -->
                 </md-button>
               </td>

@@ -30,21 +30,32 @@ myApp.factory('AdminService', ['$http', '$location',
     * @return AllForms object
     */
     function getAllForms() {
-      console.log('getAllForms called');
       $http.get('/forms').then(function(response) {
         allForms.returnedForms = response.data;
-        console.log('response from db: ', response.data);
-        console.log("currently allforms.returnedForms is: ", allForms.returnedForms);
       });
     }
 
+    /**
+    * @desc adds new form to db
+    * @param
+    * @return AllForms object
+    */
+    //YOU WERE HERE
+    function addNewForm(formToSend) {
+      console.log('in the service, formToSend is: ', formToSend);
+      $http.post('/form/add', formToSend).then(function(response) {
+        console.log('here the response: ', response);
+        // getAllForms();
+    });
 
+    }
 
     return {
       getAllUsers: getAllUsers,
       allUsers: allUsers,
       getAllForms: getAllForms,
-      allForms: allForms
+      allForms: allForms,
+      addNewForm: addNewForm
     };
 
   }
