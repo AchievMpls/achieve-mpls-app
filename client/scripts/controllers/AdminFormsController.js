@@ -2,36 +2,54 @@
  * Admin Forms Controller
  * @desc controls the Admin Forms View
  * @param AdminService
- * @return
  */
-
 myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService',
   function($mdDialog, AdminService) {
     var forms = this;
-    var formToSend = {
-      form_name: '',
-      prompts: [],
-    };
-    forms.prompts = [];
-    var editingForm = false;
 
-    AdminService.getAllForms();
-    forms.allForms = AdminService.allForms;
-
-    //delimits # forms/page
-    forms.query = {
+    /**
+     * @global object that limits table's display length
+     */
+     forms.query = {
       order: 'name',
       limit: 25,
       page: 1
     };
 
-    //clears all ng-model fields
+    /**
+     * @global object that gets populated with form-data to add/edit
+     */
+    var formToSend = {
+      form_name: '',
+      prompts: [],
+    };
+
+    /**
+     * @global array that gets populated with ng-model question prompts
+     */
+    forms.prompts = [];
+
+    /**
+     * @global variable that functions use to determine whether to
+     * create a new form in the db (or edit a prexisting one)
+     */
+    var editingForm = false;
+
+    AdminService.getAllForms();
+    forms.allForms = AdminService.allForms;
+
+    /**
+     * @desc clears all ng-model fields
+     */
     function clearFields() {
       forms.form_name = '';
       forms.prompts = [];
     }
 
-    //displays an item for editing
+    /**
+     * @desc displays an item for editing
+     * @param {object} form the form to be edited
+     */
     forms.editForm = function(form) {
       editingForm = true;
       forms.form_name = form.form_name;
@@ -43,10 +61,11 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService',
       formToSend.id = form.id;
     };
 
-    //submits a new/edited item
+    /**
+     * @desc composes and submits a new/edited item
+     */
     forms.sendForm = function() {
       if (!forms.form_name || !forms.prompts[0]) {
-        console.log('need a name and at least 1 q!');
         completeFields();
         return;
       } else {
@@ -62,8 +81,11 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService',
         AdminService.addNewForm(formToSend);
       }
       clearFields();
-    }; // end sendForm
+    };
 
+    /**
+     * @desc displays an alert dialog if a form is incomplete
+     */
     function completeFields() {
       $mdDialog.show(
         $mdDialog.alert()
@@ -75,7 +97,11 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService',
       );
     }
 
-    //popup when 'delete' button is clicked
+    /**
+     * @desc displays a popup when 'delete' button is clicked, then
+     * deletes specific form if popup is confirmed
+     * @param {object} form the form to be deleted
+     */
     forms.confirmDelete = function(form) {
       console.log("this is the data you working with: ", form);
       var confirm = $mdDialog.confirm()

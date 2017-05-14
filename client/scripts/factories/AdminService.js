@@ -47,7 +47,7 @@ myApp.factory('AdminService', ['$http', '$location',
 
     /**
      * @desc updates form
-     * @param {object} formToSend the exit-ticket form to be created
+     * @param {object} formToSend the exit-ticket form to be altered
      */
     function updateForm(formToSend) {
       $http.put('/forms/update', formToSend).then(function(response) {
@@ -65,8 +65,6 @@ myApp.factory('AdminService', ['$http', '$location',
         getAllForms();
       });
     }
-
-
 
     return {
       getAllUsers: getAllUsers,
