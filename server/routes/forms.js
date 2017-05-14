@@ -12,12 +12,10 @@ router.get('/', function(req, res) {
   console.log('calling getAllForms on server');
   pool.connect(function(errorConnectingToDb, db, done) {
     if (errorConnectingToDb) {
-      console.log('error connecting: ', errorConnectingToDb);
       res.sendStatus(500);
     } else {
       db.query('SELECT * from "forms" ORDER BY "id" DESC;',
       function(queryError, result) {
-        console.log('error querying: ', queryError);
         done();
         if (queryError) {
           res.sendStatus(500);
@@ -29,29 +27,33 @@ router.get('/', function(req, res) {
   });
 });//end router.get
 
-// router.post('/add', function(req, res) {
-//   var itemTheme = req.body.itemTheme;
-//   var itemURL = req.body.itemURL;
-//   var itemEN = req.body.itemEN;
-//   var itemKN = req.body.itemKN;
-//   var itemPron = req.body.itemPron;
-//   pool.connect(function(errorConnectingToDb, db, done) {
-//     if (errorConnectingToDb) {
-//       res.sendStatus(500);
-//     } else {
-//       db.query('INSERT INTO "items" ("item_theme", "item_prompt", "item_answer_en", "item_answer_kn", "item_answer_phon_kn") VALUES ($1,$2,$3,$4,$5);',
-//       [itemTheme, itemURL, itemEN, itemKN, itemPron],
-//       function(queryError, result) {
-//         done();
-//         if (queryError) {
-//           res.sendStatus(500);
-//         } else {
-//           res.sendStatus(201);
-//         }
-//       });
-//     }
-//   });
-// });//end router.post
+router.post('/add', function(req, res) {
+  console.log('on the server, we got: ', req.body);
+  var form_name = req.body.form_name;
+  var prompts = [null, null, null, null, null];
+  for (var i = 0; i < req.body.prompts.length; i++) {
+    prompts[i] = req.body.prompts[i];
+  }
+  console.log("prompts are: ", prompts);
+  pool.connect(function(errorConnectingToDb, db, done) {
+    if (errorConnectingToDb) {
+      console.log('error connecting: ', errorConnectingToDb);
+      res.sendStatus(500);
+    } else {
+      db.query('INSERT INTO "forms" ("form_name", "q1_prompt", "q2_prompt", "q3_prompt", "q4_prompt", "q5_prompt") VALUES ($1,$2,$3,$4,$5,$6);',
+      [form_name, prompts[0], prompts[1], prompts[2], prompts[3], prompts[4]],
+      function(queryError, result) {
+        done();
+        if (queryError) {
+          console.log('error querying: ', queryError);
+          res.sendStatus(500);
+        } else {
+          res.sendStatus(201);
+        }
+      });
+    }
+  });
+});//end router.post
 
 
 

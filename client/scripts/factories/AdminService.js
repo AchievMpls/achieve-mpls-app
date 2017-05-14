@@ -25,7 +25,7 @@ myApp.factory('AdminService', ['$http', '$location',
     }
 
     /**
-    * @desc Admin gets the list of forms
+    * @desc gets all forms from db
     * @param
     * @return AllForms object
     */
@@ -37,17 +37,12 @@ myApp.factory('AdminService', ['$http', '$location',
 
     /**
     * @desc adds new form to db
-    * @param
-    * @return AllForms object
+    * @param {object} formToSend the exit-ticket form to be created
     */
-    //YOU WERE HERE
     function addNewForm(formToSend) {
-      console.log('in the service, formToSend is: ', formToSend);
-      $http.post('/form/add', formToSend).then(function(response) {
-        console.log('here the response: ', response);
-        // getAllForms();
+      $http.post('/forms/add', formToSend).then(function(response) {
+        getAllForms();
     });
-
     }
 
     return {
