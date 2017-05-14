@@ -27,16 +27,28 @@ function(AdminService){
     page: 1
   };
 
-
+  //clears all ng-model fields
   forms.clearFields = function() {
     forms.form_name = '';
     forms.prompts = [];
   };
 
+  //displays an item for editing
+  forms.editForm = function(form) {
+    console.log("you editing now, on: ", form);
+    editingForm = true;
+    forms.form_name = form.form_name;
+    forms.prompts[0] = form.q1_prompt;
+    forms.prompts[1] = form.q2_prompt;
+    forms.prompts[2] = form.q3_prompt;
+    forms.prompts[3] = form.q4_prompt;
+    forms.prompts[4] = form.q5_prompt;
+    formToSend.id = form.id;
+  };
+
   //submits a new/edited item
   forms.sendForm = function() {
     if (!forms.form_name || !forms.prompts[0]) {
-      console.log('forms now is: ', forms);
       console.log('need a name and 1 q!');
       return;
     } else{
@@ -45,15 +57,14 @@ function(AdminService){
         formToSend.prompts.push(forms.prompts[i]);
       }
     }
-    console.log("we're gonna send: ", formToSend);
-      // if (editing) {
-      //   editing = false;
-      //   item.id = $scope.itemID;
-      //   ItemService.updateItem(item);
-      // } else {
-        AdminService.addNewForm(formToSend);
-      // }
-      forms.clearFields();
+    if (editingForm) {
+      editingForm = false;
+      console.log('here the editing form:', formToSend);
+      AdminService.updateForm(formToSend);
+    } else {
+      AdminService.addNewForm(formToSend);
+    }
+    forms.clearFields();
   };
 
 

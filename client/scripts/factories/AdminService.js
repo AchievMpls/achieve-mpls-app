@@ -45,12 +45,23 @@ myApp.factory('AdminService', ['$http', '$location',
     });
     }
 
+    /**
+    * @desc updates form
+    * @param {object} formToSend the exit-ticket form to be created
+    */
+    function updateForm(formToSend) {
+      $http.put('/forms/update', formToSend).then(function(response) {
+        getAllForms();
+      });
+    }
+
     return {
       getAllUsers: getAllUsers,
       allUsers: allUsers,
       getAllForms: getAllForms,
       allForms: allForms,
-      addNewForm: addNewForm
+      addNewForm: addNewForm,
+      updateForm: updateForm
     };
 
   }
