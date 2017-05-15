@@ -22,7 +22,7 @@ router.get('/', function(req, res) {
           res.sendStatus(500);
         } else {
           res.send(result.rows);
-          console.log('result', result.rows);
+
 
         }
       });
