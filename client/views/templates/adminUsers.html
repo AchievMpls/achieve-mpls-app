@@ -1,3 +1,4 @@
+ <!-- start users table code -->
 <div layout="column">
 
   <div layout="row" layout-align="center center" class="admin_users_table">
@@ -6,23 +7,23 @@
 
         <md-input-container>
           <label>First Name</label>
-          <input ng-model="itemEN">
+          <input ng-model="newUser">
         </md-input-container>
 
         <md-input-container>
           <label>Last Name</label>
-          <input ng-model="itemKN" class="karen">
+          <input ng-model="newUser" >
         </md-input-container>
 
         <md-input-container>
           <label>Email Address</label>
-          <input ng-model="itemPron" class="karen">
+          <input ng-model="newUser" >
         </md-input-container>
 
         <md-input-container>
           <label>Role</label>
 
-          <md-select ng-model="userRole">
+          <md-select ng-model="newUser">
             <md-option><em>None</em></md-option>
             <md-option ng-repeat="role in roles" ng-value="role.name">
               {{role.name}}
@@ -31,7 +32,7 @@
         </md-input-container>
 
         <md-input-container>
-          <md-button class="md-primary md-raised" ng-click="sendItem()">Add User</button>
+          <md-button class="md-primary md-raised" ng-click="sendUser()">Add User</button>
         </md-input-container>
       </div>
     </md-card>
@@ -44,15 +45,14 @@
           <thead md-head md-order="query.order">
             <tr md-row>
               <th md-column class="md-headline"><span>Delete/Edit</span></th>
-              <th md-column md-order-by="item_theme" class="md-headline"><span>Theme</span></th>
-              <th md-column md-numeric md-order-by="item_answer_en" md-desc class="md-headline"><span>English Answer</span></th>
-              <th md-column md-numeric md-order-by="item_answer_kn" class="md-headline"><span>Karen Translation</span></th>
-              <th md-column md-numeric md-order-by="item_answer_phon_kn" class="md-headline"><span>Karen Transcription</span></th>
-              <th md-column md-order-by="item_prompt" class="md-headline"><span>Image URL</span></th>
+              <th md-column md-order-by="user_first" class="md-headline"><span>First Name</span></th>
+              <th md-column md-numeric md-order-by="user_last" md-desc class="md-headline"><span>Last Name</span></th>
+              <th md-column md-numeric md-order-by="user_email_address" class="md-headline"><span>Email Address</span></th>
+              <th md-column md-numeric md-order-by="user_role" class="md-headline"><span>Role</span></th>
             </tr>
           </thead>
           <tbody md-body>
-            <tr md-row md-select="item" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="item in allItems.items | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+            <tr md-row md-select="user" md-on-select="logUser" md-auto-select="options.autoSelect" ng-repeat="user in allUsers | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
               <td md-cell>
                 <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="confirmDelete(item)">
                   <md-icon layout-fill md-svg-src="/media/icons/ic_clear_black_48px.svg"></md-icon>
@@ -70,8 +70,9 @@
           </tbody>
         </table>
       </md-table-container>
-      <md-table-pagination md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{allItems.items.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+      <md-table-pagination md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{allUsers.users.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
     </md-card>
   </div>
 
 </div>
+ <!-- stop users table code -->
