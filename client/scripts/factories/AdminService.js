@@ -12,7 +12,7 @@ myApp.factory('AdminService', ['$http', '$location',
     };
     var allForms = {};
 
-
+    //----------CRUD USERs ------------
     /**
      * @desc Admin gets the list of users
      * @param
@@ -24,6 +24,38 @@ myApp.factory('AdminService', ['$http', '$location',
         allUsers.users = response.data;
       });
     }
+
+    /**
+     * @desc adds new users to db
+     * @param userToSend object to user data
+     */
+    function addNewUser(userToSend) {
+      $http.post('/users/postUser', userToSend).then(function(response) {
+        getAllUsers();
+      });
+    }
+
+    /**
+     * @desc removes the user
+     * @param id object sent AdminFormsController
+     */
+    function deleteUser(id) {
+      $http.delete('/users/delete/' + id).then(function() {
+        getAllUsers();
+      });
+    }
+
+    /**
+     * @desc updates user
+     * @param userToSend object has be changed
+     */
+    function updateUser(userToSend) {
+      $http.put('/users/update', userToSend).then(function(response) {
+        getAllUsers();
+      });
+    }
+
+    //--------CRUD FORMs-----------
 
     /**
      * @desc gets all forms from db
@@ -74,6 +106,9 @@ myApp.factory('AdminService', ['$http', '$location',
     return {
       getAllUsers: getAllUsers,
       allUsers: allUsers,
+      addNewUser: addNewUser,
+      updateUser: updateUser,
+      deleteUser: deleteUser,
       getAllForms: getAllForms,
       allForms: allForms,
       addNewForm: addNewForm,
