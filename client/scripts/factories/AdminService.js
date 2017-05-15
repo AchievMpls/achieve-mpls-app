@@ -4,13 +4,17 @@
  * @param $http, $location
  * @return the list of coaches
  */
-
 myApp.factory('AdminService', ['$http', '$location',
   function($http, $location) {
+
+    //@TODO: this is disgusting, and it's all y's fault.
+    // if we have time, let's refactor.
     var allUsers = {
       users: []
     };
     var allForms = {};
+    var sessionYear = {};
+    var specificYear = {};
 
 
     /**
@@ -69,6 +73,20 @@ myApp.factory('AdminService', ['$http', '$location',
       });
     }
 
+    function getSessionYears() {
+      $http.get('/sessions/years').then(function(response) {
+        sessionYear.uniques = response.data;
+      });
+    }
+
+    function getYearsSessions(year) {
+      console.log('chosen year in AdminService is: ', year);
+      $http.get('/sessions/' + year).then(function(response) {
+        specificYear.sessions = response.data;
+        console.log('db gives you:  ', specificYear);
+      });
+    }
+
     return {
       getAllUsers: getAllUsers,
       allUsers: allUsers,
@@ -76,7 +94,11 @@ myApp.factory('AdminService', ['$http', '$location',
       allForms: allForms,
       addNewForm: addNewForm,
       updateForm: updateForm,
-      deleteForm: deleteForm
+      deleteForm: deleteForm,
+      getSessionYears: getSessionYears,
+      sessionYear: sessionYear,
+      getYearsSessions: getYearsSessions,
+      specificYear: specificYear
     };
 
   }

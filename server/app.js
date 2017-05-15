@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index.js');
 var users = require('./routes/users.js');
 var forms = require('./routes/forms.js');
+var sessions = require('./routes/sessions.js');
 
 //app config
 app.set('port', (process.env.PORT || 5000));
@@ -20,6 +21,7 @@ app.use(express.static('server/public'));
 //Routes
 app.use('/users', users);
 app.use('/forms', forms);
+app.use('/sessions', sessions);
 app.use('/*', index);
 
 
