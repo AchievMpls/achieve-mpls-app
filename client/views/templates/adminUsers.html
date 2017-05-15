@@ -1,12 +1,4 @@
-<h1>Users</h1>
-
 <div layout="column">
-
-  <div layout="row" layout-align="space-between start" class="admin_users_table">
-    <div class="column" flex-offset="5">
-      <h1 class="md-display-2">Welcome, {{userName.name}}!</h1>
-    </div>
-  </div>
 
   <div layout="row" layout-align="center center" class="admin_users_table">
     <md-card md-whiteframe="8" flex="90">
@@ -30,16 +22,16 @@
         <md-input-container>
           <label>Role</label>
 
-          <md-select ng-model="itemTheme">
+          <md-select ng-model="userRole">
             <md-option><em>None</em></md-option>
-            <md-option ng-repeat="theme in themes" ng-value="theme.name">
-              {{theme.name}}
+            <md-option ng-repeat="role in roles" ng-value="role.name">
+              {{role.name}}
             </md-option>
           </md-select>
         </md-input-container>
 
         <md-input-container>
-          <md-button class="md-primary md-raised" ng-click="sendItem()">Submit</button>
+          <md-button class="md-primary md-raised" ng-click="sendItem()">Add User</button>
         </md-input-container>
       </div>
     </md-card>
