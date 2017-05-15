@@ -37,26 +37,23 @@
             <td md-cell>
               <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="sessions.confirmDelete(session)">
                 Delete
-                <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_clear_black_48px.svg"></md-icon> -->
               </md-button>
             </td>
             <td md-cell>
               <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="sessions.editSession(session)">
                 Edit
-                <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_mode_edit_white_48px.svg"></md-icon> -->
               </md-button>
             </td>
             <td md-cell>
               <md-button flex="45" aria-label="edit" class="md-raised md-warn admin-button" ng-click="sessions.routeToEvents(session.id)">
                 Events
-                <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_mode_edit_white_48px.svg"></md-icon> -->
               </md-button>
             </td>
             <td md-cell class="">{{session.session_count}}</td>
             <td md-cell class="">{{session.grade}}</td>
             <td md-cell class="">{{session.facilitator}}</td>
             <td md-cell class="">{{session.day}}</td>
-            <td md-cell class="">{{session.start_time}}</td>
+            <td md-cell class="">{{session.start_time | date:'hh:mm'}}</td>
             <td md-cell class="">{{session.school}}</td>
           </tr>
         </tbody>

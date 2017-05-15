@@ -29,8 +29,8 @@
             </td>
             <td md-cell class="">{{event.meeting_count}}</td>
             <td md-cell class="">{{event.form_name}}</td>
-            <td md-cell class="">{{event.date_form_open}}</td>
-            <td md-cell class="">{{event.date_form_close}}</td>
+            <td md-cell class="">{{event.date_form_open | date:'longDate'}}</td>
+            <td md-cell class="">{{event.date_form_close | date:'longDate'}}</td>
           </tr>
         </tbody>
       </table>
