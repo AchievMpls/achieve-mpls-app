@@ -5,8 +5,8 @@
  * @return
  */
 
-myApp.controller('AdminSessionsController', ['AdminService',
-  function(AdminService) {
+myApp.controller('AdminSessionsController', ['AdminService', '$mdDialog',
+  function(AdminService, $mdDialog) {
     var sessions = this;
     var chosenYear = '';
     console.log('AdminSessionsController sourced');
@@ -16,7 +16,7 @@ myApp.controller('AdminSessionsController', ['AdminService',
 
     sessions.getYearsSessions = AdminService.getYearsSessions;
     sessions.specificYear = AdminService.specificYear;
-    
+
     /**
      * @global object that limits table's display length
      */
@@ -25,6 +25,8 @@ myApp.controller('AdminSessionsController', ['AdminService',
       limit: 25,
       page: 1
     };
+
+    sessions.routeToEvents = AdminService.routeToEvents;
 
 
   }

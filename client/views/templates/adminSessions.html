@@ -15,43 +15,53 @@
 
 
 <div layout="row" layout-align="center center" class="admin_table">
-    <md-card md-whiteframe="8" flex="90">
-      <md-table-container>
-        <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
-          <thead md-head md-order="sessions.query.order">
-            <tr md-row>
-              <th md-column class=""><span>Delete/Edit</span></th>
-              <th md-column md-order-by="form_name" class=""><span>Session Count</span></th>
-              <th md-column md-numeric md-order-by="q1_prompt" md-desc class=""><span>Grade</span></th>
-              <th md-column md-numeric md-order-by="q2_prompt" md-desc class=""><span>Facilitator</span></th>
-              <th md-column md-numeric md-order-by="q3_prompt" md-desc class=""><span>Day</span></th>
-              <th md-column md-numeric md-order-by="q4_prompt" md-desc class=""><span>Start Time</span></th>
-              <th md-column md-numeric md-order-by="q5_prompt" md-desc class=""><span>School</span></th>
-            </tr>
-          </thead>
-          <tbody md-body>
+  <md-card md-whiteframe="8" flex="90">
+    <md-table-container>
+      <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
+        <thead md-head md-order="sessions.query.order">
+          <tr md-row>
+            <th md-column class=""><span>Delete</span></th>
+            <th md-column class=""><span>Edit</span></th>
+            <th md-column class=""><span>View Events</span></th>
+            <th md-column md-order-by="session_count" class=""><span>Session Count</span></th>
+            <th md-column md-numeric md-order-by="grade" md-desc class=""><span>Grade</span></th>
+            <th md-column md-numeric md-order-by="facilitator" md-desc class=""><span>Facilitator</span></th>
+            <th md-column md-numeric md-order-by="day" md-desc class=""><span>Day</span></th>
+            <th md-column md-numeric md-order-by="start_time" md-desc class=""><span>Start Time</span></th>
+            <th md-column md-numeric md-order-by="school" md-desc class=""><span>School</span></th>
+          </tr>
+        </thead>
+        <tbody md-body>
 
-            <tr md-row md-auto-select="options.autoSelect" ng-repeat="session in sessions.specificYear.sessions | orderBy: sessions.query.order | limitTo: sessions.query.limit : (sessions.query.page -1) * sessions.query.limit">
-              <td md-cell>
-                <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="forms.confirmDelete(form)">
-                  Delete
-                  <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_clear_black_48px.svg"></md-icon> -->
-                </md-button>
-                <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="forms.editForm(form)">
-                  Edit
-                  <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_mode_edit_white_48px.svg"></md-icon> -->
-                </md-button>
-              </td>
-              <td md-cell class="">{{session.session_count}}</td>
-              <td md-cell class="">{{session.grade}}</td>
-              <td md-cell class="">{{session.facilitator}}</td>
-              <td md-cell class="">{{session.day}}</td>
-              <td md-cell class="">{{session.start_time}}</td>
-              <td md-cell class="">{{session.school}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </md-table-container>
-      <md-table-pagination md-limit="sessions.query.limit" md-limit-options="limitOptions" md-page="sessions.query.page" md-total="{{forms.allForms.returnedForms.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
-    </md-card>
-  </div>
+          <tr md-row md-auto-select="options.autoSelect" ng-repeat="session in sessions.specificYear.sessions | orderBy: sessions.query.order | limitTo: sessions.query.limit : (sessions.query.page -1) * sessions.query.limit">
+            <td md-cell>
+              <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="sessions.confirmDelete(session)">
+                Delete
+                <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_clear_black_48px.svg"></md-icon> -->
+              </md-button>
+            </td>
+            <td md-cell>
+              <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="sessions.editSession(session)">
+                Edit
+                <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_mode_edit_white_48px.svg"></md-icon> -->
+              </md-button>
+            </td>
+            <td md-cell>
+              <md-button flex="45" aria-label="edit" class="md-raised md-warn admin-button" ng-click="sessions.routeToEvents(session.id)">
+                Events
+                <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_mode_edit_white_48px.svg"></md-icon> -->
+              </md-button>
+            </td>
+            <td md-cell class="">{{session.session_count}}</td>
+            <td md-cell class="">{{session.grade}}</td>
+            <td md-cell class="">{{session.facilitator}}</td>
+            <td md-cell class="">{{session.day}}</td>
+            <td md-cell class="">{{session.start_time}}</td>
+            <td md-cell class="">{{session.school}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+    <md-table-pagination md-limit="sessions.query.limit" md-limit-options="limitOptions" md-page="sessions.query.page" md-total="{{forms.allForms.returnedForms.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+  </md-card>
+</div>
