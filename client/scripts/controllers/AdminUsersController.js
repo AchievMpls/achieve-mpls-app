@@ -21,6 +21,20 @@ console.log('Admin Users sourced: ');
   users.allUsers = AdminService.allUsers;
   console.log('users', users.allUsers);
 
+  /**
+   * @desc displays an item for editing
+   * @param {object} form the form to be edited
+   */
+  users.editUser = function(user) {
+    editingUser = true;
+    users.fname = user.fname;
+    users.lname = user.lname;
+    users.role = user.role;
+    users.email = user.email;
+    users.session_id = user.session_id;
+    userToSend.id = user.id;
+  };
+
 
   //hard coding data for the dropdown menus. this will be removed later
   users.roleArray = ['9', '12'];
