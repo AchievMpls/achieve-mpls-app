@@ -4,7 +4,6 @@ var pg = require('pg');
 var pool = require('../modules/db');
 
 router.get('/', function(req, res) {
-  console.log('calling getAllForms on server');
   pool.connect(function(errorConnectingToDb, db, done) {
     if (errorConnectingToDb) {
       res.sendStatus(500);
@@ -28,7 +27,6 @@ router.post('/add', function(req, res) {
   for (var i = 0; i < req.body.prompts.length; i++) {
     prompts[i] = req.body.prompts[i];
   }
-  console.log("prompts are: ", prompts);
   pool.connect(function(errorConnectingToDb, db, done) {
     if (errorConnectingToDb) {
       res.sendStatus(500);
@@ -75,10 +73,8 @@ router.put('/update', function(req, res) {
 
 router.delete('/delete/:id', function(req, res) {
   var formID = req.params.id;
-  console.log('on the server, your id is: ', formID);
   pool.connect(function(errorConnectingToDb, db, done) {
     if (errorConnectingToDb) {
-      console.log('error connecting: ', errorConnectingToDb);
       res.sendStatus(500);
     } else {
       db.query('DELETE FROM "forms" WHERE "id" = $1;',
@@ -86,7 +82,6 @@ router.delete('/delete/:id', function(req, res) {
       function(queryError, result) {
         done();
         if (queryError) {
-          console.log('error querying: ', queryError);
           res.sendStatus(500);
         } else {
           res.sendStatus(201);
