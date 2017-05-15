@@ -6,8 +6,7 @@
 */
 
 console.log('client.js sourced');
-var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'ngAria']);
-
+var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'md.data.table', 'ngAria']);
 /// Routes ///
 myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
       function($routeProvider, $locationProvider, $mdThemingProvider) {
@@ -30,7 +29,7 @@ myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
     })
     .when('/adminUsers', {
       templateUrl: '/views/templates/adminUsers.html',
-      controller: 'AdminUsersController as Users',
+      controller: 'AdminUsersController as users',
     })
     .when('/users', {
       templateUrl: '/views/users.html',

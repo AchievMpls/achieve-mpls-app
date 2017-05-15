@@ -75,3 +75,33 @@
 
 </div>
  <!-- stop users table code -->
+
+<!--show the users, can delele after GUI plugged in-->
+<div ng-repeat="user in users.allUsers" >
+  <div>
+    users: {{user}}
+  </div>
+</div>
+<!-- -->
+<md-content>
+  <div layout="row" layout-xs="column" layout-align="end center" layout-align-xs="center">
+  <div flex-xs flex-gt-xs="20">
+    <md-card class="card">
+      <div layout="row" layout-align="space-between center">
+        <div layout="column">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">Add New User </span>
+            </md-card-title>
+          </md-card-title-text>
+        </div>
+        <div layout="column">
+          <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add User" ng-click="users.showDialog($event)">
+            <i class="material-icons" id="addButton">add</i>
+          </md-button>
+        </div>
+      </div>
+    </md-card>
+  </div>
+</div>
+</md-content>
