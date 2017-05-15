@@ -52,13 +52,13 @@
             </tr>
           </thead>
           <tbody md-body>
-            <tr md-row md-select="user" md-on-select="logUser" md-auto-select="options.autoSelect" ng-repeat="user in allUsers | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+            <tr md-row md-select="user" md-on-select="logUser" md-auto-select="options.autoSelect" ng-repeat="user in users.allUsers.users | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
               <td md-cell>
-                <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="confirmDelete(item)">
-                  <md-icon layout-fill md-svg-src="/media/icons/ic_clear_black_48px.svg"></md-icon>
+                <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="confirmDelete(user)">
+                  <p >Delete</p>
                 </md-button>
-                <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="editItem(item)">
-                  <md-icon layout-fill md-svg-src="/media/icons/ic_mode_edit_white_48px.svg"></md-icon>
+                <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="editItem(user)">
+                  <p>Edit</p>
                 </md-button>
               </td>
               <td md-cell class="md-headline">{{user.fname}}</td>
