@@ -1,13 +1,82 @@
-<!--show the users, can delele after GUI plugged in-->
-<h1>Users</h1>
-<div ng-repeat="user in users.allUsers" >
-  <div>
-    users: {{user}}
+ <!-- start users table code -->
+<div layout="column">
+
+  <div layout="row" layout-align="center center" class="admin_users_table">
+    <md-card md-whiteframe="8" flex="90">
+      <div layout="row" layout-align="space-around none" class="admin_users_table">
+
+        <md-input-container>
+          <label>First Name</label>
+          <input ng-model="newUser">
+        </md-input-container>
+
+        <md-input-container>
+          <label>Last Name</label>
+          <input ng-model="newUser" >
+        </md-input-container>
+
+        <md-input-container>
+          <label>Email Address</label>
+          <input ng-model="newUser" >
+        </md-input-container>
+
+        <md-input-container>
+          <label>Role</label>
+
+          <md-select ng-model="newUser">
+            <md-option><em>None</em></md-option>
+            <md-option ng-repeat="role in roles" ng-value="role.name">
+              {{role.name}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+
+        <md-input-container>
+          <md-button class="md-primary md-raised" ng-click="sendUser()">Add User</button>
+        </md-input-container>
+      </div>
+    </md-card>
   </div>
+
+  <div layout="row" layout-align="center center" class="admin_users_table">
+    <md-card md-whiteframe="8" flex="90">
+      <md-table-container>
+        <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
+          <thead md-head md-order="query.order">
+            <tr md-row>
+              <th md-column class="md-headline"><span>Delete/Edit</span></th>
+              <th md-column md-order-by="user_first" class="md-headline"><span>First Name</span></th>
+              <th md-column md-numeric md-order-by="user_last" md-desc class="md-headline"><span>Last Name</span></th>
+              <th md-column md-numeric md-order-by="user_email_address" class="md-headline"><span>Email Address</span></th>
+              <th md-column md-numeric md-order-by="user_role" class="md-headline"><span>Role</span></th>
+            </tr>
+          </thead>
+          <tbody md-body>
+            <tr md-row md-select="user" md-on-select="logUser" md-auto-select="options.autoSelect" ng-repeat="user in users.allUsers.users | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+              <td md-cell>
+                <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="confirmDelete(user)">
+                  <p >Delete</p>
+                </md-button>
+                <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="editItem(user)">
+                  <p>Edit</p>
+                </md-button>
+              </td>
+              <td md-cell class="md-headline">{{user.fname}}</td>
+              <td md-cell class="md-headline">{{user.lname}}</td>
+              <td md-cell class="karen">{{user.email}}</td>
+              <td md-cell class="karen">{{user.role}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </md-table-container>
+      <md-table-pagination md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{allUsers.users.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+    </md-card>
+  </div>
+
 </div>
-<!-- -->
+ <!-- stop users table code -->
+<!-- raised add user button -->
 <md-content>
-  <h1>Users</h1>
   <div layout="row" layout-xs="column" layout-align="end center" layout-align-xs="center">
   <div flex-xs flex-gt-xs="20">
     <md-card class="card">
@@ -29,3 +98,4 @@
   </div>
 </div>
 </md-content>
+<!-- end raised add user button -->
