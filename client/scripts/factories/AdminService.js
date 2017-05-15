@@ -4,13 +4,19 @@
  * @param $http, $location
  * @return the list of coaches
  */
+myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
+  function($http, $location, $mdDialog) {
 
-myApp.factory('AdminService', ['$http', '$location',
-  function($http, $location) {
+    //@TODO: this is disgusting, and it's all y's fault.
+    // if we have time, let's refactor.
     var allUsers = {
       users: []
     };
     var allForms = {};
+    var sessionYear = {};
+    var specificYear = {};
+    var currentSessionForEvents;
+    var specificSession = {};
 
 
     /**
@@ -69,6 +75,64 @@ myApp.factory('AdminService', ['$http', '$location',
       });
     }
 
+    /**
+     * @desc selects (one of) each year for which there is currently
+     * at least one session in the db
+     */
+    function getSessionYears() {
+      $http.get('/sessions/years').then(function(response) {
+        sessionYear.uniques = response.data;
+      });
+    }
+
+    /**
+     * @desc selects all sessions for a single school year
+     * @param {number} year the year whose sessions are to be returned
+     */
+    function getYearsSessions(year) {
+      console.log('chosen year in AdminService is: ', year);
+      if (!year) {
+        $mdDialog.show(
+          $mdDialog.alert()
+          .clickOutsideToClose(true)
+          .title('Incomplete Form!')
+          .textContent('Please include a year.')
+          .ariaLabel('Alert Dialog')
+          .ok('OK!')
+        );
+      } else {
+        $http.get('/sessions/' + year).then(function(response) {
+          specificYear.sessions = response.data;
+          console.log('db gives you:  ', specificYear);
+        });
+      }
+    }
+
+    /**
+     * @desc takes the user to a new view displaying
+     * student view landing page, or from an individual entry.
+     * @param {number} session_id the session whose events are to be returned
+     */
+    function routeToEvents(session_id) {
+      if (session_id) {
+        currentSessionForEvents = session_id;
+      }
+      console.log('here the session id: ', currentSessionForEvents);
+      $location.path("/events");
+    }
+
+    /**
+     * @desc grabs all events from a single session, based on which session
+     * was most-recently clicked on to call the routeToEvents() function
+     */
+    function getSessionsEvents() {
+      console.log('here current session for events: ', currentSessionForEvents);
+      $http.get('/events/' + currentSessionForEvents).then(function(response) {
+        specificSession.events = response.data;
+        console.log('db gives you:  ', specificSession);
+      });
+    }
+
     return {
       getAllUsers: getAllUsers,
       allUsers: allUsers,
@@ -76,7 +140,14 @@ myApp.factory('AdminService', ['$http', '$location',
       allForms: allForms,
       addNewForm: addNewForm,
       updateForm: updateForm,
-      deleteForm: deleteForm
+      deleteForm: deleteForm,
+      getSessionYears: getSessionYears,
+      sessionYear: sessionYear,
+      getYearsSessions: getYearsSessions,
+      specificYear: specificYear,
+      routeToEvents: routeToEvents,
+      getSessionsEvents: getSessionsEvents,
+      specificSession: specificSession
     };
 
   }
