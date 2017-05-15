@@ -19,6 +19,7 @@ function($http, $location){
     function getAllUsers() {
      $http.get('/users').then(function(response) {
        allUsers.users = response.data;
+
      });
    }
 
