@@ -3,11 +3,6 @@ var router = express.Router();
 var pg = require('pg');
 var pool = require('../modules/db');
 
-/**
-* @desc router get request all forms
-* @param
-* @return the results
-*/
 router.get('/', function(req, res) {
   console.log('calling getAllForms on server');
   pool.connect(function(errorConnectingToDb, db, done) {

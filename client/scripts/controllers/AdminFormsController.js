@@ -103,7 +103,6 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService',
      * @param {object} form the form to be deleted
      */
     forms.confirmDelete = function(form) {
-      console.log("this is the data you working with: ", form);
       var confirm = $mdDialog.confirm()
         .title('Are you sure you want to delete this form?')
         .textContent('This will remove the form forever.')

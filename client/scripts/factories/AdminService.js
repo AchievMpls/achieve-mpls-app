@@ -42,6 +42,8 @@ myApp.factory('AdminService', ['$http', '$location',
     function addNewForm(formToSend) {
       $http.post('/forms/add', formToSend).then(function(response) {
         getAllForms();
+        formToSend.form_name = '';
+        formToSend.prompts = [];
       });
     }
 
@@ -52,6 +54,8 @@ myApp.factory('AdminService', ['$http', '$location',
     function updateForm(formToSend) {
       $http.put('/forms/update', formToSend).then(function(response) {
         getAllForms();
+        formToSend.form_name = '';
+        formToSend.prompts = [];
       });
     }
 
@@ -60,7 +64,6 @@ myApp.factory('AdminService', ['$http', '$location',
      * @param {number} id - The form to be removed (specified in AdminFormsController.)
      */
     function deleteForm(id) {
-      console.log('number you got: ', id);
       $http.delete('/forms/delete/' + id).then(function() {
         getAllForms();
       });
