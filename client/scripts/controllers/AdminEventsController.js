@@ -60,10 +60,12 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
       events.event = {
         meeting_count : event.meeting_count,
         form_id : event.form_id,
+        form_name : event.form_name,
         open_date : event.date_form_open,
         close_date : event.date_form_close,
         id : event.id
       };
+      events.toggleForm();
     };
 
     /**

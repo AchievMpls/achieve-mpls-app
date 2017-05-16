@@ -12,15 +12,15 @@
     <div layout="row" layout-align="space-around none" class="admin_table">
       <md-input-container>
         <label>Meeting Count</label>
-        <input ng-model="events.meeting_count">
+        <textarea rows="2" cols="25" ng-model="events.event.meeting_count"> {{events.event.meeting_count}}</textarea>
       </md-input-container>
     </div>
     <div class="form-row" layout="row" layout-align="space-around none" class="admin_table">
       <md-input-container>
         <label>Form</label>
-        <md-select ng-model="events.event.form_id">
-          <md-option ng-repeat="form in events.allForms.returnedForms" ng-value="form.id">
-            {{events.event.form_id}}
+        <md-select ng-model="events.event.form_name">
+          <md-option ng-repeat="form in events.allForms.returnedForms" value={{form.form_name}}>
+            {{form.form_name}}
           </md-option>
         </md-select>
       </md-input-container>
