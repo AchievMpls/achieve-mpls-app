@@ -32,34 +32,42 @@
         <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
           <thead md-head md-order="users.query.order">
             <tr md-row>
-              <th md-column class="md-headline"><span>Delete/Edit</span></th>
-              <th md-column md-order-by="fname" class="md-headline"><span>First Name</span></th>
-              <th md-column md-order-by="lname" md-desc class="md-headline"><span>Last Name</span></th>
-              <th md-column md-order-by="email" class="md-headline"><span>Email Address</span></th>
-              <th md-column md-numeric md-order-by="role" class="md-headline"><span>Role</span></th>
+
+              <th md-column class=""><span>Delete/Edit</span></th>
+              <th md-column md-order-by="fname" class=""><span>First Name</span></th>
+              <th md-column md-order-by="lname" md-desc class=""><span>Last Name</span></th>
+              <th md-column md-order-by="email" md-desc class=""><span>Email Address</span></th>
+              <th md-column md-order-by="role" md-desc class=""><span>Role</span></th>
             </tr>
           </thead>
           <tbody md-body>
-            <tr md-row md-select="user" md-on-select="logUser" md-auto-select="options.autoSelect" ng-repeat="user in users.allUsers.users | orderBy: users.query.order | limitTo: users.query.limit : (users.query.page -1) * users.query.limit">
+            <tr md-row md-auto-select="options.autoSelect" ng-repeat="user in users.allUsers.users | orderBy: users.query.order | limitTo: query.limit : (query.page -1) * query.limit">
+
               <td md-cell>
-                <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="confirmDelete(user)">
+                <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="users.confirmDelete(user)">
                   <p >Delete</p>
                 </md-button>
-                <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="editUser(user)">
+
+                <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="users.editUser(user)">
+
                   <p>Edit</p>
                 </md-button>
+                <md-button flex="45" aria-label="warn" class="md-raised md-primary admin-button" ng-click="activeUser(user)">
+
+                  <p>Send<br /> Activation</p>
+                </md-button>
               </td>
-              <td md-cell class="md-headline">{{user.fname}}</td>
-              <td md-cell class="md-headline">{{user.lname}}</td>
-              <td md-cell class="karen">{{user.email}}</td>
-              <td md-cell class="karen">{{user.role}}</td>
+              <td md-cell class="">{{user.fname}}</td>
+              <td md-cell class="">{{user.lname}}</td>
+              <td md-cell class="">{{user.email}}</td>
+              <td md-cell class="">{{user.role}}</td>
             </tr>
           </tbody>
         </table>
       </md-table-container>
       <md-table-pagination md-limit="users.query.limit" md-limit-options="limitOptions" md-page="users.query.page" md-total="{{users.allUsers.users.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
     </md-card>
-  </div>
-  <!-- stop users table code -->
+ <!-- stop users table code -->
 
+</div>
 </div>
