@@ -1,6 +1,12 @@
   <div class="_md-panel-focus-trap" tabindex="0"></div>
 <div class="form-wrapper">
-
+  <div layout="row" layout-align="end center">
+  <md-input-container class="close-button">
+  <md-button class="md-fab md-fab-top-right md-primary" aria-label="Close Form" ng-click="forms.toggleForm();">
+    <i class="material-icons" id="addButton">clear</i>
+  </md-button>
+  </md-input-container>
+</div>
 <div class="form-row" layout="row" layout-align="center center" class="admin_table">
     <md-card md-whiteframe="8" flex="90">
       <div class="form-row" layout="row" layout-align="space-around none" class="admin_table">
