@@ -32,8 +32,10 @@
 
     <!-- factories -->
     <script type="text/javascript" src="scripts/factories/AdminService.js"></script>
+    <script type="text/javascript" src="scripts/factories/AuthService.js"></script>
 
     <!-- controllers -->
+    <script type="text/javascript" src="scripts/controllers/UserAuthController.js"></script>
     <script type="text/javascript" src="scripts/controllers/AdminHomeController.js"></script>
     <script type="text/javascript" src="scripts/controllers/AdminFormsController.js"></script>
     <script type="text/javascript" src="scripts/controllers/AdminUsersController.js"></script>
@@ -42,7 +44,7 @@
     <!-- <script type="text/javascript" src="/scripts/controllers/tableTesterController.js"></script> -->
 
   </head>
-  <body >
+  <body>
     <ng-include src="'./views/partials/nav.html'"></ng-include>
 
     <div id="main" ng-view></div>
