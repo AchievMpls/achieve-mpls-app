@@ -20,10 +20,9 @@ console.log('Admin Users sourced: ');
 /**
  * @global object that limits table's display length and orders by first name
  */
-
   users.query = {
    order: 'fname',
-   limit: 25, // does not yet limit to 25 users, don't know why
+   limit: 25,
    page: 1
  };
 
