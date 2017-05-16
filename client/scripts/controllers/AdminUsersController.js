@@ -66,6 +66,16 @@ console.log('Admin Users sourced: ');
 
 
 
+/**
+ * @global object that limits table's display length and orders by first name
+ */
+
+  users.query = {
+   order: 'fname',
+   limit: 25, // does not yet limit to 25 users, don't know why
+   page: 1
+ };
+
   //hard coding data for the dropdown menus. this will be removed later
   // users.roleArray = ['9', '12'];
   users.roleArray = ['coach', 'admin'];

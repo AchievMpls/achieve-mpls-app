@@ -1,50 +1,38 @@
 
- <!-- start users table code -->
 <div layout="column">
-
-  <div layout="row" layout-align="center center" class="admin_users_table">
-    <md-card md-whiteframe="8" flex="90">
-      <div layout="row" layout-align="space-around none" class="admin_users_table">
-
-        <md-input-container>
-          <label>First Name</label>
-          <input ng-model="users.fname">
-        </md-input-container>
-
-        <md-input-container>
-          <label>Last Name</label>
-          <input ng-model="users.lname" >
-        </md-input-container>
-
-        <md-input-container>
-          <label>Email Address</label>
-          <input ng-model="users.email" >
-        </md-input-container>
-
-        <md-input-container>
-          <label>Role</label>
-
-          <md-select ng-model="users.role">
-            <md-option><em>None</em></md-option>
-            <md-option ng-repeat="role in users.roleArray" ng-value="role">
-              {{role}}
-            </md-option>
-          </md-select>
-        </md-input-container>
-
-        <md-input-container>
-          <md-button class="md-primary md-raised" ng-click="users.sendUser(user)">Add User</button>
-        </md-input-container>
+  <!-- raised add user button -->
+  <md-content>
+    <div layout="row" layout-xs="column" layout-align="end center" layout-align-xs="center">
+      <div flex-xs flex-gt-xs="30">
+        <md-card class="card">
+          <div layout="row" layout-align="space-between center">
+            <div layout="column">
+              <md-card-title>
+                <md-card-title-text>
+                  <span class="md-headline">Add New User </span>
+                </md-card-title>
+              </md-card-title-text>
+            </div>
+            <div layout="column">
+              <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add User" ng-click="users.showDialog($event)">
+                <i class="material-icons" id="addButton">add</i>
+              </md-button>
+            </div>
+          </div>
+        </md-card>
       </div>
-    </md-card>
-  </div>
+    </div>
+  </md-content>
+  <!-- end raised add user button -->
 
-  <div layout="row" layout-align="center center" class="admin_users_table">
+  <!-- start users table code -->
+  <div layout="row" layout-align="center center" class="adminUsers_table">
     <md-card md-whiteframe="8" flex="90">
       <md-table-container>
         <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
-          <thead md-head md-order="query.order">
+          <thead md-head md-order="users.query.order">
             <tr md-row>
+
               <th md-column class=""><span>Delete/Edit</span></th>
               <th md-column md-order-by="fname" class=""><span>First Name</span></th>
               <th md-column md-order-by="lname" md-desc class=""><span>Last Name</span></th>
@@ -54,11 +42,14 @@
           </thead>
           <tbody md-body>
             <tr md-row md-auto-select="options.autoSelect" ng-repeat="user in users.allUsers.users | orderBy: users.query.order | limitTo: query.limit : (query.page -1) * query.limit">
+
               <td md-cell>
                 <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="users.confirmDelete(user)">
                   <p >Delete</p>
                 </md-button>
+
                 <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="users.editUser(user)">
+
                   <p>Edit</p>
                 </md-button>
               </td>
@@ -70,31 +61,9 @@
           </tbody>
         </table>
       </md-table-container>
-      <md-table-pagination md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{allUsers.users.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+      <md-table-pagination md-limit="users.query.limit" md-limit-options="limitOptions" md-page="users.query.page" md-total="{{users.allUsers.users.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
     </md-card>
  <!-- stop users table code -->
-<!-- raised add user button -->
 
-<md-content>
-  <div layout="row" layout-xs="column" layout-align="end center" layout-align-xs="center">
-  <div flex-xs flex-gt-xs="20">
-    <md-card class="card">
-      <div layout="row" layout-align="space-between center">
-        <div layout="column">
-          <md-card-title>
-            <md-card-title-text>
-              <span class="md-headline">Add New User </span>
-            </md-card-title>
-          </md-card-title-text>
-        </div>
-        <div layout="column">
-          <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add User" ng-click="users.showDialog($event)">
-            <i class="material-icons" id="addButton">add</i>
-          </md-button>
-        </div>
-      </div>
-    </md-card>
-  </div>
 </div>
-</md-content>
-<!-- end raised add user button -->
+</div>

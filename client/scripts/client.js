@@ -27,6 +27,10 @@ myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
       templateUrl: '/views/templates/adminSessions.html',
       controller: 'AdminSessionsController as sessions',
     })
+    .when('/events', {
+      templateUrl: '/views/templates/adminEvents.html',
+      controller: 'AdminEventsController as events',
+    })
     .when('/adminUsers', {
       templateUrl: '/views/templates/adminUsers.html',
       controller: 'AdminUsersController as users',
