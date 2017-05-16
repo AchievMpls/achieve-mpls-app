@@ -28,6 +28,16 @@ myApp.controller('AdminSessionsController', ['AdminService', '$mdDialog',
 
     sessions.routeToEvents = AdminService.routeToEvents;
 
+    sessions.confirmDelete = function(session) {
+      var confirm = $mdDialog.confirm()
+        .title('Are you sure you want to delete this session?')
+        .textContent('This will remove the session forever.')
+        .ok('Yes')
+        .cancel('No');
+      $mdDialog.show(confirm).then(function() {
+        AdminService.deleteSession(session);
+      });
+    };
 
   }
 ]);
