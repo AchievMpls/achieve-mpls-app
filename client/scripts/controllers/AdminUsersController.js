@@ -55,7 +55,7 @@ console.log('Admin Users sourced: ');
       * @param {object} item - The entry to be altered (specified in AdminController.)
       */
       users.editUser = function(user) {
-        console.log('edit user', user.role);
+        console.log('edit user', user);
         editingUser = true;
          users.fname = user.fname;
          users.lname = user.lname;
@@ -72,7 +72,7 @@ console.log('Admin Users sourced: ');
 
   users.query = {
    order: 'fname',
-   limit: 25, // does not yet limit to 25 users, don't know why
+   limit: 25,
    page: 1
  };
 

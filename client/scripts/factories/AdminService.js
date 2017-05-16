@@ -30,16 +30,22 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
         allUsers.users = response.data;
       });
     }
-    var userToSend = {};
+    var userToSend = {
+      fname: 'emily',
+      lname: 'hoang',
+      email: 'emily@yahoo.com',
+      role: 'coach',
+      password: 'emily'
+    };
     /**
      * @desc adds new users to db
      * @param userToSend object to user data
      */
     function addNewUser(userToSend) {
       console.log('add user');
-      // $http.post('/users/postUser', userToSend).then(function(response) {
-      //   getAllUsers();
-      // });
+      $http.post('/users/postUser', userToSend).then(function(response) {
+        getAllUsers();
+      });
     }
     /**
      * @desc updates user
