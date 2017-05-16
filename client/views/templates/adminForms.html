@@ -1,6 +1,5 @@
 <h1>Forms</h1>
-{{forms.prompts}}
-  <div layout="row" layout-align="end center">
+  <div layout="row" layout-align="end center" ng-keypress="forms.formHide($event)">
     <div flex-xs flex-gt-xs="20">
   <md-card class="card">
     <div layout="row" layout-align="space-between center">
@@ -12,7 +11,7 @@
   </md-card-title-text>
 </div>
 <div layout="column">
-  <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add New Form" ng-click="forms.toggleForm()">
+  <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add New Form" ng-click="forms.clearFields(); forms.toggleForm()">
     <i class="material-icons" id="addButton">add</i>
   </md-button>
 </div>
@@ -61,7 +60,7 @@
       <md-table-pagination md-limit="forms.query.limit" md-limit-options="limitOptions" md-page="forms.query.page" md-total="{{forms.allForms.returnedForms.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
     </md-card>
   </div>
-<div ng-show="forms.form">
+<div id="form-container" ng-show="forms.form">
 <ng-include src="'./views/partials/newFormForm.html'"></ng-include>
 </div>
 </div>
