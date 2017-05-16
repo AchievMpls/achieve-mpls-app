@@ -127,7 +127,7 @@ function($mdDialog, AdminService, $mdPanel, $mdPanelRef, $sce) {
   * @return the @class ng-hide and aria-hidden are added to the form-container.
   * the @function clearFields is called to clear the fields on the form.
   */
-  window.onkeypress = function(event) {
+  window.onkeydown = function(event) {
     var itemToClose = document.getElementById('form-container');
     if (event.keyCode === 27) {
       itemToClose.classList.add("ng-hide");
@@ -146,6 +146,7 @@ function($mdDialog, AdminService, $mdPanel, $mdPanelRef, $sce) {
     var itemToOpen = document.getElementById('form-container');
     itemToOpen.classList.toggle("ng-hide");
   };
+
 
 
 }
