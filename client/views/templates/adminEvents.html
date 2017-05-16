@@ -1,4 +1,42 @@
-<h1>Events for Session number: {{events.specificSession.session_id }}</h1>
+<h1>Events for Session number: {{events.specificSession.events[0].session_id }}</h1>
+
+<div layout="row" layout-align="center center" class="admin_table">
+  <md-card md-whiteframe="8" flex="90">
+    <div layout="row" layout-align="space-around none" class="admin_table">
+
+      <md-input-container>
+        <label>Meeting Count</label>
+        <input ng-model="events.meeting_count">
+      </md-input-container>
+
+      <md-input-container>
+        <label>Form</label>
+        <md-select ng-model="events.form_id">
+          <md-option ng-repeat="form in events.allForms.returnedForms" ng-value="form.id">
+            {{form.form_name}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+
+      <md-input-container>
+        <label>Date Exit-Ticket Opens</label>
+        <md-datepicker ng-model="events.open_date"></md-datepicker>
+      </md-input-container>
+
+      <md-input-container>
+        <label>Date Exit-Ticket Opens</label>
+        <md-datepicker ng-model="events.close_date"></md-datepicker>
+      </md-input-container>
+
+      <md-input-container>
+        <md-button class="md-primary md-raised" ng-click="events.sendEvent()">Submit</button>
+      </md-input-container>
+
+    </div>
+  </md-card>
+</div>
+
+
 
 <div layout="row" layout-align="center center" class="admin_table">
   <md-card md-whiteframe="8" flex="90">
@@ -23,7 +61,7 @@
               </md-button>
             </td>
             <td md-cell>
-              <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="sessions.editSession(session)">
+              <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="events.editEvent(event)">
                 Edit
               </md-button>
             </td>
