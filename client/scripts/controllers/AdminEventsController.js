@@ -8,8 +8,6 @@
 myApp.controller('AdminEventsController', ['AdminService', '$mdDialog',
   function(AdminService, $mdDialog) {
     var events = this;
-    console.log('AdminEventsController sourced');
-    // events.currentSessionForEvents = AdminService.currentSessionForEvents;
     AdminService.getSessionsEvents();
     events.specificSession = AdminService.specificSession;
 
@@ -22,25 +20,23 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog',
       page: 1
     };
 
-
-
-    // sessions.sessionYear = AdminService.sessionYear;
-    // AdminService.getSessionYears();
-    //
-    // sessions.getYearsSessions = AdminService.getYearsSessions;
-    // sessions.specificYear = AdminService.specificYear;
-    //
-    // /**
-    //  * @global object that limits table's display length
-    //  */
-    //  sessions.query = {
-    //   order: 'name',
-    //   limit: 25,
-    //   page: 1
-    // };
-    //
-    // sessions.routeToEvents = AdminService.routeToEvents;
-
+    /**
+     * @desc popup to confirm event delete
+     * @param {number} eventID - The event to be removed &
+     * session's events to be displayed
+     * @TODO: refactor all the various delete popups across the controllers
+     * into one service-based popup with a switch statement
+     */
+    events.confirmDelete = function(eventID) {
+      var confirm = $mdDialog.confirm()
+        .title('Are you sure you want to delete this event?')
+        .textContent('This will remove the event forever.')
+        .ok('Yes')
+        .cancel('No');
+      $mdDialog.show(confirm).then(function() {
+        AdminService.deleteEvent(eventID);
+      });
+    };
 
   }
 ]);

@@ -44,10 +44,8 @@ router.get('/:year', function(req, res) {
 
 router.delete('/delete/:id', function(req, res) {
   var sessionID = req.params.id;
-  console.log('on server, we deleting: ', sessionID);
   pool.connect(function(errorConnectingToDb, db, done) {
     if (errorConnectingToDb) {
-      console.log('error connecting: ', errorConnectingToDb);
       res.sendStatus(500);
     } else {
       //tries to delete all events assosiated with the session;
@@ -57,7 +55,6 @@ router.delete('/delete/:id', function(req, res) {
       function(queryError, result) {
         if (queryError) {
           done();
-          console.log('error querying: ', queryError);
           res.sendStatus(500);
         } else {
           //resets the session ID of all users currently associated with that session
@@ -66,7 +63,6 @@ router.delete('/delete/:id', function(req, res) {
           function(queryError, result) {
             if (queryError) {
               done();
-              console.log('error querying: ', queryError);
               res.sendStatus(500);
             } else {
               //deletes the session
@@ -75,7 +71,6 @@ router.delete('/delete/:id', function(req, res) {
               function(queryError, result) {
                 done();
                 if (queryError) {
-                  console.log('error querying: ', queryError);
                   res.sendStatus(500);
                 } else {
                   res.sendStatus(201);
