@@ -7,5 +7,8 @@
 
 myApp.controller('UserAuthController', ['AdminService', 'AuthService',
 function(AdminService, Authservice){
+    var userAuth = this;
 
+    userAuth.sendActivation = AuthService.sendActivation;
+    
 }]);
