@@ -90,7 +90,6 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @param {number} year the year whose sessions are to be returned
      */
     function getYearsSessions(year) {
-      console.log('chosen year in AdminService is: ', year);
       if (!year) {
         $mdDialog.show(
           $mdDialog.alert()
@@ -103,9 +102,27 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       } else {
         $http.get('/sessions/' + year).then(function(response) {
           specificYear.sessions = response.data;
-          console.log('db gives you:  ', specificYear);
         });
       }
+    }
+
+    /**
+     * @desc removes a session, per its ID.
+     * @param {object} session - The session to be removed & redisplayed
+     */
+    function deleteSession(session) {
+      $http.delete('/sessions/delete/' + session.id).then(function() {
+        getYearsSessions(session.year);
+      }, function() {
+        $mdDialog.show(
+          $mdDialog.alert()
+          .clickOutsideToClose(true)
+          .title('Cannot Delete Session!')
+          .textContent('At least one exit-ticket has already been submitted for one of this session\'s events.')
+          .ariaLabel('Alert Dialog')
+          .ok('OK!')
+        );
+      });
     }
 
     /**
@@ -117,7 +134,6 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       if (session_id) {
         currentSessionForEvents = session_id;
       }
-      console.log('here the session id: ', currentSessionForEvents);
       $location.path("/events");
     }
 
@@ -126,12 +142,31 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * was most-recently clicked on to call the routeToEvents() function
      */
     function getSessionsEvents() {
-      console.log('here current session for events: ', currentSessionForEvents);
       $http.get('/events/' + currentSessionForEvents).then(function(response) {
         specificSession.events = response.data;
-        console.log('db gives you:  ', specificSession);
       });
     }
+
+    /**
+     * @desc removes an event, per its ID.
+     * @param {number} eventID - The event to be removed &
+     * session's events to be displayed
+     */
+    function deleteEvent(eventID) {
+      $http.delete('/events/delete/' + eventID).then(function() {
+        getSessionsEvents();
+      }, function() {
+        $mdDialog.show(
+          $mdDialog.alert()
+          .clickOutsideToClose(true)
+          .title('Cannot Delete Event!')
+          .textContent('At least one exit-ticket has already been submitted for this event.')
+          .ariaLabel('Alert Dialog')
+          .ok('OK!')
+        );
+      });
+    }
+
 
     return {
       getAllUsers: getAllUsers,
@@ -147,7 +182,9 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       specificYear: specificYear,
       routeToEvents: routeToEvents,
       getSessionsEvents: getSessionsEvents,
-      specificSession: specificSession
+      specificSession: specificSession,
+      deleteSession: deleteSession,
+      deleteEvent: deleteEvent
     };
 
   }
