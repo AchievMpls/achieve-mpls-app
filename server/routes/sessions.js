@@ -42,6 +42,35 @@ router.get('/:year', function(req, res) {
 });//end router.get
 
 
+router.post('/add', function(req, res) {
+  console.log('on server, we got: ', req.body);
+  var year = req.body.year;
+  var session_count = req.body.session_count;
+  var grade = req.body.grade;
+  var facilitator = req.body.facilitator;
+  var day = req.body.day;
+  var start_time = req.body.start_time;
+  var school = req.body.school;
+  pool.connect(function(errorConnectingToDb, db, done) {
+    if (errorConnectingToDb) {
+      res.sendStatus(500);
+    } else {
+      db.query('INSERT INTO "sessions" ("year", "session_count", "grade", "facilitator", "day", "start_time", "school") VALUES ($1,$2,$3,$4,$5,$6,$7);',
+      [year, session_count, grade, facilitator, day, start_time, school],
+        function(queryError, result) {
+          done();
+          if (queryError) {
+            res.sendStatus(500);
+          } else {
+            res.sendStatus(201);
+          }
+        });
+    }
+  });
+}); //end router.post
+
+
+
 router.delete('/delete/:id', function(req, res) {
   var sessionID = req.params.id;
   pool.connect(function(errorConnectingToDb, db, done) {

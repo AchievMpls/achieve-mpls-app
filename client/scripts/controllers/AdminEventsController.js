@@ -78,7 +78,7 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
         AdminService.addNewEvent(eventToSend);
       }
       events.clearFields();
-    };
+    };//end sendEvent
 
     events.clearFields = function () {
       events.meeting_count = '';

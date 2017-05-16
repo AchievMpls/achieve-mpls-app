@@ -102,8 +102,32 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       } else {
         $http.get('/sessions/' + year).then(function(response) {
           specificYear.sessions = response.data;
+          console.log('here are your sessions from db: ', specificYear.sessions);
         });
       }
+    }
+
+    /**
+     * @desc adds new session (and linked events) to db
+     * @param {object} sessionToSend the exit-ticket form to be created
+     */
+    function addNewSession(sessionToSend) {
+      $http.post('/sessions/add', sessionToSend).then(function(response) {
+        getYearsSessions(sessionToSend.year);
+      }, function() {
+        sessionConflictPopup();
+      });
+    }
+
+    function sessionConflictPopup() {
+      $mdDialog.show(
+        $mdDialog.alert()
+        .clickOutsideToClose(true)
+        .title('Cannot Save!')
+        .textContent('Session Count must be a number unique to this Year.')
+        .ariaLabel('Alert Dialog')
+        .ok('OK!')
+      );
     }
 
     /**
@@ -221,7 +245,9 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       deleteEvent: deleteEvent,
       addNewEvent: addNewEvent,
       meetingConflictPopup: meetingConflictPopup,
-      updateEvent: updateEvent
+      updateEvent: updateEvent,
+      sessionConflictPopup: sessionConflictPopup,
+      addNewSession: addNewSession
     };
 
   }
