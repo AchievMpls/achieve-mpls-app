@@ -3,8 +3,8 @@
  * @desc controls the Admin Forms View
  * @param AdminService
  */
-myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService',
-  function($mdDialog, AdminService) {
+myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel', '$sce',
+  function($mdDialog, AdminService, $mdPanel, $mdPanelRef, $sce) {
     var forms = this;
 
     /**
@@ -17,21 +17,17 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService',
     };
 
     /**
-     * @global object that gets populated with form-data to add/edit
+     * @global array that gets populated with ng-model question prompts
      */
-    var formToSend = {
-      form_name: '',
-      prompts: [],
+    forms.prompts = {
+      form_name : 'New Form',
+      promptsArray : [1,2,3],
+      id : '',
     };
 
     /**
-     * @global array that gets populated with ng-model question prompts
-     */
-    forms.prompts = [];
-
-    /**
-     * @global variable that functions use to determine whether to
-     * create a new form in the db (or edit a prexisting one)
+     * @global tells the program whether we are editing the form or not.
+     * If the form is being edited it sends the form on a different route.
      */
     var editingForm = false;
 
@@ -52,24 +48,23 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService',
      */
     forms.editForm = function(form) {
       editingForm = true;
-      forms.form_name = form.form_name;
-      forms.prompts[0] = form.q1_prompt;
-      forms.prompts[1] = form.q2_prompt;
-      forms.prompts[2] = form.q3_prompt;
-      forms.prompts[3] = form.q4_prompt;
-      forms.prompts[4] = form.q5_prompt;
-      formToSend.id = form.id;
-    };
+      forms.prompts = {
+      form_name : form.form_name,
+      promptsArray : [form.q1_prompt, form.q2_prompt, form.q3_prompt, form.q4_prompt, form.q5_prompt],
+      id : form.id
+      };
+  };
 
     /**
      * @desc composes and submits a new/edited item
      */
-    forms.sendForm = function() {
-      if (!forms.form_name || !forms.prompts[0]) {
+    forms.sendForm = function(form) {
+      form
+      if (!form.form_name || !form.promptsArray[0]) {
         completeFields();
         return;
       } else {
-        formToSend.form_name = forms.form_name;
+        form.form_name = forms.form_name;
         for (var i = 0; i < forms.prompts.length; i++) {
           formToSend.prompts.push(forms.prompts[i]);
         }
@@ -113,8 +108,44 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService',
       });
     };
 
+    //the rest of this is code to get $mdPanel to work.
+    this._mdPanel = $mdPanel;
 
 
+    forms.showDialog = function(object) {
+      var wrapper = document.getElementById('main');
+      console.log(wrapper);
+      var position = this._mdPanel.newPanelPosition()
+          .absolute()
+          .center();
+      var url = 'views/partials/newFormForm.html';
+      var config = {
+        attachTo: angular.element(wrapper),
+        templateUrl: url,
+        controller: 'AdminFormsController',
+        controllerAs: 'forms',
+        panelClass: 'demo-dialog-example',
+        position: position,
+        trapFocus: true,
+        clickOutsideToClose: true,
+        escapeToClose: true,
+        focusOnOpen: true,
+        parent: wrapper
+      };
 
+      this._mdPanel.open(config);
+    };
+
+
+    forms._mdPanelRef = $mdPanelRef;
+
+
+    forms.closeDialog = function() {
+      this._mdPanelRef = forms._mdPanelRef;
+      this._mdPanelRef && this._mdPanelRef.close();
+      };
+    forms.toggleForm = function () {
+      forms.form = !forms.form;
+    };
   }
 ]);
