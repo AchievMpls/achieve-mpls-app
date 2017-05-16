@@ -44,7 +44,8 @@ console.log('Admin Users sourced: ');
     lname : '',
     email : '',
     role : '',
-    session : ''
+    session : '',
+    grade : ''
   };
 
   /**
@@ -56,7 +57,8 @@ console.log('Admin Users sourced: ');
       lname : '',
       email : '',
       role : '',
-      session : ''
+      session : '',
+      grade : ''
     };
   };
 
@@ -75,7 +77,8 @@ console.log('Admin Users sourced: ');
       lname : user.lname,
       email : user.email,
       role : user.role,
-      session : user.session
+      session : user.session,
+      grade : user.grade
     };
   };
   /**
