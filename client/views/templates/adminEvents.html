@@ -18,7 +18,7 @@
 
           <tr md-row md-auto-select="options.autoSelect" ng-repeat="event in events.specificSession.events | orderBy: events.query.order | limitTo: events.query.limit : (events.query.page -1) * events.query.limit">
             <td md-cell>
-              <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="sessions.confirmDelete(session)">
+              <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="events.confirmDelete(event.id)">
                 Delete
               </md-button>
             </td>
