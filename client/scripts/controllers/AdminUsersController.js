@@ -17,6 +17,16 @@ console.log('Admin Users sourced: ');
   users.allUsers = AdminService.allUsers;
   console.log('users', users.allUsers);
 
+/**
+ * @global object that limits table's display length and orders by first name
+ */
+
+  users.query = {
+   order: 'fname',
+   limit: 25, // does not yet limit to 25 users, don't know why
+   page: 1
+ };
+
   //hard coding data for the dropdown menus. this will be removed later
   users.roleArray = ['9', '12'];
   users.sessionArray = [1,2,3,4,5,6,7,8,9,10];
