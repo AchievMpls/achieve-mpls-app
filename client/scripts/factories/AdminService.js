@@ -185,6 +185,40 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     }
 
     /**
+     * @desc adds new event to db
+     * @param {object} eventToSend the exit-ticket form to be created
+     */
+    function addNewEvent(eventToSend) {
+      eventToSend.session_id = currentSessionForEvents;
+      $http.post('/events/add', eventToSend).then(function(response) {
+        getSessionsEvents();
+      }, function() {
+        meetingConflictPopup();
+      });
+    }
+
+    function meetingConflictPopup() {
+      $mdDialog.show(
+        $mdDialog.alert()
+        .clickOutsideToClose(true)
+        .title('Cannot Save!')
+        .textContent('Meeting Count must be a number unique to this Session.')
+        .ariaLabel('Alert Dialog')
+        .ok('OK!')
+      );
+    }
+
+    /**
+     * @desc update event
+     * @param {object} eventToSend the event to be altered
+     */
+    function updateEvent(eventToSend) {
+      $http.put('/events/update', eventToSend).then(function(response) {
+        getSessionsEvents();
+      });
+    }
+
+    /**
      * @desc removes an event, per its ID.
      * @param {number} eventID - The event to be removed &
      * session's events to be displayed
@@ -224,7 +258,10 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       getSessionsEvents: getSessionsEvents,
       specificSession: specificSession,
       deleteSession: deleteSession,
-      deleteEvent: deleteEvent
+      deleteEvent: deleteEvent,
+      addNewEvent: addNewEvent,
+      meetingConflictPopup: meetingConflictPopup,
+      updateEvent: updateEvent
     };
 
   }
