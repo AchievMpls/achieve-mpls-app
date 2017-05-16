@@ -1,4 +1,3 @@
-
 <div layout="column">
   <!-- raised add user button -->
   <md-content>
@@ -14,7 +13,7 @@
               </md-card-title-text>
             </div>
             <div layout="column">
-              <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add User" ng-click="users.showDialog($event)">
+              <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add User" ng-click="users.toggleForm()">
                 <i class="material-icons" id="addButton">add</i>
               </md-button>
             </div>
@@ -50,7 +49,7 @@
                 <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="confirmDelete(user)">
                   <p >Delete</p>
                 </md-button>
-                <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="editUser(user)">
+                <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="users.editUser(user); users.toggleForm()">
                   <p>Edit</p>
                 </md-button>
               </td>
@@ -66,5 +65,7 @@
     </md-card>
   </div>
   <!-- stop users table code -->
-
+</div>
+<div id="form-container" ng-show="users.form">
+<ng-include src="'./views/partials/newUserForm.html'"></ng-include>
 </div>
