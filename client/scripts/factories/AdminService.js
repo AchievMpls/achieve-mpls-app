@@ -40,6 +40,7 @@ myApp.factory('AdminService', ['$http', '$location',
      * @param id object sent AdminFormsController
      */
     function deleteUser(id) {
+      console.log('user in factory ', id);
       $http.delete('/users/delete/' + id).then(function() {
         getAllUsers();
       });
