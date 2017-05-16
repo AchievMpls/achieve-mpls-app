@@ -18,17 +18,60 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     var currentSessionForEvents;
     var specificSession = {};
 
-
+    //----------CRUD USERs ------------
     /**
      * @desc Admin gets the list of users
      * @param
      * @return AllUsers object
      */
     function getAllUsers() {
+
       $http.get('/users').then(function(response) {
         allUsers.users = response.data;
       });
     }
+    var userToSend = {
+      fname: 'emily',
+      lname: 'hoang',
+      email: 'emily@yahoo.com',
+      role: 'coach',
+      password: 'emily'
+    };
+    /**
+     * @desc adds new users to db
+     * @param userToSend object to user data
+     */
+    function addNewUser(userToSend) {
+      console.log('add user');
+      $http.post('/users/postUser', userToSend).then(function(response) {
+        getAllUsers();
+      });
+    }
+    /**
+     * @desc updates user
+     * @param userToSend object has be changed
+     */
+    function updateUser(userToSend) {
+      console.log('update user');
+      // $http.put('/users/update', userToSend).then(function(response) {
+      //   getAllUsers();
+      //  });
+    }
+
+    /**
+     * @desc removes the user
+     * @param id object sent AdminFormsController
+     */
+    function deleteUser(id) {
+      console.log('user in factory ', id);
+      $http.delete('/users/delete/' + id).then(function() {
+        getAllUsers();
+      });
+    }
+
+
+
+    //--------CRUD FORMs-----------
 
     /**
      * @desc gets all forms from db
@@ -205,6 +248,9 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     return {
       getAllUsers: getAllUsers,
       allUsers: allUsers,
+      addNewUser: addNewUser,
+      updateUser: updateUser,
+      deleteUser: deleteUser,
       getAllForms: getAllForms,
       allForms: allForms,
       addNewForm: addNewForm,
