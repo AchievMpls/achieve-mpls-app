@@ -1,4 +1,3 @@
-
 <div layout="column">
   <!-- raised add user button -->
   <md-content>
@@ -14,7 +13,7 @@
               </md-card-title-text>
             </div>
             <div layout="column">
-              <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add User" ng-click="users.showDialog($event)">
+              <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add User" ng-click="users.toggleForm()">
                 <i class="material-icons" id="addButton">add</i>
               </md-button>
             </div>
@@ -48,7 +47,7 @@
                   <p >Delete</p>
                 </md-button>
 
-                <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="users.editUser(user)">
+                <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="users.editUser(user); users.toggleForm()">
 
                   <p>Edit</p>
                 </md-button>
@@ -67,7 +66,12 @@
       </md-table-container>
       <md-table-pagination md-limit="users.query.limit" md-limit-options="limitOptions" md-page="users.query.page" md-total="{{users.allUsers.users.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
     </md-card>
- <!-- stop users table code -->
+
+  </div>
+  <!-- stop users table code -->
+</div>
+<div id="form-container" ng-show="users.form">
+<ng-include src="'./views/partials/newUserForm.html'"></ng-include>
 
 </div>
 </div>
