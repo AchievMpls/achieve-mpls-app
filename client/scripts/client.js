@@ -15,6 +15,18 @@ myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
     .accentPalette('red');
 
   $routeProvider
+    .when('/login', {
+      templateUrl: '/views/templates/login.html',
+      controller: 'UserAuthController as user',
+    })
+    .when('/createPassword',{
+      templateUrl: '/views/templates/createPassword.html',
+      controller: 'UserAuthController as user',
+    })
+    .when('/activation',{
+      templateUrl: 'views/templates/activation.html',
+      controller: 'UserAuthController as user',
+    })
     .when('/home', {
       templateUrl: '/views/templates/adminHome.html',
       controller: 'AdminHomeController as home',
@@ -26,6 +38,10 @@ myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
     .when('/sessions', {
       templateUrl: '/views/templates/adminSessions.html',
       controller: 'AdminSessionsController as sessions',
+    })
+    .when('/events', {
+      templateUrl: '/views/templates/adminEvents.html',
+      controller: 'AdminEventsController as events',
     })
     .when('/adminUsers', {
       templateUrl: '/views/templates/adminUsers.html',

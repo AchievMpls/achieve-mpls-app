@@ -1,47 +1,24 @@
 <h1>Forms</h1>
-
-<div layout="row" layout-align="center center" class="admin_table">
-    <md-card md-whiteframe="8" flex="90">
-      <div layout="row" layout-align="space-around none" class="admin_table">
-        <md-input-container>
-          <label>Form Name</label>
-          <textarea rows="2" cols="50" ng-model="forms.form_name"></textarea>
-        </md-input-container>
-
-        <md-input-container>
-          <label>Question 01</label>
-          <textarea rows="2" cols="50" ng-model="forms.prompts[0]"></textarea>
-        </md-input-container>
-
-        <md-input-container>
-          <label>Question 02</label>
-          <textarea rows="2" cols="50" ng-model="forms.prompts[1]"></textarea>
-        </md-input-container>
+  <div layout="row" layout-align="end center" ng-keypress="forms.formHide($event)">
+    <div flex-xs flex-gt-xs="20">
+  <md-card class="card">
+    <div layout="row" layout-align="space-between center">
+      <div layout="column">
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">Add New Form</span>
+    </md-card-title>
+  </md-card-title-text>
 </div>
-    <div layout="row" layout-align="space-around none" class="admin_table">
-        <md-input-container>
-          <label>Question 03</label>
-          <textarea rows="2" cols="50" ng-model="forms.prompts[2]"></textarea>
-        </md-input-container>
-
-        <md-input-container>
-          <label>Question 04</label>
-          <textarea rows="2" cols="50" ng-model="forms.prompts[3]"></textarea>
-        </md-input-container>
-
-        <md-input-container>
-          <label>Question 05</label>
-          <textarea rows="2" cols="50" ng-model="forms.prompts[4]"></textarea>
-        </md-input-container>
+<div layout="column">
+  <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add New Form" ng-click="forms.clearFields(); forms.toggleForm()">
+    <i class="material-icons" id="addButton">add</i>
+  </md-button>
 </div>
-    <div layout="row" layout-align="space-around none" class="admin_table">
-        <md-input-container>
-          <md-button class="md-primary md-raised" ng-click="forms.sendForm()">Submit</button>
-        </md-input-container>
-      </div>
-    </md-card>
-  </div>
-
+</div>
+</md-card>
+</div>
+</div>
 <div layout="row" layout-align="center center" class="admin_table">
     <md-card md-whiteframe="8" flex="90">
       <md-table-container>
@@ -65,7 +42,7 @@
                   Delete
                   <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_clear_black_48px.svg"></md-icon> -->
                 </md-button>
-                <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="forms.editForm(form)">
+                <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="forms.editForm(form); forms.toggleForm()">
                   Edit
                   <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_mode_edit_white_48px.svg"></md-icon> -->
                 </md-button>
@@ -83,3 +60,7 @@
       <md-table-pagination md-limit="forms.query.limit" md-limit-options="limitOptions" md-page="forms.query.page" md-total="{{forms.allForms.returnedForms.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
     </md-card>
   </div>
+<div id="form-container" ng-show="forms.form">
+<ng-include src="'./views/partials/newFormForm.html'"></ng-include>
+</div>
+</div>

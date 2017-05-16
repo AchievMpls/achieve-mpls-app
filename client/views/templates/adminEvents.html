@@ -1,0 +1,78 @@
+<h1>Events for Session number: {{events.specificSession.events[0].session_id }}</h1>
+
+<div layout="row" layout-align="center center" class="admin_table">
+  <md-card md-whiteframe="8" flex="90">
+    <div layout="row" layout-align="space-around none" class="admin_table">
+
+      <md-input-container>
+        <label>Meeting Count</label>
+        <input ng-model="events.meeting_count">
+      </md-input-container>
+
+      <md-input-container>
+        <label>Form</label>
+        <md-select ng-model="events.form_id">
+          <md-option ng-repeat="form in events.allForms.returnedForms" ng-value="form.id">
+            {{form.form_name}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+
+      <md-input-container>
+        <label>Date Exit-Ticket Opens</label>
+        <md-datepicker ng-model="events.open_date"></md-datepicker>
+      </md-input-container>
+
+      <md-input-container>
+        <label>Date Exit-Ticket Opens</label>
+        <md-datepicker ng-model="events.close_date"></md-datepicker>
+      </md-input-container>
+
+      <md-input-container>
+        <md-button class="md-primary md-raised" ng-click="events.sendEvent()">Submit</button>
+      </md-input-container>
+
+    </div>
+  </md-card>
+</div>
+
+
+
+<div layout="row" layout-align="center center" class="admin_table">
+  <md-card md-whiteframe="8" flex="90">
+    <md-table-container>
+      <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
+        <thead md-head md-order="events.query.order">
+          <tr md-row>
+            <th md-column class=""><span>Delete</span></th>
+            <th md-column class=""><span>Edit</span></th>
+            <th md-column md-order-by="meeting_count" class=""><span>Meeting Count</span></th>
+            <th md-column md-numeric md-order-by="form_name" md-desc class=""><span>Exit-Ticket Form</span></th>
+            <th md-column md-numeric md-order-by="date_form_open" md-desc class=""><span>Date Exit-Ticket Opens</span></th>
+            <th md-column md-numeric md-order-by="date_form_close" md-desc class=""><span>Date Exit-Ticket Closes</span></th>
+          </tr>
+        </thead>
+        <tbody md-body>
+
+          <tr md-row md-auto-select="options.autoSelect" ng-repeat="event in events.specificSession.events | orderBy: events.query.order | limitTo: events.query.limit : (events.query.page -1) * events.query.limit">
+            <td md-cell>
+              <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="events.confirmDelete(event.id)">
+                Delete
+              </md-button>
+            </td>
+            <td md-cell>
+              <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="events.editEvent(event)">
+                Edit
+              </md-button>
+            </td>
+            <td md-cell class="">{{event.meeting_count}}</td>
+            <td md-cell class="">{{event.form_name}}</td>
+            <td md-cell class="">{{event.date_form_open | date:'longDate'}}</td>
+            <td md-cell class="">{{event.date_form_close | date:'longDate'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+    <md-table-pagination md-limit="events.query.limit" md-limit-options="limitOptions" md-page="events.query.page" md-total="{{forms.allForms.returnedForms.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+  </md-card>
+</div>
