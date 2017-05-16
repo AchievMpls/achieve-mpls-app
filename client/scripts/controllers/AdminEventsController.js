@@ -15,6 +15,12 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
 
     var eventToSend = {};
     var editingEvent = false;
+    events.event = {
+      meeting_count : '',
+      form_id : '',
+      open_date : undefined,
+      close_date : undefined
+    };
 
     /**
      * @global object that limits table's display length
@@ -48,14 +54,16 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
     * @param {object} event the event to be edited
     */
     events.editEvent = function(event) {
+      events.clearFields();
       console.log('here the original event', event);
       editingEvent = true;
-      events.clearFields();
-      events.meeting_count = event.meeting_count;
-      events.form_id= event.form_id;
-      events.open_date= event.date_form_open;
-      events.close_date=event.date_form_close;
-      eventToSend.id = event.id;
+      events.event = {
+        meeting_count : event.meeting_count,
+        form_id : event.form_id,
+        open_date : event.date_form_open,
+        close_date : event.date_form_close,
+        id : event.id
+      };
     };
 
     /**
@@ -81,13 +89,42 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
     };
 
     events.clearFields = function () {
-      events.meeting_count = '';
-      events.form_id='';
-      events.open_date=undefined;
-      events.close_date=undefined;
+      events.event = {
+        meeting_count : '',
+        form_id : '',
+        open_date : undefined,
+        close_date : undefined
+      };
       eventToSend = {};
       console.log('post clear, eventToSend is: ', eventToSend);
     };
 
+    /**
+    * @function On Key Press
+    * @desc when the focus is on the window and the escape key is pressed, the form
+    * is closed.
+    * @param event
+    * @return the @class ng-hide and aria-hidden are added to the form-container.
+    * the @function clearFields is called to clear the fields on the form.
+    */
+    window.onkeydown = function(event) {
+      var itemToClose = document.getElementById('form-container');
+      if (event.keyCode === 27) {
+        itemToClose.classList.add("ng-hide");
+        itemToClose.setAttribute("aria-hidden", true);
+        events.clearFields();
+      }
+    };
+
+    /**
+    * @function Toggle form
+    * @desc toggles the form from visible to hidden.
+    * @param used on the ng-click of both the add form and edit form.
+    * @return toggles the class ng-hide on form-container.
+    */
+    events.toggleForm = function () {
+      var itemToOpen = document.getElementById('form-container');
+      itemToOpen.classList.toggle("ng-hide");
+    };
   }//end controller function
 ]);
