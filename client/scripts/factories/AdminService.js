@@ -30,15 +30,26 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
         allUsers.users = response.data;
       });
     }
-
+    var userToSend = {};
     /**
      * @desc adds new users to db
      * @param userToSend object to user data
      */
     function addNewUser(userToSend) {
-      $http.post('/users/postUser', userToSend).then(function(response) {
-        getAllUsers();
-      });
+      console.log('add user');
+      // $http.post('/users/postUser', userToSend).then(function(response) {
+      //   getAllUsers();
+      // });
+    }
+    /**
+     * @desc updates user
+     * @param userToSend object has be changed
+     */
+    function updateUser(userToSend) {
+      console.log('update user');
+      // $http.put('/users/update', userToSend).then(function(response) {
+      //   getAllUsers();
+      //  });
     }
 
     /**
@@ -52,15 +63,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       });
     }
 
-    /**
-     * @desc updates user
-     * @param userToSend object has be changed
-     */
-    function updateUser(userToSend) {
-      $http.put('/users/update', userToSend).then(function(response) {
-        getAllUsers();
-      });
-    }
+
 
     //--------CRUD FORMs-----------
 

@@ -61,7 +61,7 @@ console.log('Admin Users sourced: ');
          users.lname = user.lname;
          users.role = user.role;
          users.email = user.email;
-         userToSend.id = user.id;
+        // userToSend.id = user.id;
       };
 
 

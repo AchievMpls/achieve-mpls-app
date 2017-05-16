@@ -10,7 +10,6 @@ var pool = require('../modules/db');
 */
 
 router.get('/', function(req, res) {
-  console.log('req', req.body);
   pool.connect(function(errorConnectingToDb, db, done) {
     if (errorConnectingToDb) {
       res.sendStatus(500);
