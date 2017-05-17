@@ -160,6 +160,39 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     }
 
     /**
+     * @desc adds new session (and linked events) to db
+     * @param {object} sessionToSend the exit-ticket form to be created
+     */
+    function addNewSession(sessionToSend) {
+      $http.post('/sessions/add', sessionToSend).then(function(response) {
+        getYearsSessions(sessionToSend.year);
+      }, function() {
+        sessionConflictPopup();
+      });
+    }
+
+    function sessionConflictPopup() {
+      $mdDialog.show(
+        $mdDialog.alert()
+        .clickOutsideToClose(true)
+        .title('Cannot Save!')
+        .textContent('Session Count must be a number unique to this Year.')
+        .ariaLabel('Alert Dialog')
+        .ok('OK!')
+      );
+    }
+
+    /**
+     * @desc update session
+     * @param {object} sessionToSend the session to be altered
+     */
+    function updateSession(sessionToSend) {
+      $http.put('/sessions/update', sessionToSend).then(function(response) {
+        getYearsSessions(sessionToSend.year);
+      });
+    }
+
+    /**
      * @desc removes a session, per its ID.
      * @param {object} session - The session to be removed & redisplayed
      */
@@ -183,10 +216,8 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * student view landing page, or from an individual entry.
      * @param {number} session_id the session whose events are to be returned
      */
-    function routeToEvents(session_id) {
-      if (session_id) {
-        currentSessionForEvents = session_id;
-      }
+    function routeToEvents(session) {
+        currentSessionForEvents = session.id;
       $location.path("/events");
     }
 
@@ -277,7 +308,10 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       deleteEvent: deleteEvent,
       addNewEvent: addNewEvent,
       meetingConflictPopup: meetingConflictPopup,
-      updateEvent: updateEvent
+      updateEvent: updateEvent,
+      sessionConflictPopup: sessionConflictPopup,
+      addNewSession: addNewSession,
+      updateSession: updateSession
     };
 
   }

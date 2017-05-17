@@ -5,6 +5,7 @@ var pool = require('../modules/db');
 
 router.get('/:session', function(req, res) {
   var session = req.params.session;
+  console.log('on server, session is: ', session);
   pool.connect(function(errorConnectingToDb, db, done) {
     if (errorConnectingToDb) {
       res.sendStatus(500);
@@ -15,6 +16,7 @@ router.get('/:session', function(req, res) {
           if (queryError) {
             res.sendStatus(500);
           } else {
+            console.log('the result we returning: ', result.rows);
             res.send(result.rows);
           }
         });
@@ -47,7 +49,6 @@ router.post('/add', function(req, res) {
 }); //end router.post
 
 router.put('/update', function(req, res) {
-  console.log('on server, we got: ', req.body);
   var id = req.body.id;
   var meeting_count = req.body.meeting_count;
   var form_id = req.body.form_id;
@@ -55,7 +56,6 @@ router.put('/update', function(req, res) {
   var close_date = req.body.close_date;
   pool.connect(function(errorConnectingToDb, db, done) {
   if (errorConnectingToDb) {
-    console.log('error connecting: ', errorConnectingToDb);
     res.sendStatus(500);
   } else {
     db.query('UPDATE "events" SET "meeting_count"=$1, "form_id"=$2, "date_form_open"=$3, "date_form_close"=$4 WHERE "id" = $5;',
@@ -63,7 +63,6 @@ router.put('/update', function(req, res) {
       function(queryError, result) {
         done();
         if (queryError) {
-          console.log('error querying: ', queryError);
           res.sendStatus(500);
         } else {
           res.sendStatus(201);
