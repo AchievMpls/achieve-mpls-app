@@ -55,12 +55,11 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
     */
     events.editEvent = function(event) {
       events.clearFields();
-      console.log('here the original event', event);
-      console.log('form id for this event ', event.form.id);
+      console.log(event.form);
       editingEvent = true;
       events.event = {
         meeting_count : event.meeting_count,
-        form_id : event.form.id,
+        form_id : event.form.id\,
         form_name : event.form_name,
         open_date : event.date_form_open,
         close_date : event.date_form_close,
