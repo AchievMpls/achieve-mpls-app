@@ -5,7 +5,6 @@ var pool = require('../modules/db');
 
 router.get('/:session', function(req, res) {
   var session = req.params.session;
-  console.log('on server, session is: ', session);
   pool.connect(function(errorConnectingToDb, db, done) {
     if (errorConnectingToDb) {
       res.sendStatus(500);
@@ -16,7 +15,6 @@ router.get('/:session', function(req, res) {
           if (queryError) {
             res.sendStatus(500);
           } else {
-            console.log('the result we returning: ', result.rows);
             res.send(result.rows);
           }
         });
@@ -25,7 +23,6 @@ router.get('/:session', function(req, res) {
 }); //end router.get
 
 router.post('/add', function(req, res) {
-  console.log(req.body);
   var session_id = req.body.session_id;
   var meeting_count = req.body.meeting_count;
   var form_id = req.body.form_id;
@@ -40,7 +37,6 @@ router.post('/add', function(req, res) {
         function(queryError, result) {
           done();
           if (queryError) {
-            console.log('error adding to DB');
             res.sendStatus(500);
           } else {
             res.sendStatus(201);
@@ -73,7 +69,6 @@ router.put('/update', function(req, res) {
   }
 });
 });//end router.put
-
 
 
 router.delete('/delete/:id', function(req, res) {

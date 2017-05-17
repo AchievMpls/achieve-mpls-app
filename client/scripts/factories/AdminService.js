@@ -25,10 +25,11 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @param the length of the pwd
      * @return Interger -> String
      */
-    function dec2hex (dec) {
-        return ('0' + dec.toString(16)).substr(-2);
+    function dec2hex(dec) {
+      return ('0' + dec.toString(16)).substr(-2);
     }
-    function generateId (len) {
+
+    function generateId(len) {
       var arr = new Uint8Array((len || 40) / 2);
       window.crypto.getRandomValues(arr);
       return Array.from(arr, dec2hex).join('');
@@ -51,7 +52,6 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      */
     function addNewUser(userToSend) {
       userToSend.password = generateId(10);
-      console.log('add user in fac', userToSend);
       $http.post('/users/postUser', userToSend).then(function(response) {
         getAllUsers();
       });
@@ -62,10 +62,9 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      */
     function updateUser(userToSend) {
       userToSend.password = generateId(10);
-      console.log('update user');
       $http.put('/users/updateUser', userToSend).then(function(response) {
         getAllUsers();
-       });
+      });
     }
 
     /**
@@ -73,13 +72,9 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @param id object sent AdminFormsController
      */
     function deactivateUser(user) {
-      console.log('user id in factory ', user);
-        $http.put('/users/deactivateUser', user).then(function(response) {
+      $http.put('/users/deactivateUser', user).then(function(response) {
         getAllUsers();
-       });
-      //  $http.delete('/users/deleteUser/' + id).then(function() {
-      //   getAllUsers();
-      // });
+      });
     }
 
 
@@ -220,7 +215,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @param {number} session_id the session whose events are to be returned
      */
     function routeToEvents(session) {
-        currentSessionForEvents = session.id;
+      currentSessionForEvents = session.id;
       $location.path("/events");
     }
 
@@ -240,7 +235,6 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      */
     function addNewEvent(eventToSend) {
       eventToSend.session_id = currentSessionForEvents;
-      console.log(eventToSend);
       $http.post('/events/add', eventToSend).then(function(response) {
         getSessionsEvents();
       }, function() {
@@ -290,6 +284,27 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     }
 
 
+    /**
+     * @desc selects all sessions for a single school year
+     * @param {number} year the year whose sessions are to be returned
+     */
+    function getYearsTickets(year) {
+      if (!year) {
+        $mdDialog.show(
+          $mdDialog.alert()
+          .clickOutsideToClose(true)
+          .title('Incomplete Form!')
+          .textContent('Please include a year.')
+          .ariaLabel('Alert Dialog')
+          .ok('OK!')
+        );
+      } else {
+        $http.get('/tickets/' + year).then(function(response) {
+          specificYear.tickets = response.data;
+        });
+      }
+    }
+
     return {
       getAllUsers: getAllUsers,
       allUsers: allUsers,
@@ -315,7 +330,8 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       updateEvent: updateEvent,
       sessionConflictPopup: sessionConflictPopup,
       addNewSession: addNewSession,
-      updateSession: updateSession
+      updateSession: updateSession,
+      getYearsTickets: getYearsTickets
     };
 
   }
