@@ -19,30 +19,39 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     var specificSession = {};
 
     //----------CRUD USERs ------------
+
+    /**
+     * @desc generate the random pwd
+     * @param the length of the pwd
+     * @return Interger -> String
+     */
+    function dec2hex (dec) {
+        return ('0' + dec.toString(16)).substr(-2);
+    }
+    function generateId (len) {
+      var arr = new Uint8Array((len || 40) / 2);
+      window.crypto.getRandomValues(arr);
+      return Array.from(arr, dec2hex).join('');
+    }
+
     /**
      * @desc Admin gets the list of users
      * @param
      * @return AllUsers object
      */
     function getAllUsers() {
-
       $http.get('/users').then(function(response) {
         allUsers.users = response.data;
       });
     }
-    var userToSend = {
-      fname: 'emily',
-      lname: 'hoang',
-      email: 'emily@yahoo.com',
-      role: 'coach',
-      password: 'emily'
-    };
+
     /**
      * @desc adds new users to db
      * @param userToSend object to user data
      */
     function addNewUser(userToSend) {
-      console.log('add user');
+      userToSend.password = generateId(10);
+      console.log('add user in fac', userToSend);
       $http.post('/users/postUser', userToSend).then(function(response) {
         getAllUsers();
       });
@@ -52,21 +61,25 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @param userToSend object has be changed
      */
     function updateUser(userToSend) {
+      userToSend.password = generateId(10);
       console.log('update user');
-      // $http.put('/users/update', userToSend).then(function(response) {
-      //   getAllUsers();
-      //  });
+      $http.put('/users/updateUser', userToSend).then(function(response) {
+        getAllUsers();
+       });
     }
 
     /**
-     * @desc removes the user
+     * @desc sets user session to 'null'
      * @param id object sent AdminFormsController
      */
-    function deleteUser(id) {
-      console.log('user in factory ', id);
-      $http.delete('/users/delete/' + id).then(function() {
+    function deactivateUser(user) {
+      console.log('user id in factory ', user);
+        $http.put('/users/deactivateUser', user).then(function(response) {
         getAllUsers();
-      });
+       });
+      //  $http.delete('/users/deleteUser/' + id).then(function() {
+      //   getAllUsers();
+      // });
     }
 
 
@@ -227,6 +240,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      */
     function addNewEvent(eventToSend) {
       eventToSend.session_id = currentSessionForEvents;
+      console.log(eventToSend);
       $http.post('/events/add', eventToSend).then(function(response) {
         getSessionsEvents();
       }, function() {
@@ -281,7 +295,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       allUsers: allUsers,
       addNewUser: addNewUser,
       updateUser: updateUser,
-      deleteUser: deleteUser,
+      deactivateUser: deactivateUser,
       getAllForms: getAllForms,
       allForms: allForms,
       addNewForm: addNewForm,
