@@ -12,12 +12,13 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
     events.specificSession = AdminService.specificSession;
     AdminService.getAllForms();
     events.allForms = AdminService.allForms;
+    console.log('the data for all of the forms is ', events.allForms.returnedForms);
 
     var editingEvent = false;
 
     events.event = {
       meeting_count : '',
-      form_id : '',
+      form : '',
       open_date : undefined,
       close_date : undefined
     };
@@ -55,17 +56,14 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
     */
     events.editEvent = function(event) {
       events.clearFields();
-      console.log(event.form);
       editingEvent = true;
       events.event = {
         meeting_count : event.meeting_count,
-        form_id : event.form.id,
-        form_name : event.form_name,
+        form : event.form_id,
         open_date : event.date_form_open,
         close_date : event.date_form_close,
         id : event.id
       };
-      console.log('here is the event object', events.event);
       events.toggleForm();
     };
 
@@ -73,10 +71,9 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
     * @desc composes and submits a new/edited item
     */
     events.sendEvent = function(event) {
-      console.log('this is the event we are trying to send ', event);
       var eventToSend = {
         meeting_count : parseInt(event.meeting_count, 10),
-        form_id : event.form_id,
+        form_id : event.form,
         open_date : $filter('date')(event.open_date, "yyyy-MM-dd"),
         close_date : $filter('date')(event.close_date, "yyyy-MM-dd"),
       };
@@ -86,19 +83,24 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
       }
       if (editingEvent) {
         editingEvent = false;
-        console.log('here the updated event to send: ', eventToSend);
         AdminService.updateEvent(eventToSend);
       }else {
-        console.log('in add new event path');
         AdminService.addNewEvent(eventToSend);
       }
       events.clearFields();
+      events.toggleForm();
     };
 
+    /**
+    * @function Clear Fields
+    * @desc clears the event object out.
+    * @param
+    * @return returns an empty object.
+    */
     events.clearFields = function () {
       events.event = {
         meeting_count : '',
-        form_id : '',
+        form : '',
         open_date : undefined,
         close_date : undefined
       };
