@@ -76,6 +76,7 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
         form_id : event.form,
         open_date : $filter('date')(event.open_date, "yyyy-MM-dd"),
         close_date : $filter('date')(event.close_date, "yyyy-MM-dd"),
+        id : event.id
       };
       if(isNaN(eventToSend.meeting_count)){
         AdminService.meetingConflictPopup();
