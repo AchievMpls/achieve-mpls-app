@@ -1,33 +1,85 @@
-/**
-* Admin Users Controller
-* @desc controls the Admin Users View
-* @param AdminService
-* @return AllUser objects
-*/
-//eh commented --pls delete when everything deleted
-// myApp.controller('AdminUsersController', ['$scope', '$http', '$location',
-// '$mdDialog', 'AdminService', function($scope, $http, $location, $mdDialog, AdminService){
-
-myApp.controller('AdminUsersController', ['AdminService', '$mdPanel',
-function(AdminService, $mdPanel, mdPanelRef){
+myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDialog','$mdPanel',
+function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef){
 console.log('Admin Users sourced: ');
   var users = this;
+  /**
+     * @global object that limits table's display length
+     */
+     users.query = {
+      order: 'name',
+      limit: 25,
+      page: 1
+    };
 
+
+  /**
+  * Admin Users Controller
+  * @desc controls the Admin Users View
+  * @param AdminService
+  * @return AllUser objects
+  */
   AdminService.getAllUsers();
   users.allUsers = AdminService.allUsers;
   console.log('users', users.allUsers);
+  /**
+   * @desc displays a popup when 'delete' button is clicked, then
+   * deletes specific user if popup is confirmed
+   * @param the user object to be deleted
+   */
+  users.confirmDelete = function(user) {
+    //console.log('get in delete', user);
+    var confirm = $mdDialog.confirm()
+      .title('Are you sure you want to delete ' + user.fname + ' ' + user.lname + '?')
+      .textContent('This will remove the form forever.')
+      .ok('Yes')
+      .cancel('No');
+    $mdDialog.show(confirm).then(function() {
+      AdminService.deleteUser(user.id);
+    });
+  };
 
+    /**
+       * @desc routes through items.js to add a new dictionary entry.
+       * @param {object} item - The entry to be added (specified in AdminController.)
+       */
+      users.sendUser = function(user) {
+
+        console.log('user', user);
+        // $http.post('/items/add', item).then(function(response) {
+        //   getAllItems();
+        // });
+      };
+
+      /**
+      * @desc routes through items.js to update a preexisting dictionary entry.
+      * @param {object} item - The entry to be altered (specified in AdminController.)
+      */
+      users.editUser = function(user) {
+        console.log('edit user', user);
+        editingUser = true;
+         users.fname = user.fname;
+         users.lname = user.lname;
+         users.role = user.role;
+         users.email = user.email;
+        // userToSend.id = user.id;
+      };
+
+/**
+ * @desc calls function to send email to user to activate account or reset password
+ * @param {object} user - selected by ng-click on 'send activation' button
+ */
+  users.activeUser = AuthService.sendActivation;
 /**
  * @global object that limits table's display length and orders by first name
  */
-
   users.query = {
    order: 'fname',
-   limit: 25, // does not yet limit to 25 users, don't know why
+   limit: 25,
    page: 1
  };
 
   //hard coding data for the dropdown menus. this will be removed later
+
   users.roleArray = ['Coach', 'Admin'];
   users.sessionArray = [1,2,3,4,5,6,7,8,9,10];
   users.gradeArray = ['9', '12'];

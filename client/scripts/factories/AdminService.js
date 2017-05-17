@@ -18,17 +18,60 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     var currentSessionForEvents;
     var specificSession = {};
 
-
+    //----------CRUD USERs ------------
     /**
      * @desc Admin gets the list of users
      * @param
      * @return AllUsers object
      */
     function getAllUsers() {
+
       $http.get('/users').then(function(response) {
         allUsers.users = response.data;
       });
     }
+    var userToSend = {
+      fname: 'emily',
+      lname: 'hoang',
+      email: 'emily@yahoo.com',
+      role: 'coach',
+      password: 'emily'
+    };
+    /**
+     * @desc adds new users to db
+     * @param userToSend object to user data
+     */
+    function addNewUser(userToSend) {
+      console.log('add user');
+      $http.post('/users/postUser', userToSend).then(function(response) {
+        getAllUsers();
+      });
+    }
+    /**
+     * @desc updates user
+     * @param userToSend object has be changed
+     */
+    function updateUser(userToSend) {
+      console.log('update user');
+      // $http.put('/users/update', userToSend).then(function(response) {
+      //   getAllUsers();
+      //  });
+    }
+
+    /**
+     * @desc removes the user
+     * @param id object sent AdminFormsController
+     */
+    function deleteUser(id) {
+      console.log('user in factory ', id);
+      $http.delete('/users/delete/' + id).then(function() {
+        getAllUsers();
+      });
+    }
+
+
+
+    //--------CRUD FORMs-----------
 
     /**
      * @desc gets all forms from db
@@ -107,6 +150,39 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     }
 
     /**
+     * @desc adds new session (and linked events) to db
+     * @param {object} sessionToSend the exit-ticket form to be created
+     */
+    function addNewSession(sessionToSend) {
+      $http.post('/sessions/add', sessionToSend).then(function(response) {
+        getYearsSessions(sessionToSend.year);
+      }, function() {
+        sessionConflictPopup();
+      });
+    }
+
+    function sessionConflictPopup() {
+      $mdDialog.show(
+        $mdDialog.alert()
+        .clickOutsideToClose(true)
+        .title('Cannot Save!')
+        .textContent('Session Count must be a number unique to this Year.')
+        .ariaLabel('Alert Dialog')
+        .ok('OK!')
+      );
+    }
+
+    /**
+     * @desc update session
+     * @param {object} sessionToSend the session to be altered
+     */
+    function updateSession(sessionToSend) {
+      $http.put('/sessions/update', sessionToSend).then(function(response) {
+        getYearsSessions(sessionToSend.year);
+      });
+    }
+
+    /**
      * @desc removes a session, per its ID.
      * @param {object} session - The session to be removed & redisplayed
      */
@@ -130,10 +206,8 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * student view landing page, or from an individual entry.
      * @param {number} session_id the session whose events are to be returned
      */
-    function routeToEvents(session_id) {
-      if (session_id) {
-        currentSessionForEvents = session_id;
-      }
+    function routeToEvents(session) {
+        currentSessionForEvents = session.id;
       $location.path("/events");
     }
 
@@ -206,6 +280,9 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     return {
       getAllUsers: getAllUsers,
       allUsers: allUsers,
+      addNewUser: addNewUser,
+      updateUser: updateUser,
+      deleteUser: deleteUser,
       getAllForms: getAllForms,
       allForms: allForms,
       addNewForm: addNewForm,
@@ -222,7 +299,10 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       deleteEvent: deleteEvent,
       addNewEvent: addNewEvent,
       meetingConflictPopup: meetingConflictPopup,
-      updateEvent: updateEvent
+      updateEvent: updateEvent,
+      sessionConflictPopup: sessionConflictPopup,
+      addNewSession: addNewSession,
+      updateSession: updateSession
     };
 
   }

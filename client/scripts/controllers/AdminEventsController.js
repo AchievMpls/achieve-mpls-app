@@ -59,7 +59,7 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
       editingEvent = true;
       events.event = {
         meeting_count : event.meeting_count,
-        form_id : event.form.id\,
+        form_id : event.form.id,
         form_name : event.form_name,
         open_date : event.date_form_open,
         close_date : event.date_form_close,
