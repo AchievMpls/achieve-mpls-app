@@ -22,6 +22,9 @@ myApp.controller('AdminSessionsController', ['AdminService', '$mdDialog', '$filt
     var sessionToSend = {};
     sessions.editingSession = false;
 
+    var today = new Date();
+    sessions.nextYear = today.getFullYear()+1;
+
     /**
      * @global object that limits table's display length
      */
@@ -98,5 +101,17 @@ myApp.controller('AdminSessionsController', ['AdminService', '$mdDialog', '$filt
       });
     };
 
-  }
+    sessions.addYear = function() {
+      sessionToSend.year = sessions.nextYear;
+      sessionToSend.session_count=1;
+      sessionToSend.eventsToAdd = 0;
+      sessionToSend.grade = 9;
+      sessionToSend.facilitator = "None";
+      sessionToSend.day = "None";
+      sessionToSend.start_time = "00:00:00";
+      sessionToSend.school = "None";
+      AdminService.addNewSession(sessionToSend);
+    };
+
+  }//end controller function
 ]);
