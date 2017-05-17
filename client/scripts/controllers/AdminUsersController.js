@@ -1,5 +1,5 @@
-myApp.controller('AdminUsersController', ['AdminService', '$mdDialog','$mdPanel',
-function(AdminService, $mdDialog, $mdPanel, mdPanelRef){
+myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDialog','$mdPanel',
+function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef){
 console.log('Admin Users sourced: ');
   var users = this;
 
@@ -12,17 +12,6 @@ console.log('Admin Users sourced: ');
        page: 1
      };
 
-    /**
-    * @global default object for the user.
-    */
-    users.user = {
-      fname : '',
-      lname : '',
-      email : '',
-      role : '',
-      session : '',
-      grade : ''
-    };
     /**
     * @desc clears all ng-model fields
     */
@@ -98,6 +87,7 @@ console.log('Admin Users sourced: ');
       /**
       * @desc displays an alert dialog if a form is incomplete
       */
+
       function completeFields() {
         $mdDialog.show(
           $mdDialog.alert()
@@ -109,6 +99,12 @@ console.log('Admin Users sourced: ');
         );
       }
 
+
+/**
+ * @desc calls function to send email to user to activate account or reset password
+ * @param {object} user - selected by ng-click on 'send activation' button
+ */
+  users.activeUser = AuthService.sendActivation;
 
 
   //hard coding data for the dropdown menus. this will be removed later

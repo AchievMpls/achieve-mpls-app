@@ -13,6 +13,61 @@
   </md-input-container>
 </div>
 
+<!-- Start here -->
+<div layout="row" layout-align="center center">
+  <md-card md-whiteframe="8" flex="90">
+    <div layout="row" layout-align="space-around none">
+
+      <md-input-container>
+        <label>Session Count</label>
+        <input ng-model="sessions.session_count">
+      </md-input-container>
+
+      <md-input-container ng-hide="sessions.editingSession">
+        <label>Events to Add</label>
+        <input ng-model="sessions.eventsToAdd" type="number" min="0" max="20">
+      </md-input-container>
+
+      <md-input-container>
+        <label>Grade</label>
+        <md-select ng-model="sessions.grade">
+          <md-option ng-value="9"> 9 </md-option>
+          <md-option ng-value="12"> 12 </md-option>
+        </md-select>
+      </md-input-container>
+
+      <md-input-container>
+        <label>Facilitator</label>
+        <input ng-model="sessions.facilitator">
+      </md-input-container>
+
+      <md-input-container>
+        <label>Day</label>
+        <md-select ng-model="sessions.day">
+          <md-option ng-repeat="day in sessions.days" ng-value="day.name">
+            {{day.name}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+
+      <md-input-container>
+        <label>Start Time</label>
+        <input type="time" ng-model="sessions.start_time">
+      </md-input-container>
+
+      <md-input-container>
+        <label>School</label>
+        <input ng-model="sessions.school">
+      </md-input-container>
+
+      <md-input-container>
+        <md-button class="md-primary md-raised" ng-click="sessions.sendSession()">Submit</button>
+      </md-input-container>
+    </div>
+  </md-card>
+</div>
+
+
 
 <div layout="row" layout-align="center center" class="admin_table">
   <md-card md-whiteframe="8" flex="90">
@@ -45,7 +100,7 @@
               </md-button>
             </td>
             <td md-cell>
-              <md-button flex="45" aria-label="edit" class="md-raised md-warn admin-button" ng-click="sessions.routeToEvents(session.id)">
+              <md-button flex="45" aria-label="edit" class="md-raised md-warn admin-button" ng-click="sessions.routeToEvents(session)">
                 Events
               </md-button>
             </td>

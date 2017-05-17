@@ -149,7 +149,7 @@ CREATE TABLE "events" (
   "id" serial primary key,
   "session_id" integer REFERENCES "sessions",
   "meeting_count" integer not null,
-  "form_id" integer REFERENCES "forms",
+  "form_id" integer REFERENCES "forms" DEFAULT 1,
   "date_form_open" date,
   "date_form_close" date,
   UNIQUE ("session_id", "meeting_count")

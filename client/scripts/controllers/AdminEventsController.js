@@ -48,7 +48,6 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
     * @param {object} event the event to be edited
     */
     events.editEvent = function(event) {
-      console.log('here the original event', event);
       editingEvent = true;
       events.clearFields();
       events.meeting_count = event.meeting_count;
@@ -72,13 +71,12 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
       eventToSend.close_date = $filter('date')(events.close_date, "yyyy-MM-dd");
       if (editingEvent) {
         editingEvent = false;
-        console.log('here the updated event to send: ', eventToSend);
         AdminService.updateEvent(eventToSend);
       }else {
         AdminService.addNewEvent(eventToSend);
       }
       events.clearFields();
-    };
+    };//end sendEvent
 
     events.clearFields = function () {
       events.meeting_count = '';
@@ -86,7 +84,6 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
       events.open_date=undefined;
       events.close_date=undefined;
       eventToSend = {};
-      console.log('post clear, eventToSend is: ', eventToSend);
     };
 
   }//end controller function

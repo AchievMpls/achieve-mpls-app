@@ -10,6 +10,7 @@ var users = require('./routes/users.js');
 var forms = require('./routes/forms.js');
 var sessions = require('./routes/sessions.js');
 var events = require('./routes/events.js');
+var mail = require('./routes/mail.js');
 
 //app config
 app.set('port', (process.env.PORT || 5000));
@@ -24,6 +25,7 @@ app.use('/users', users);
 app.use('/forms', forms);
 app.use('/sessions', sessions);
 app.use('/events', events);
+app.use('/mail', mail);
 app.use('/*', index);
 
 
