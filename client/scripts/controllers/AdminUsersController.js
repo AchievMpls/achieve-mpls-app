@@ -2,7 +2,6 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
 function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef){
 console.log('Admin Users sourced: ');
   var users = this;
-
     /**
      * @global object that limits table's display length and orders by first name
      */
@@ -41,8 +40,6 @@ console.log('Admin Users sourced: ');
   AdminService.getAllUsers();
   users.allUsers = AdminService.allUsers;
   console.log('users', users.allUsers);
-
-
    /**
     * @desc displays a popup when 'delete' button is clicked, then
     * deletes specific user if popup is confirmed
@@ -59,67 +56,63 @@ console.log('Admin Users sourced: ');
       AdminService.deleteUser(user.id);
     });
   };
-
-    /**
-       * @desc routes through items.js to add a new dictionary entry.
-       * @param {object} item - The entry to be added (specified in AdminController.)
-       */
-      users.sendUser = function(user) {
-        console.log('user', user);
-        if (!user.fname || !user.lname ) {
-          completeFields();
-          return;
-        }
-        else {
-            if (user.id !== undefined) {
-              console.log('update', user.id);
-              AdminService.updateUser(user);
-            }
-            else {
-              console.log('add');
-              AdminService.addNewUser(user);
-
-            }
-        }
-
-      };
-
-      /**
-      * @desc displays an alert dialog if a form is incomplete
-      */
-
-      function completeFields() {
-        $mdDialog.show(
-          $mdDialog.alert()
-          .clickOutsideToClose(true)
-          .title('Incomplete form!')
-          .textContent('Please the missing field.')
-          .ariaLabel('Alert Dialog')
-          .ok('OK!')
-        );
+  /**
+     * @desc routes through items.js to add a new dictionary entry.
+     * @param {object} item - The entry to be added (specified in AdminController.)
+     */
+    users.sendUser = function(user) {
+      console.log('user', user);
+      if (!user.fname || !user.lname ) {
+        completeFields();
+        return;
+      }
+      else {
+          if (user.id !== undefined) {
+            console.log('update', user.id);
+            AdminService.updateUser(user);
+          }
+          else {
+            console.log('add');
+            AdminService.addNewUser(user);
+          }
       }
 
+    };
+  /**
+  * @desc displays an alert dialog if a form is incomplete
+  */
 
+  function completeFields() {
+    $mdDialog.show(
+      $mdDialog.alert()
+      .clickOutsideToClose(true)
+      .title('Incomplete form!')
+      .textContent('Please the missing field.')
+      .ariaLabel('Alert Dialog')
+      .ok('OK!')
+    );
+  }
 /**
  * @desc calls function to send email to user to activate account or reset password
  * @param {object} user - selected by ng-click on 'send activation' button
+ * @return the confirm message shown annd the email sent to the user
  */
-  users.activeUser = AuthService.sendActivation;
-
-
+  users.activeUser = function(user) {
+    // console.log('sending the email: ', user);
+     var _alert = $mdDialog.alert()
+       .title('Your code has been sent to ' + user.email + '.')
+       .ok('Yes');
+      $mdDialog.show(_alert).then(function() {
+      AuthService.sendActivation(user);
+    });
+  };
   //hard coding data for the dropdown menus. this will be removed later
-
   users.roleArray = ['coach', 'admin'];
   users.sessionArray = [1,2,3,4,5,6,7,8,9,10];
   users.gradeArray = ['9', '12'];
 
-
   //the rest of this is code to get $mdPanel to work.
   this._mdPanel = $mdPanel;
-
-
-
-
   /**
   * @desc displays an item for editing
   * @param {object} user the user to be edited
