@@ -12,9 +12,16 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
     events.specificSession = AdminService.specificSession;
     AdminService.getAllForms();
     events.allForms = AdminService.allForms;
+    console.log('the data for all of the forms is ', events.allForms.returnedForms);
 
-    var eventToSend = {};
     var editingEvent = false;
+
+    events.event = {
+      meeting_count : '',
+      form : '',
+      open_date : undefined,
+      close_date : undefined
+    };
 
     /**
      * @global object that limits table's display length
@@ -48,27 +55,33 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
     * @param {object} event the event to be edited
     */
     events.editEvent = function(event) {
-      editingEvent = true;
       events.clearFields();
-      events.meeting_count = event.meeting_count;
-      events.form_id= event.form_id;
-      events.open_date= event.date_form_open;
-      events.close_date=event.date_form_close;
-      eventToSend.id = event.id;
+      editingEvent = true;
+      events.event = {
+        meeting_count : event.meeting_count,
+        form : event.form_id,
+        open_date : event.date_form_open,
+        close_date : event.date_form_close,
+        id : event.id
+      };
+      events.toggleForm();
     };
 
     /**
     * @desc composes and submits a new/edited item
     */
-    events.sendEvent = function() {
-      eventToSend.meeting_count = parseInt(events.meeting_count, 10);
+    events.sendEvent = function(event) {
+      var eventToSend = {
+        meeting_count : parseInt(event.meeting_count, 10),
+        form_id : event.form,
+        open_date : $filter('date')(event.open_date, "yyyy-MM-dd"),
+        close_date : $filter('date')(event.close_date, "yyyy-MM-dd"),
+        id : event.id
+      };
       if(isNaN(eventToSend.meeting_count)){
         AdminService.meetingConflictPopup();
         return;
       }
-      eventToSend.form_id = events.form_id;
-      eventToSend.open_date = $filter('date')(events.open_date, "yyyy-MM-dd");
-      eventToSend.close_date = $filter('date')(events.close_date, "yyyy-MM-dd");
       if (editingEvent) {
         editingEvent = false;
         AdminService.updateEvent(eventToSend);
@@ -76,15 +89,50 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
         AdminService.addNewEvent(eventToSend);
       }
       events.clearFields();
-    };//end sendEvent
-
-    events.clearFields = function () {
-      events.meeting_count = '';
-      events.form_id='';
-      events.open_date=undefined;
-      events.close_date=undefined;
-      eventToSend = {};
+      events.toggleForm();
     };
 
+    /**
+    * @function Clear Fields
+    * @desc clears the event object out.
+    * @param
+    * @return returns an empty object.
+    */
+    events.clearFields = function () {
+      events.event = {
+        meeting_count : '',
+        form : '',
+        open_date : undefined,
+        close_date : undefined
+      };
+    };
+
+    /**
+    * @function On Key Press
+    * @desc when the focus is on the window and the escape key is pressed, the form
+    * is closed.
+    * @param event
+    * @return the @class ng-hide and aria-hidden are added to the form-container.
+    * the @function clearFields is called to clear the fields on the form.
+    */
+    window.onkeydown = function(event) {
+      var itemToClose = document.getElementById('form-container');
+      if (event.keyCode === 27) {
+        itemToClose.classList.add("ng-hide");
+        itemToClose.setAttribute("aria-hidden", true);
+        events.clearFields();
+      }
+    };
+
+    /**
+    * @function Toggle form
+    * @desc toggles the form from visible to hidden.
+    * @param used on the ng-click of both the add form and edit form.
+    * @return toggles the class ng-hide on form-container.
+    */
+    events.toggleForm = function () {
+      var itemToOpen = document.getElementById('form-container');
+      itemToOpen.classList.toggle("ng-hide");
+    };
   }//end controller function
 ]);

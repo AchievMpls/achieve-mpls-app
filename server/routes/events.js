@@ -25,6 +25,7 @@ router.get('/:session', function(req, res) {
 }); //end router.get
 
 router.post('/add', function(req, res) {
+  console.log(req.body);
   var session_id = req.body.session_id;
   var meeting_count = req.body.meeting_count;
   var form_id = req.body.form_id;
@@ -39,6 +40,7 @@ router.post('/add', function(req, res) {
         function(queryError, result) {
           done();
           if (queryError) {
+            console.log('error adding to DB');
             res.sendStatus(500);
           } else {
             res.sendStatus(201);
