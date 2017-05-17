@@ -21,7 +21,6 @@ console.log('Admin Users sourced: ');
       email : '',
       role : '',
       session : '',
-      grade : ''
     };
     /**
     * @desc clears all ng-model fields
@@ -33,7 +32,6 @@ console.log('Admin Users sourced: ');
         email : '',
         role : '',
         session_id : '',
-        grade : ''
       };
     };
 
@@ -59,16 +57,9 @@ console.log('Admin Users sourced: ');
     * deletes specific user if popup is confirmed
     * @param the user object to be deleted
     */
-  users.confirmDelete = function(user) {
-    console.log('get in delete', user.id);
-    var confirm = $mdDialog.confirm()
-      .title('Are you sure you want to delete ' + user.fname + ' ' + user.lname + '?')
-      .textContent('This will remove the form forever.')
-      .ok('Yes')
-      .cancel('No');
-    $mdDialog.show(confirm).then(function() {
-      AdminService.deleteUser(user.id);
-    });
+  users.deactivateUser = function(user) {
+    console.log('here the user to deactivate', user);
+      AdminService.deactivateUser(user);
   };
 
     /**
@@ -115,7 +106,6 @@ console.log('Admin Users sourced: ');
 
   users.roleArray = ['coach', 'admin'];
   users.sessionArray = [1,2,3,4,5,6,7,8,9,10];
-  users.gradeArray = ['9', '12'];
 
 
   //the rest of this is code to get $mdPanel to work.
@@ -140,7 +130,6 @@ console.log('Admin Users sourced: ');
       email : user.email,
       role : user.role,
       session_id : user.session_id,
-      grade : user.grade,
       id: user.id
     };
   };

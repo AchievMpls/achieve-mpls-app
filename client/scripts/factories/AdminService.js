@@ -69,14 +69,17 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     }
 
     /**
-     * @desc removes the user
+     * @desc sets user session to 'null'
      * @param id object sent AdminFormsController
      */
-    function deleteUser(id) {
-      console.log('user in factory ', id);
-      $http.delete('/users/deleteUser/' + id).then(function() {
+    function deactivateUser(user) {
+      console.log('user id in factory ', user);
+        $http.put('/users/deactivateUser', user).then(function(response) {
         getAllUsers();
-      });
+       });
+      //  $http.delete('/users/deleteUser/' + id).then(function() {
+      //   getAllUsers();
+      // });
     }
 
 
@@ -291,7 +294,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       allUsers: allUsers,
       addNewUser: addNewUser,
       updateUser: updateUser,
-      deleteUser: deleteUser,
+      deactivateUser: deactivateUser,
       getAllForms: getAllForms,
       allForms: allForms,
       addNewForm: addNewForm,
