@@ -1,3 +1,12 @@
+body {
+  Font-family: 'Montserrat', sans-serif;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+
 .dialog-container {
   background-color: white;
   padding: 20px;
@@ -26,6 +35,11 @@
 .header {
   background-color: black;
   color: white;
+}
+
+.md-button {
+  font-weight: bold;
+  color: #656565;
 }
 
 ._md-nav-button-text {
