@@ -102,7 +102,6 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       } else {
         $http.get('/sessions/' + year).then(function(response) {
           specificYear.sessions = response.data;
-          console.log('here are your sessions from db: ', specificYear.sessions);
         });
       }
     }
@@ -131,6 +130,16 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     }
 
     /**
+     * @desc update session
+     * @param {object} sessionToSend the session to be altered
+     */
+    function updateSession(sessionToSend) {
+      $http.put('/sessions/update', sessionToSend).then(function(response) {
+        getYearsSessions(sessionToSend.year);
+      });
+    }
+
+    /**
      * @desc removes a session, per its ID.
      * @param {object} session - The session to be removed & redisplayed
      */
@@ -154,10 +163,8 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * student view landing page, or from an individual entry.
      * @param {number} session_id the session whose events are to be returned
      */
-    function routeToEvents(session_id) {
-      if (session_id) {
-        currentSessionForEvents = session_id;
-      }
+    function routeToEvents(session) {
+        currentSessionForEvents = session.id;
       $location.path("/events");
     }
 
@@ -247,7 +254,8 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       meetingConflictPopup: meetingConflictPopup,
       updateEvent: updateEvent,
       sessionConflictPopup: sessionConflictPopup,
-      addNewSession: addNewSession
+      addNewSession: addNewSession,
+      updateSession: updateSession
     };
 
   }

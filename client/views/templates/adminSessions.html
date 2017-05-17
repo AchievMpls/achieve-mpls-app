@@ -23,7 +23,7 @@
         <input ng-model="sessions.session_count">
       </md-input-container>
 
-      <md-input-container>
+      <md-input-container ng-hide="sessions.editingSession">
         <label>Events to Add</label>
         <input ng-model="sessions.eventsToAdd" type="number" min="0" max="20">
       </md-input-container>
@@ -100,7 +100,7 @@
               </md-button>
             </td>
             <td md-cell>
-              <md-button flex="45" aria-label="edit" class="md-raised md-warn admin-button" ng-click="sessions.routeToEvents(session.id)">
+              <md-button flex="45" aria-label="edit" class="md-raised md-warn admin-button" ng-click="sessions.routeToEvents(session)">
                 Events
               </md-button>
             </td>

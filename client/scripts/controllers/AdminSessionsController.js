@@ -20,7 +20,7 @@ myApp.controller('AdminSessionsController', ['AdminService', '$mdDialog', '$filt
     sessions.routeToEvents = AdminService.routeToEvents;
 
     var sessionToSend = {};
-    var editingSession = false;
+    sessions.editingSession = false;
 
     /**
      * @global object that limits table's display length
@@ -35,6 +35,23 @@ myApp.controller('AdminSessionsController', ['AdminService', '$mdDialog', '$filt
         return {name: day};
       });
 
+      /**
+      * @desc displays a session for editing
+      * @param {object} session the event to be edited
+      */
+      sessions.editSession = function(session) {
+        sessions.editingSession = true;
+        sessions.clearFields();
+        sessions.session_count = session.session_count;
+        sessions.grade = session.grade;
+        sessions.facilitator = session.facilitator;
+        sessions.day = session.day;
+        sessions.start_time = session.start_time;
+        sessions.school = session.school;
+        sessionToSend.id = session.id;
+      };
+
+
     sessions.sendSession = function() {
       sessionToSend.session_count = parseInt(sessions.session_count, 10);
       if(isNaN(sessionToSend.session_count)){
@@ -48,8 +65,13 @@ myApp.controller('AdminSessionsController', ['AdminService', '$mdDialog', '$filt
       sessionToSend.start_time = $filter('date')(sessions.start_time, "hh:mm");
       sessionToSend.school = sessions.school;
       sessionToSend.year = sessions.specificYear.sessions[0].year;
-      console.log('here the package: ', sessionToSend);
-      AdminService.addNewSession(sessionToSend);
+      if (sessions.editingSession) {
+        sessions.editingSession = false;
+        AdminService.updateSession(sessionToSend);
+      }else {
+        AdminService.addNewSession(sessionToSend);
+      }
+
       sessions.clearFields();
     };//end sendSession
 
@@ -62,7 +84,6 @@ myApp.controller('AdminSessionsController', ['AdminService', '$mdDialog', '$filt
       sessions.start_time=undefined;
       sessions.school='';
       sessionToSend = {};
-      console.log('post clear, sessionToSend is: ', sessionToSend);
     };
 
 
