@@ -13,7 +13,7 @@
               </md-card-title-text>
             </div>
             <div layout="column">
-              <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add User" ng-click="users.toggleForm()">
+              <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add User" ng-click="forms.clearFields(); users.toggleForm()">
                 <i class="material-icons" id="addButton">add</i>
               </md-button>
             </div>
@@ -37,6 +37,8 @@
               <th md-column md-order-by="lname" md-desc class=""><span>Last Name</span></th>
               <th md-column md-order-by="email" md-desc class=""><span>Email Address</span></th>
               <th md-column md-order-by="role" md-desc class=""><span>Role</span></th>
+              <th md-column md-order-by="session" md-desc class=""><span>Session</span></th>
+              <th md-column md-order-by="grade" md-desc class=""><span>Grade</span></th>
             </tr>
           </thead>
           <tbody md-body>
@@ -60,6 +62,8 @@
               <td md-cell class="">{{user.lname}}</td>
               <td md-cell class="">{{user.email}}</td>
               <td md-cell class="">{{user.role}}</td>
+              <td md-cell class="">{{user.session_id}}</td>
+              <td md-cell class="">{{user.grade}}</td>
             </tr>
           </tbody>
         </table>
