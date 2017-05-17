@@ -13,8 +13,8 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
     AdminService.getAllForms();
     events.allForms = AdminService.allForms;
 
-    var eventToSend = {};
     var editingEvent = false;
+
     events.event = {
       meeting_count : '',
       form_id : '',
@@ -56,35 +56,41 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
     events.editEvent = function(event) {
       events.clearFields();
       console.log('here the original event', event);
+      console.log('form id for this event ', event.form.id);
       editingEvent = true;
       events.event = {
         meeting_count : event.meeting_count,
-        form_id : event.form_id,
+        form_id : event.form.id,
         form_name : event.form_name,
         open_date : event.date_form_open,
         close_date : event.date_form_close,
         id : event.id
       };
+      console.log('here is the event object', events.event);
       events.toggleForm();
     };
 
     /**
     * @desc composes and submits a new/edited item
     */
-    events.sendEvent = function() {
-      eventToSend.meeting_count = parseInt(events.meeting_count, 10);
+    events.sendEvent = function(event) {
+      console.log('this is the event we are trying to send ', event);
+      var eventToSend = {
+        meeting_count : parseInt(event.meeting_count, 10),
+        form_id : event.form_id,
+        open_date : $filter('date')(event.open_date, "yyyy-MM-dd"),
+        close_date : $filter('date')(event.close_date, "yyyy-MM-dd"),
+      };
       if(isNaN(eventToSend.meeting_count)){
         AdminService.meetingConflictPopup();
         return;
       }
-      eventToSend.form_id = events.form_id;
-      eventToSend.open_date = $filter('date')(events.open_date, "yyyy-MM-dd");
-      eventToSend.close_date = $filter('date')(events.close_date, "yyyy-MM-dd");
       if (editingEvent) {
         editingEvent = false;
         console.log('here the updated event to send: ', eventToSend);
         AdminService.updateEvent(eventToSend);
       }else {
+        console.log('in add new event path');
         AdminService.addNewEvent(eventToSend);
       }
       events.clearFields();
@@ -97,8 +103,6 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
         open_date : undefined,
         close_date : undefined
       };
-      eventToSend = {};
-      console.log('post clear, eventToSend is: ', eventToSend);
     };
 
     /**

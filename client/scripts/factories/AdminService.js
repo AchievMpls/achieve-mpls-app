@@ -153,6 +153,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      */
     function addNewEvent(eventToSend) {
       eventToSend.session_id = currentSessionForEvents;
+      console.log(eventToSend);
       $http.post('/events/add', eventToSend).then(function(response) {
         getSessionsEvents();
       }, function() {
