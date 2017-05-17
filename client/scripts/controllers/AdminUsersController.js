@@ -1,5 +1,5 @@
-myApp.controller('AdminUsersController', ['AdminService', '$mdDialog','$mdPanel',
-function(AdminService, $mdDialog, $mdPanel, mdPanelRef){
+myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDialog','$mdPanel',
+function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef){
 console.log('Admin Users sourced: ');
   var users = this;
   /**
@@ -64,8 +64,11 @@ console.log('Admin Users sourced: ');
         // userToSend.id = user.id;
       };
 
-
-
+/**
+ * @desc calls function to send email to user to activate account or reset password
+ * @param {object} user - selected by ng-click on 'send activation' button
+ */
+  users.activeUser = AuthService.sendActivation;
 /**
  * @global object that limits table's display length and orders by first name
  */

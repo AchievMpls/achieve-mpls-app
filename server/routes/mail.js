@@ -12,16 +12,16 @@ var transporter = nodeMailer.createTransport({
 
 router.post('/', function(req, res, next) {
       var mailer = req.body;
-      console.log('log mailer ', mailer);
+      console.log('log mailer ', mailer.email);
 
       var mailOptions = {
           from: '"Achieve Mpls" gradcoaches@gmail.com',
-          to: mailer.toEmail,
-          subject: mailer.subject,
-          text: mailer.message, // plain text body
-          html: '<b>' + mailer.message + '</b>' // html body
+          to: mailer.email,
+          subject: 'TEST',
+          text: mailer.fname + ' ' + mailer.lname + ' Custom message.'
+      //     html: '<b>' + mailer.message + '</b>' // html body
       };
-
+      //
       transporter.sendMail(mailOptions, function(error, info){
           if (error) {
               return console.log(error);
