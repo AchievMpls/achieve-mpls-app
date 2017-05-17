@@ -44,7 +44,7 @@
             <tr md-row md-auto-select="options.autoSelect" ng-repeat="user in users.allUsers.users | orderBy: users.query.order | limitTo: query.limit : (query.page -1) * query.limit">
 
               <td md-cell>
-                <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="users.deactivateUser(user)">
+                <md-button ng-show="user.session_id" flex="45" aria-label="delete" class="md-raised admin-button" ng-click="users.deactivateUser(user)">
                   <p>Make Inactive</p>
                 </md-button>
 
