@@ -72,6 +72,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         completeFields();
         return;
       } else {
+        users.toggleForm();
         if (user.id !== undefined) {
           console.log('update', user.id);
           AdminService.updateUser(user);
