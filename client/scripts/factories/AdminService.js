@@ -74,7 +74,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      */
     function deleteUser(id) {
       console.log('user in factory ', id);
-      $http.delete('/users/delete/' + id).then(function() {
+      $http.delete('/users/deleteUser/' + id).then(function() {
         getAllUsers();
       });
     }
