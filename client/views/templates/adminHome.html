@@ -1,6 +1,7 @@
 <h1>Admin Home</h1>
 
 <div layout="row" layout-align="space-between none" flex="50">
+
   <md-input-container class="md-block" flex-gt-sm>
     <label>School Year</label>
     <md-select flex="50" ng-model="home.chosenYear">
@@ -11,7 +12,50 @@
     <br>
     <md-button class="md-raised" ng-click="home.getYearsTickets(home.chosenYear)">Display Sessions</md-button>
   </md-input-container>
+
+  <md-input-container class="md-block" flex-gt-sm ng-show="home.specificYear.tickets">
+    <label>Coach</label>
+    <md-select flex="50" ng-model="ticket.user_id">
+      <md-option ng-value="ticket.user_id">
+      Select All
+      </md-option>
+      <md-option ng-repeat="ticket in home.specificYear.tickets | unique: 'fname && lname'" ng-value="ticket.user_id">
+        {{ticket.fname}} {{ticket.lname}}
+      </md-option>
+    </md-select>
+    <br>
+    <md-button class="md-raised" ng-click="REPLACE_DIS">Filter by Name</md-button>
+  </md-input-container>
+
+  <md-input-container class="md-block" flex-gt-sm ng-show="home.specificYear.tickets">
+    <label>Session Number</label>
+    <md-select flex="50" ng-model="REPLACE_DIS">
+      <md-option ng-value="ticket.session_id">
+      Select All
+      </md-option>
+      <md-option ng-repeat="ticket in home.specificYear.tickets | unique: 'session_id'" ng-value="ticket.session_id">
+        {{ticket.session_id}}
+      </md-option>
+    </md-select>
+    <br>
+    <md-button class="md-raised" ng-click="REPLACE_DIS">Filter by Session</md-button>
+  </md-input-container>
+
+  <div layout="column" ng-show="home.specificYear.tickets">
+    <div layout="row">
+      <label ng-repeat="ticket in home.specificYear.tickets | unique: 'q1_answer' | orderBy:'-q1_answer'">
+      <md-checkbox type="checkbox" ng-checked="ticket.q1_answer" ng-model="REPLACE_DIS" ng-value="{{ticket.q1_answer}}" ></md-checkbox>
+      {{ticket.q1_answer}}
+    </label>
+    </div>
+    <div layout="row">
+      <md-button class="md-raised" ng-click="REPLACE_DIS">Filter by Rating</md-button>
+    </div>
+  </div>
+
 </div>
+
+
 
 <div layout="row" layout-align="center center" class="admin_table">
   <md-card md-whiteframe="8" flex="90">
@@ -19,8 +63,8 @@
       <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
         <thead md-head md-order="home.query.order">
           <tr md-row>
+            <th md-column md-order-by="session_id" class=""><span>Session</span></th>
             <th md-column md-order-by="lname" class=""><span>Coach Name</span></th>
-            <th md-column md-order-by="session_id" class=""><span>Coach Session</span></th>
             <th md-column md-order-by="date_form_completed" class=""><span>Date Completed</span></th>
             <th md-column md-numeric md-order-by="q1_answer" md-desc class=""><span>Question 01</span></th>
             <th md-column md-order-by="q2_answer" md-desc class=""><span>Question 02</span></th>
@@ -31,8 +75,8 @@
         </thead>
         <tbody md-body>
           <tr md-row md-auto-select="options.autoSelect" ng-repeat="ticket in home.specificYear.tickets | orderBy: home.query.order | limitTo: home.query.limit : (home.query.page -1) * home.query.limit">
-            <td md-cell class="">{{ticket.fname}} {{ticket.lname}}</td>
             <td md-cell class="">{{ticket.session_id}}</td>
+            <td md-cell class="">{{ticket.fname}} {{ticket.lname}}</td>
             <td md-cell class="">{{ticket.date_form_completed | date:'longDate'}}</td>
             <td md-cell class="">{{ticket.q1_answer}}</td>
             <td md-cell class="">{{ticket.q2_answer}}</td>

@@ -301,6 +301,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       } else {
         $http.get('/tickets/' + year).then(function(response) {
           specificYear.tickets = response.data;
+          console.log(specificYear.tickets, "   are the tickets for htis year");
         });
       }
     }
