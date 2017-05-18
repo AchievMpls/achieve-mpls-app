@@ -51,10 +51,6 @@ myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
       templateUrl: '/views/templates/adminUsers.html',
       controller: 'AdminUsersController as users',
     })
-    .when('/users', {
-      templateUrl: '/views/users.html',
-      controller: 'UserController as user',
-    })
     .otherwise({
       redirectTo: 'home'
     });
