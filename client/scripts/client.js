@@ -27,6 +27,10 @@ myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
       templateUrl: 'views/templates/activation.html',
       controller: 'UserAuthController as user',
     })
+    .when('/activation/:code', {
+      templateUrl: '/views/templates/activation.html',
+      controller: 'UserAuthController as user',
+    })
     .when('/home', {
       templateUrl: '/views/templates/adminHome.html',
       controller: 'AdminHomeController as home',

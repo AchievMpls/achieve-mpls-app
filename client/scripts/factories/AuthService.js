@@ -18,6 +18,7 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog',
       $http.post( '/mail' , userObject ).then(function(response){
       console.log( 'Email sent: ', response.data );
   });
+
 };
 
     return {
