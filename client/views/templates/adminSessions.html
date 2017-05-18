@@ -2,6 +2,21 @@
 
 <div layout="row" layout-align="space-between none" flex="50">
   <md-input-container class="md-block" flex-gt-sm>
+    <md-button class="md-raised">New School Year</md-button>
+    <!-- @Kevin: the button above has no current use; it's just a placeholder for-->
+    <!-- the 'toggle panel' function -->
+  </md-input-container>
+  <md-input-container>
+    <label>New Year</label>
+    <input type="number" ng-value="sessions.nextYear" ng-model="sessions.nextYear">
+  </md-input-container>
+  <md-input-container class="md-block" flex-gt-sm>
+    <md-button class="md-raised" ng-click="sessions.addYear()">Create Year</md-button>
+  </md-input-container>
+</div>
+
+<div layout="row" layout-align="space-between none" flex="50">
+  <md-input-container class="md-block" flex-gt-sm>
     <label>School Year</label>
     <md-select flex="50" ng-model="sessions.chosenYear">
       <md-option ng-repeat="year in sessions.sessionYear.uniques" ng-value="year.year">
@@ -9,11 +24,10 @@
       </md-option>
     </md-select>
     <br>
-    <md-button class="md-raised" ng-click="sessions.getYearsSessions(sessions.chosenYear)">Display Sessions</md-button>
+    <md-button class="md-raised md-primary" ng-click="sessions.getYearsSessions(sessions.chosenYear)">Display Sessions</md-button>
   </md-input-container>
 </div>
 
-<!-- Start here -->
 <div layout="row" layout-align="center center">
   <md-card md-whiteframe="8" flex="90">
     <div layout="row" layout-align="space-around none">
