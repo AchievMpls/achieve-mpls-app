@@ -19,6 +19,19 @@ myApp.controller('AdminSessionsController', ['AdminService', '$mdDialog', '$filt
 
     sessions.routeToEvents = AdminService.routeToEvents;
 
+    var daysList = ["Mondays", "Tuesdays", "Wednesdays", "Thursdays", "Fridays", "Saturdays", "Sundays"];
+
+    sessions.currentSession = {
+      session_count : '',
+      grade : '',
+      facilitator : '',
+      days : daysList,
+      day : '',
+      start_time : '',
+      school : '',
+      id : ''
+    };
+
     var sessionToSend = {};
     sessions.editingSession = false;
 
@@ -34,7 +47,7 @@ myApp.controller('AdminSessionsController', ['AdminService', '$mdDialog', '$filt
       page: 1
     };
 
-    sessions.days = ("Mondays Tuesdays Wednesdays Thursdays Fridays Saturdays Sundays").split(' ').map(function(day) {
+    var days = ("Mondays Tuesdays Wednesdays Thursdays Fridays Saturdays Sundays").split(' ').map(function(day) {
         return {name: day};
       });
 
@@ -43,49 +56,61 @@ myApp.controller('AdminSessionsController', ['AdminService', '$mdDialog', '$filt
       * @param {object} session the event to be edited
       */
       sessions.editSession = function(session) {
+        console.log(session);
         sessions.editingSession = true;
         sessions.clearFields();
-        sessions.session_count = session.session_count;
-        sessions.grade = session.grade;
-        sessions.facilitator = session.facilitator;
-        sessions.day = session.day;
-        sessions.start_time = session.start_time;
-        sessions.school = session.school;
-        sessionToSend.id = session.id;
+        sessions.currentSession = {
+          session_count : session.session_count,
+          grade : session.grade,
+          facilitator : session.facilitator,
+          days : daysList,
+          day : session.day,
+          start_time : session.start_time,
+          school : session.school,
+          id : session.id,
+          year : session.year
+        };
+        sessions.toggleForm();
       };
 
 
-    sessions.sendSession = function() {
+    sessions.sendSession = function(session) {
+      console.log('the session that we are trying to send is ', session);
       sessionToSend.session_count = parseInt(sessions.session_count, 10);
-      if(isNaN(sessionToSend.session_count)){
+      if(isNaN(sessionToSend.session_count) && (sessions.editingSession === false)){
         AdminService.sessionConflictPopup();
         return;
       }
-      sessionToSend.eventsToAdd = sessions.eventsToAdd;
-      sessionToSend.grade = sessions.grade;
-      sessionToSend.facilitator = sessions.facilitator;
-      sessionToSend.day = sessions.day;
-      sessionToSend.start_time = $filter('date')(sessions.start_time, "hh:mm");
-      sessionToSend.school = sessions.school;
-      sessionToSend.year = sessions.specificYear.sessions[0].year;
+      sessionToSend = {
+        eventsToAdd : '',
+        grade : session.grade,
+        facilitator : session.facilitator,
+        day : session.day,
+        start_time : $filter('date')(session.start_time, "hh:mm"),
+        school : session.school,
+        year : session.year
+      };
+
+
       if (sessions.editingSession) {
         sessions.editingSession = false;
         AdminService.updateSession(sessionToSend);
       }else {
         AdminService.addNewSession(sessionToSend);
       }
-
       sessions.clearFields();
     };//end sendSession
 
     sessions.clearFields = function () {
-      sessions.session_count='';
-      sessions.eventsToAdd='';
-      sessions.grade=undefined;
-      sessions.facilitator='';
-      sessions.day=undefined;
-      sessions.start_time=undefined;
-      sessions.school='';
+      sessions.currentSession = {
+        session_count : '',
+        grade : '',
+        facilitator : '',
+        days : ['Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays', 'Sundays'],
+        start_time : '',
+        school : '',
+        id : ''
+      };
       sessionToSend = {};
     };
 
@@ -102,15 +127,46 @@ myApp.controller('AdminSessionsController', ['AdminService', '$mdDialog', '$filt
     };
 
     sessions.addYear = function() {
-      sessionToSend.year = sessions.nextYear;
-      sessionToSend.session_count=1;
-      sessionToSend.eventsToAdd = 0;
-      sessionToSend.grade = 9;
-      sessionToSend.facilitator = "None";
-      sessionToSend.day = "None";
-      sessionToSend.start_time = "00:00:00";
-      sessionToSend.school = "None";
+      sessionToSend = {
+        year : sessions.nextYear,
+        session_count : 1,
+        eventsToAdd : 0,
+        grade : 9,
+        facilitator : "None",
+        day : "None",
+        start_time : "00:00:00",
+        school : "None"
+      };
+
       AdminService.addNewSession(sessionToSend);
+    };
+
+    /**
+     * @function On Key Press
+     * @desc when the focus is on the window and the escape key is pressed, the form
+     * is closed.
+     * @param event
+     * @return the @class ng-hide and aria-hidden are added to the form-container.
+     * the @function clearFields is called to clear the fields on the form.
+     */
+    window.onkeydown = function(event) {
+      var itemToClose = document.getElementById('form-container');
+      if (event.keyCode === 27) {
+        itemToClose.classList.add("ng-hide");
+        itemToClose.setAttribute("aria-hidden", true);
+        sessions.clearFields();
+      }
+    };
+
+    /**
+     * @function Toggle form
+     * @desc toggles the form from visible to hidden.
+     * @param used on the ng-click of both the add form and edit form.
+     * @return toggles the class ng-hide on form-container.
+     */
+    sessions.toggleForm = function() {
+      var itemToOpen = document.getElementById('form-container');
+      itemToOpen.classList.toggle("ng-hide");
     };
 
   }//end controller function

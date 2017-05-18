@@ -7,6 +7,19 @@
 
 console.log('client.js sourced');
 var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'md.data.table', 'ngAria']);
+
+myApp.filter('unique', function() {
+  return function(obj) {
+    var dates = []
+      angular.forEach(obj, function(value, key){
+        if (dates.includes(value.sessionYear.year)){
+        } else {
+        dates.push(value.sessionYear.year);
+    }
+  });
+    return dates;
+  };
+});
 /// Routes ///
 myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
 function($routeProvider, $locationProvider, $mdThemingProvider) {

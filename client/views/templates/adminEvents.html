@@ -39,13 +39,13 @@
 
           <tr md-row md-auto-select="options.autoSelect" ng-repeat="event in events.specificSession.events | orderBy: events.query.order | limitTo: events.query.limit : (events.query.page -1) * events.query.limit">
             <td md-cell>
-              <md-button flex="45" aria-label="delete" class="md-fab admin-button" ng-click="events.confirmDelete(event.id)">
-                <i class="material-icons" id="addButton">delete</i>
+              <md-button flex="45" aria-label="delete" class="md-icon-button" ng-click="events.confirmDelete(event.id)">
+                <i class="material-icons" >delete</i>
               </md-button>
             </td>
             <td md-cell>
-              <md-button flex="45" aria-label="edit" class="md-fab md-primary admin-button" ng-click="events.editEvent(event)">
-                <i class="material-icons" id="addButton">create</i>
+              <md-button flex="45" aria-label="edit" class="md-icon-button" ng-click="events.editEvent(event)">
+                <i class="material-icons">create</i>
               </md-button>
             </td>
             <td md-cell class="">{{event.meeting_count}}</td>

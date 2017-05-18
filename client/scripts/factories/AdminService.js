@@ -138,6 +138,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     function getSessionYears() {
       $http.get('/sessions/years').then(function(response) {
         sessionYear.uniques = response.data;
+        sessionYear.currentYear = moment().format('YYYY');
       });
     }
 
