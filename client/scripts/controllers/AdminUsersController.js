@@ -1,15 +1,9 @@
-<<<<<<< HEAD
-myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDialog','$mdPanel',
-function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef){
-console.log('Admin Users sourced: ');
-  var users = this;
-=======
+
 myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDialog', '$mdPanel',
   function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
     console.log('Admin Users sourced: ');
     var users = this;
 
->>>>>>> 5d9e47c7b6a91df100d3b57f4eab6e00e41007b8
     /**
      * @global object that limits table's display length and orders by first name
      */
@@ -20,25 +14,9 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     };
 
     /**
-<<<<<<< HEAD
     * @desc clears all ng-model fields
     */
     users.clearFields = function () {
-=======
-     * @global default object for the user.
-     */
-    users.user = {
-      fname: '',
-      lname: '',
-      email: '',
-      role: '',
-      session: '',
-    };
-    /**
-     * @desc clears all ng-model fields
-     */
-    users.clearFields = function() {
->>>>>>> 5d9e47c7b6a91df100d3b57f4eab6e00e41007b8
       users.user = {
         fname: '',
         lname: '',
@@ -54,34 +32,6 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      */
     var editingUser = false;
 
-<<<<<<< HEAD
-  /**
-  * Admin Users Controller
-  * @desc controls the Admin Users View
-  * @param AdminService
-  * @return AllUser objects
-  */
-  AdminService.getAllUsers();
-  users.allUsers = AdminService.allUsers;
-  console.log('users', users.allUsers);
-   /**
-    * @desc displays a popup when 'delete' button is clicked, then
-    * deletes specific user if popup is confirmed
-    * @param the user object to be deleted
-    */
-  users.confirmDelete = function(user) {
-    console.log('get in delete', user.id);
-    var confirm = $mdDialog.confirm()
-      .title('Are you sure you want to delete ' + user.fname + ' ' + user.lname + '?')
-      .textContent('This will remove the form forever.')
-      .ok('Yes')
-      .cancel('No');
-    $mdDialog.show(confirm).then(function() {
-      AdminService.deleteUser(user.id);
-    });
-  };
-  /**
-=======
     /**
      * Admin Users Controller
      * @desc controls the Admin Users View
@@ -104,83 +54,11 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     };
 
     /**
->>>>>>> 5d9e47c7b6a91df100d3b57f4eab6e00e41007b8
      * @desc routes through items.js to add a new dictionary entry.
      * @param {object} item - The entry to be added (specified in AdminController.)
      */
     users.sendUser = function(user) {
       console.log('user', user);
-<<<<<<< HEAD
-      if (!user.fname || !user.lname ) {
-        completeFields();
-        return;
-      }
-      else {
-          if (user.id !== undefined) {
-            console.log('update', user.id);
-            AdminService.updateUser(user);
-          }
-          else {
-            console.log('add');
-            AdminService.addNewUser(user);
-          }
-      }
-
-    };
-  /**
-  * @desc displays an alert dialog if a form is incomplete
-  */
-
-  function completeFields() {
-    $mdDialog.show(
-      $mdDialog.alert()
-      .clickOutsideToClose(true)
-      .title('Incomplete form!')
-      .textContent('Please the missing field.')
-      .ariaLabel('Alert Dialog')
-      .ok('OK!')
-    );
-  }
-/**
- * @desc calls function to send email to user to activate account or reset password
- * @param {object} user - selected by ng-click on 'send activation' button
- * @return the confirm message shown annd the email sent to the user
- */
-  users.activeUser = function(user) {
-    // console.log('sending the email: ', user);
-     var _alert = $mdDialog.alert()
-       .title('Your code has been sent to ' + user.email + '.')
-       .ok('Yes');
-      $mdDialog.show(_alert).then(function() {
-      AuthService.sendActivation(user);
-    });
-  };
-  //hard coding data for the dropdown menus. this will be removed later
-  users.roleArray = ['coach', 'admin'];
-  users.sessionArray = [1,2,3,4,5,6,7,8,9,10];
-  users.gradeArray = ['9', '12'];
-
-  //the rest of this is code to get $mdPanel to work.
-  this._mdPanel = $mdPanel;
-  /**
-  * @desc displays an item for editing
-  * @param {object} user the user to be edited
-  * @return saves the user selected as the user.  This will show up on the edit screen
-  * with double binding.
-  */
-  users.editUser = function(user) {
-    console.log(user);
-    users.clearFields();
-    editingForm = true;
-    users.user = {
-      fname : user.fname,
-      lname : user.lname,
-      email : user.email,
-      role : user.role,
-      session_id : user.session_id,
-      grade : user.grade,
-      id: user.id
-=======
       if (!user.fname || !user.lname) {
         completeFields();
         return;
@@ -211,14 +89,21 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         .ok('OK!')
       );
     }
-
     /**
      * @desc calls function to send email to user to activate account or reset password
      * @param {object} user - selected by ng-click on 'send activation' button
      */
-    users.activeUser = AuthService.sendActivation;
+  //  users.activeUser = AuthService.sendActivation;
 
-
+    users.activeUser = function(user) {
+       // console.log('sending the email: ', user);
+        var _alert = $mdDialog.alert()
+          .title('Your code has been sent to ' + user.email + '.')
+          .ok('Yes');
+         $mdDialog.show(_alert).then(function() {
+         AuthService.sendActivation(user);
+       });
+     };
     //hard coding data for the dropdown menus. this will be removed later
 
     users.roleArray = ['coach', 'admin'];
@@ -227,9 +112,6 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
 
     //the rest of this is code to get $mdPanel to work.
     this._mdPanel = $mdPanel;
-
-
-
 
     /**
      * @desc displays an item for editing
@@ -249,7 +131,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         session_id: user.session_id,
         id: user.id
       };
->>>>>>> 5d9e47c7b6a91df100d3b57f4eab6e00e41007b8
+
     };
     /**
      * @function Add User function

@@ -27,6 +27,10 @@ myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
       templateUrl: 'views/templates/activation.html',
       controller: 'UserAuthController as user',
     })
+    .when('/activation/:code', {
+      templateUrl: '/views/templates/activation.html',
+      controller: 'UserAuthController as user',
+    })
     .when('/home', {
       templateUrl: '/views/templates/adminHome.html',
       controller: 'AdminHomeController as home',
@@ -46,10 +50,6 @@ myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
     .when('/adminUsers', {
       templateUrl: '/views/templates/adminUsers.html',
       controller: 'AdminUsersController as users',
-    })
-    .when('/users', {
-      templateUrl: '/views/users.html',
-      controller: 'UserController as user',
     })
     .otherwise({
       redirectTo: 'home'
