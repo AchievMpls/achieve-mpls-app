@@ -19,16 +19,8 @@ myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
       templateUrl: '/views/templates/login.html',
       controller: 'UserAuthController as user',
     })
-    .when('/createPassword',{
+    .when('/createPassword/:code',{
       templateUrl: '/views/templates/createPassword.html',
-      controller: 'UserAuthController as user',
-    })
-    .when('/activation',{
-      templateUrl: 'views/templates/activation.html',
-      controller: 'UserAuthController as user',
-    })
-    .when('/activation/:code', {
-      templateUrl: '/views/templates/activation.html',
       controller: 'UserAuthController as user',
     })
     .when('/home', {
