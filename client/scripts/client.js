@@ -101,43 +101,44 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
 
 
   $routeProvider
-  .when('/login', {
-    templateUrl: '/views/templates/login.html',
-    controller: 'UserAuthController as user',
-  })
-  .when('/createPassword',{
-    templateUrl: '/views/templates/createPassword.html',
-    controller: 'UserAuthController as user',
-  })
-  .when('/activation',{
-    templateUrl: 'views/templates/activation.html',
-    controller: 'UserAuthController as user',
-  })
-  .when('/home', {
-    templateUrl: '/views/templates/adminHome.html',
-    controller: 'AdminHomeController as home',
-  })
-  .when('/forms', {
-    templateUrl: '/views/templates/adminForms.html',
-    controller: 'AdminFormsController as forms',
-  })
-  .when('/sessions', {
-    templateUrl: '/views/templates/adminSessions.html',
-    controller: 'AdminSessionsController as sessions',
-  })
-  .when('/events', {
-    templateUrl: '/views/templates/adminEvents.html',
-    controller: 'AdminEventsController as events',
-  })
-  .when('/adminUsers', {
-    templateUrl: '/views/templates/adminUsers.html',
-    controller: 'AdminUsersController as users',
-  })
-  .when('/users', {
-    templateUrl: '/views/users.html',
-    controller: 'UserController as user',
-  })
-  .otherwise({
-    redirectTo: 'home'
-  });
+
+    .when('/login', {
+      templateUrl: '/views/templates/login.html',
+      controller: 'UserAuthController as user',
+    })
+    .when('/createPassword',{
+      templateUrl: '/views/templates/createPassword.html',
+      controller: 'UserAuthController as user',
+    })
+    .when('/activation',{
+      templateUrl: 'views/templates/activation.html',
+      controller: 'UserAuthController as user',
+    })
+    .when('/activation/:code', {
+      templateUrl: '/views/templates/activation.html',
+      controller: 'UserAuthController as user',
+    })
+    .when('/home', {
+      templateUrl: '/views/templates/adminHome.html',
+      controller: 'AdminHomeController as home',
+    })
+    .when('/forms', {
+      templateUrl: '/views/templates/adminForms.html',
+      controller: 'AdminFormsController as forms',
+    })
+    .when('/sessions', {
+      templateUrl: '/views/templates/adminSessions.html',
+      controller: 'AdminSessionsController as sessions',
+    })
+    .when('/events', {
+      templateUrl: '/views/templates/adminEvents.html',
+      controller: 'AdminEventsController as events',
+    })
+    .when('/adminUsers', {
+      templateUrl: '/views/templates/adminUsers.html',
+      controller: 'AdminUsersController as users',
+    })
+    .otherwise({
+      redirectTo: 'home'
+    });
 }]);

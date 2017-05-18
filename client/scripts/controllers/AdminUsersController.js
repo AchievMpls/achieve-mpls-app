@@ -1,3 +1,4 @@
+
 myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDialog', '$mdPanel',
   function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
     console.log('Admin Users sourced: ');
@@ -13,19 +14,9 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     };
 
     /**
-     * @global default object for the user.
-     */
-    users.user = {
-      fname: '',
-      lname: '',
-      email: '',
-      role: '',
-      session: '',
-    };
-    /**
-     * @desc clears all ng-model fields
-     */
-    users.clearFields = function() {
+    * @desc clears all ng-model fields
+    */
+    users.clearFields = function () {
       users.user = {
         fname: '',
         lname: '',
@@ -98,14 +89,21 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         .ok('OK!')
       );
     }
-
     /**
      * @desc calls function to send email to user to activate account or reset password
      * @param {object} user - selected by ng-click on 'send activation' button
      */
-    users.activeUser = AuthService.sendActivation;
+  //  users.activeUser = AuthService.sendActivation;
 
-
+    users.activeUser = function(user) {
+       // console.log('sending the email: ', user);
+        var _alert = $mdDialog.alert()
+          .title('Your code has been sent to ' + user.email + '.')
+          .ok('Yes');
+         $mdDialog.show(_alert).then(function() {
+         AuthService.sendActivation(user);
+       });
+     };
     //hard coding data for the dropdown menus. this will be removed later
 
     users.roleArray = ['coach', 'admin'];
@@ -114,9 +112,6 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
 
     //the rest of this is code to get $mdPanel to work.
     this._mdPanel = $mdPanel;
-
-
-
 
     /**
      * @desc displays an item for editing
@@ -136,6 +131,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         session_id: user.session_id,
         id: user.id
       };
+
     };
     /**
      * @function Add User function
