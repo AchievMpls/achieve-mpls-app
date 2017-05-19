@@ -75,6 +75,18 @@ module.exports = function(grunt){
         src: ['**/*'],
         dest: 'server/public/vendors/angular-material-data-table'
       },
+      angularMoment: {
+        expand: true,
+        cwd: 'node_modules/angular-moment/',
+        src: ['angular-moment.js'],
+        dest: 'server/public/vendors/angular-moment'
+      },
+      moment: {
+        expand: true,
+        cwd: 'node_modules/moment',
+        src: ['moment.js'],
+        dest: 'server/public/vendors/moment'
+      },
 
       javascript: {
         expand: true,
