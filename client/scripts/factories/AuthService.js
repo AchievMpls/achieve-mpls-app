@@ -6,6 +6,7 @@
  */
 myApp.factory('AuthService', ['$http', '$location', '$mdDialog',
   function($http, $location, $mdDialog) {
+    // var code = {}; // CC possibly passed to pass param to validate chance code
 
 /**
  * sendActivation function
@@ -21,7 +22,22 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog',
 
 };
 
+/**
+ * validateCode function
+ * @desc validates authorization code with db
+ * @param chance code from $routeParams
+ * @return success response code
+ */
+ // function validateCode(authCode) {
+ //   console.log('AuthService validateCode', authCode);
+ //   $http.put( '/mail' , authCode ).then(function(response){
+ //   console.log( 'Code Validated: ', response.data );
+ // });
+ // }
+
+
     return {
-      sendActivation : sendActivation
+      sendActivation : sendActivation,
+      // validateCode : validateCode
     };
   }]);
