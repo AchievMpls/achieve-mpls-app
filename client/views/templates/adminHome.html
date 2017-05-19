@@ -5,7 +5,7 @@
     <label>School Year</label>
     <md-select ng-model="home.chosenYear">
       <md-option ng-repeat="year in home.sessionYear.uniques" ng-value="year.year">
-        {{year.year}}
+        {{year.year}}-{{(year.year)+1}}
       </md-option>
     </md-select>
   </md-input-container>
