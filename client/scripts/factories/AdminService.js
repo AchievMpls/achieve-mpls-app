@@ -301,7 +301,6 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       } else {
         $http.get('/tickets/' + year).then(function(response) {
           specificYear.tickets = response.data;
-          console.log(specificYear.tickets, "   are the tickets for htis year");
         });
       }
     }
@@ -312,12 +311,9 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      */
     function getFilteredTickets(filters) {
       console.log('on service, we got: ', filters);
-      // var config = {
-      //   params: filters
-      // };
       $http.post('/tickets/filteredtickets/', filters).then(function(response) {
-      //   specificYear.tickets = response.data;
-      //   console.log(specificYear.tickets, "   are the tickets for htis year");
+        specificYear.tickets = response.data;
+        console.log(specificYear.tickets, "   are the tickets from this filter");
       });
     }
 

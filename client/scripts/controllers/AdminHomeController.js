@@ -25,11 +25,10 @@ function(AdminService){
     home.filterParams.ratingsTruthyArray = [];
     for (var i = 0; i < ratingsArray.length; i++) {
       if (ratingsArray[i][1]) {
-        home.filterParams.ratingsTruthyArray.push(ratingsArray[i][0]);
+        home.filterParams.ratingsTruthyArray.push(parseInt(ratingsArray[i][0]));
       }
     }
     delete home.filterParams.ratings;
-    console.log('in controller, params are: ', home.filterParams);
     AdminService.getFilteredTickets(home.filterParams);
   };
 
