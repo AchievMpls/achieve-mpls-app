@@ -133,6 +133,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     function getSessionYears() {
       $http.get('/sessions/years').then(function(response) {
         sessionYear.uniques = response.data;
+        sessionYear.currentYear = moment().format('YYYY');
       });
     }
 
@@ -285,8 +286,8 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
 
 
     /**
-     * @desc selects all sessions for a single school year
-     * @param {number} year the year whose sessions are to be returned
+     * @desc selects all tickets for a single school year
+     * @param {number} year the year whose tickets are to be returned
      */
     function getYearsTickets(year) {
       if (!year) {
@@ -303,6 +304,18 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
           specificYear.tickets = response.data;
         });
       }
+    }
+
+    /**
+     * @desc selects all tickets matching the  for a single school year
+     * @param {object} filters the year whose sessions are to be returned
+     */
+    function getFilteredTickets(filters) {
+      console.log('on service, we got: ', filters);
+      $http.post('/tickets/filteredtickets/', filters).then(function(response) {
+        specificYear.tickets = response.data;
+        console.log(specificYear.tickets, "   are the tickets from this filter");
+      });
     }
 
     return {
@@ -331,7 +344,8 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       sessionConflictPopup: sessionConflictPopup,
       addNewSession: addNewSession,
       updateSession: updateSession,
-      getYearsTickets: getYearsTickets
+      getYearsTickets: getYearsTickets,
+      getFilteredTickets: getFilteredTickets,
     };
 
   }

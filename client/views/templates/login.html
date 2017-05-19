@@ -1,5 +1,5 @@
 <md-content layout="row" layout-align="center center">
-  <form class="login-input" ng-submit="">
+  <form class="login-input" ng-submit="login.validUser(user)">
     <md-input-container>
       <label for="email">E-Mail</label>
       <input type="text" ng-model="user.email"/>

@@ -6,7 +6,8 @@
 */
 
 console.log('client.js sourced');
-var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'md.data.table', 'ngAria']);
+var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'md.data.table', 'ngAria', 'angular.filter']);
+
 /// Routes ///
 myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
 function($routeProvider, $locationProvider, $mdThemingProvider) {
@@ -104,7 +105,7 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
 
     .when('/login', {
       templateUrl: '/views/templates/login.html',
-      controller: 'UserAuthController as user',
+      controller: 'UserAuthController as login',
     })
     .when('/createPassword/:code',{
       templateUrl: '/views/templates/createPassword.html',
