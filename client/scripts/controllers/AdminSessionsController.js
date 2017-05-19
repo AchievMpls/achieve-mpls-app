@@ -23,7 +23,7 @@ function(AdminService, $mdDialog, $filter) {
   var daysList = ["Mondays", "Tuesdays", "Wednesdays", "Thursdays", "Fridays", "Saturdays", "Sundays"];
 
   var time = {
-    hours : 12,
+    hours : 24,
     minutes : 59,
   };
 
@@ -105,15 +105,26 @@ function(AdminService, $mdDialog, $filter) {
       days : daysList,
       day : session.day,
       start_time : session.start_time,
+      hours : '',
+      minutes : '',
       school : session.school,
       id : session.id,
       year : session.year
     };
+    splitTime (session.start_time);
     sessions.toggleForm();
   };
 
   function prepareTime (time) {
     start_time = time.hours + ':' + time.minutes;
+  }
+
+  function splitTime (time) {
+    console.log(time);
+    var splitTimeArray = time.split(':');
+    console.log(splitTimeArray);
+    sessions.currentSession.hours = (splitTimeArray[0]);
+    sessions.currentSession.minutes = (splitTimeArray[1]);
   }
 
   sessions.sendSession = function(session) {
@@ -134,7 +145,7 @@ function(AdminService, $mdDialog, $filter) {
       session_count : session.session_count,
       id : session.id
     };
-    console.log(sessionToSend);
+    console.log('session to send is ', sessionToSend);
     if (sessions.editingSession) {
       sessions.editingSession = false;
       AdminService.updateSession(sessionToSend);
@@ -147,7 +158,6 @@ function(AdminService, $mdDialog, $filter) {
 
   sessions.clearFields = function () {
     angular.copy(sessions.newSession, sessions.currentSession);
-    sessionToSend = {};
   };
 
 

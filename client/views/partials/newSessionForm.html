@@ -46,7 +46,7 @@
             <div>
               <md-input-container>
                 <label>Hours</label>
-                <md-select ng-model="sessions.currentSession.time.hours">
+                <md-select ng-model="sessions.currentSession.hours">
                   <md-option ng-repeat="hour in sessions.timeDropdown.hours" value={{hour}}>{{hour}}</md-option>
                 </md-select>
               </md-input-container>
@@ -54,7 +54,7 @@
             <div>
               <md-input-container>
                 <label>Minutes</label>
-                <md-select ng-model="sessions.currentSession.time.minutes" aria-label="minutes">
+                <md-select ng-model="sessions.currentSession.minutes" aria-label="minutes">
                   <md-option ng-repeat="minutes in sessions.timeDropdown.minutes" value={{minutes}}>{{minutes}}</md-option>
                 </md-select>
               </md-input-container>
