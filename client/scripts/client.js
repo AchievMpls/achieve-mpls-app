@@ -6,20 +6,8 @@
 */
 
 console.log('client.js sourced');
-var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'md.data.table', 'ngAria']);
+var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'md.data.table', 'ngAria', 'angular.filter']);
 
-myApp.filter('unique', function() {
-  return function(obj) {
-    var dates = []
-      angular.forEach(obj, function(value, key){
-        if (dates.includes(value.sessionYear.year)){
-        } else {
-        dates.push(value.sessionYear.year);
-    }
-  });
-    return dates;
-  };
-});
 /// Routes ///
 myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
 function($routeProvider, $locationProvider, $mdThemingProvider) {
@@ -114,43 +102,44 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
 
 
   $routeProvider
-  .when('/login', {
-    templateUrl: '/views/templates/login.html',
-    controller: 'UserAuthController as user',
-  })
-  .when('/createPassword',{
-    templateUrl: '/views/templates/createPassword.html',
-    controller: 'UserAuthController as user',
-  })
-  .when('/activation',{
-    templateUrl: 'views/templates/activation.html',
-    controller: 'UserAuthController as user',
-  })
-  .when('/home', {
-    templateUrl: '/views/templates/adminHome.html',
-    controller: 'AdminHomeController as home',
-  })
-  .when('/forms', {
-    templateUrl: '/views/templates/adminForms.html',
-    controller: 'AdminFormsController as forms',
-  })
-  .when('/sessions', {
-    templateUrl: '/views/templates/adminSessions.html',
-    controller: 'AdminSessionsController as sessions',
-  })
-  .when('/events', {
-    templateUrl: '/views/templates/adminEvents.html',
-    controller: 'AdminEventsController as events',
-  })
-  .when('/adminUsers', {
-    templateUrl: '/views/templates/adminUsers.html',
-    controller: 'AdminUsersController as users',
-  })
-  .when('/users', {
-    templateUrl: '/views/users.html',
-    controller: 'UserController as user',
-  })
-  .otherwise({
-    redirectTo: 'home'
-  });
+
+    .when('/login', {
+      templateUrl: '/views/templates/login.html',
+      controller: 'UserAuthController as user',
+    })
+    .when('/createPassword',{
+      templateUrl: '/views/templates/createPassword.html',
+      controller: 'UserAuthController as user',
+    })
+    .when('/activation',{
+      templateUrl: 'views/templates/activation.html',
+      controller: 'UserAuthController as user',
+    })
+    .when('/activation/:code', {
+      templateUrl: '/views/templates/activation.html',
+      controller: 'UserAuthController as user',
+    })
+    .when('/home', {
+      templateUrl: '/views/templates/adminHome.html',
+      controller: 'AdminHomeController as home',
+    })
+    .when('/forms', {
+      templateUrl: '/views/templates/adminForms.html',
+      controller: 'AdminFormsController as forms',
+    })
+    .when('/sessions', {
+      templateUrl: '/views/templates/adminSessions.html',
+      controller: 'AdminSessionsController as sessions',
+    })
+    .when('/events', {
+      templateUrl: '/views/templates/adminEvents.html',
+      controller: 'AdminEventsController as events',
+    })
+    .when('/adminUsers', {
+      templateUrl: '/views/templates/adminUsers.html',
+      controller: 'AdminUsersController as users',
+    })
+    .otherwise({
+      redirectTo: 'home'
+    });
 }]);

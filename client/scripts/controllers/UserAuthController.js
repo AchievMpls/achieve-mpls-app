@@ -5,7 +5,7 @@
 * @return User is logged in
 */
 
-myApp.controller('UserAuthController', ['AdminService', 'AuthService',
-function(AdminService, Authservice){
-
+myApp.controller('UserAuthController', ['AdminService', 'AuthService', '$routeParams',
+function(AdminService, Authservice, $routeParams){
+  // Route params with code
 }]);
