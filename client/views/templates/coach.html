@@ -1,0 +1,15 @@
+<h1>Coach Home</h1>
+
+<div ng-repeat="ticket in coach.openTickets">
+<div layout="column" layout-align="start center">
+  <md-card ng-click="coach.selectTicket(ticket); coach.toggleForm()">
+    <div layout="row">
+    {{ticket.name}}
+  </div>
+  </md-card>
+</div>
+</div>
+
+<div id="form-container" ng-show="coach.ticket">
+<ng-include src="'./views/partials/coachTicket.html'"></ng-include>
+</div>
