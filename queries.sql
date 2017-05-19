@@ -176,7 +176,7 @@ CREATE TABLE "form_responses" (
   "user_id" integer REFERENCES "users",
   "event_id" integer REFERENCES "events",
   "date_form_completed" date,
-  "q1_answer" integer CHECK ("q1_answer" > 0 AND "q1_answer" < 11 ),
+  "q1_answer" integer CHECK ("q1_answer" > 0 AND "q1_answer" < 11 ) not null,
   "q2_answer" varchar(1500),
   "q3_answer" varchar(1500),
   "q4_answer" varchar(1500),
