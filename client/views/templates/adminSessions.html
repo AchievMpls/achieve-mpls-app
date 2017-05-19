@@ -38,7 +38,7 @@
     <label>School Year</label>
     <md-select flex="50" ng-model="sessions.sessionYear.currentYear" ng-change="sessions.getYearsSessions(sessions.sessionYear.currentYear)">
       <md-option ng-repeat="year in sessions.sessionYear.uniques" ng-value="{{year.year}}">
-        {{year.year}}
+        {{year.year}}-{{(year.year)+1}}
       </md-option>
     </md-select>
   </md-input-container>

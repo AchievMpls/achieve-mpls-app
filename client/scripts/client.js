@@ -105,7 +105,7 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
 
     .when('/login', {
       templateUrl: '/views/templates/login.html',
-      controller: 'UserAuthController as user',
+      controller: 'UserAuthController as login',
     })
     .when('/createPassword',{
       templateUrl: '/views/templates/createPassword.html',
