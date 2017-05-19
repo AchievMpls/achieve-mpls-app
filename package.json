@@ -12,7 +12,7 @@
     "angular-messages": "1.6.4",
     "angular-moment": "1.0.1",
     "angular-route": "1.6.4",
-    "bcrypt": "0.8.5",
+    "bcrypt": "1.0.2",
     "body-parser": "1.13.3",
     "chance": "1.0.8",
     "express": "4.13.1",
