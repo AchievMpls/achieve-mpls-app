@@ -29,6 +29,7 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog',
   function validUser(user) {
     console.log('get me here', user);
     $http.post('/login', user).then(function(response) {
+          console.log('RESPONSE: ', response.data);
           if(response.data.username) {
             console.log('success: ', response.data);
             // location works with SPA (ng-route)

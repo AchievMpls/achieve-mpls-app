@@ -5,16 +5,18 @@ var path = require('path');
 var bodyParser = require('body-parser');
 
 //Auth Routes
+var passport = require('./strategies/user_sql.js');
 var session = require('express-session');
-var login = require('./routes/login.js');
 
 //Route Modules
 var index = require('./routes/index.js');
+var user = require('./routes/user.js');
 var users = require('./routes/users.js');
 var forms = require('./routes/forms.js');
 var sessions = require('./routes/sessions.js');
 var events = require('./routes/events.js');
 var mail = require('./routes/mail.js');
+var register = require('./routes/register');
 
 var tickets = require('./routes/tickets.js');
 
@@ -35,24 +37,25 @@ app.use(session({
    cookie: {maxage: 60000, secure: false}
 }));
 
-// start up login sessions
-app.use(login.initialize());
-app.use(login.session());
+// start up passport sessions
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Routes
+app.use('/user', user);
 app.use('/users', users);
 app.use('/forms', forms);
 app.use('/sessions', sessions);
 app.use('/events', events);
 app.use('/mail', mail);
-app.use('/login', login);
+app.use('/register', register);
 app.use('/tickets', tickets);
-app.use('/*', index);
+app.use('/', index);
 
 
 //listen
 app.listen(app.get('port'), function(){
-  console.log('Listening on port: ', app.get('port'));
+  console.log('Listening on port!!! ', app.get('port'));
 });
 
 module.exports = app;

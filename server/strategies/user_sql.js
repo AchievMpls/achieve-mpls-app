@@ -1,9 +1,12 @@
 var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
 var encryptLib = require('../modules/encryption');
-// var connection = require('../modules/connection');
 var pg = require('pg');
+console.log("TEST");
 var pool = require('../modules/db');
+
+var connectCount = 0;
+console.log('clients connected: ', connectCount);
 
 
 var acquireCount = 0;
@@ -12,7 +15,7 @@ pool.on('acquire', function (client) {
   console.log('client acquired: ', acquireCount);
 });
 
-var connectCount = 0;
+
 pool.on('connect', function () {
   connectCount++;
   console.log('client connected: ', connectCount);
@@ -24,7 +27,7 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(id, done) {
   console.log('called deserializeUser - pg');
-
+  
   pool.connect(function (err, client, release) {
     if(err) {
       console.log('connection err ', err);
@@ -62,13 +65,14 @@ passport.deserializeUser(function(id, done) {
 // Does actual work of logging in
 passport.use('local', new localStrategy({
     passReqToCallback: true,
-    usernameField: 'username'
-    }, function(req, username, password, done) {
+    usernameField: 'email'
+    }, function(req, email, password, done) {
+      console.log('ATTEMPTING LOGIN');
 	    pool.connect(function (err, client, release) {
 	    	console.log('called local - pg');
 
-        // assumes the username will be unique, thus returning 1 or 0 results
-        client.query("SELECT * FROM users WHERE username = $1", [username],
+        // assumes the email will be unique, thus returning 1 or 0 results
+        client.query("SELECT * FROM users WHERE email = $1", [email],
           function(err, result) {
             var user = {};
 
