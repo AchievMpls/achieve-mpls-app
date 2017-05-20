@@ -6,7 +6,7 @@
  */
 myApp.factory('AuthService', ['$http', '$location', '$mdDialog',
   function($http, $location, $mdDialog) {
-
+    // var code = {}; // CC possibly passed to pass param to validate chance code
 /**
  * sendActivation function
  * @desc Send email and activation code to coach
@@ -19,7 +19,29 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog',
       console.log( 'Email sent: ', response.data );
     });
     }
-
+    /**
+     * addUserPwd function
+     * @desc add the user Pwd
+     * @param user Object from input fields in submit button createPassword.html
+     * @return success redirect to login page
+     */
+    function addUserPwd(user) {
+      $http.post('/register/addPwd', user).then(function(response) {
+         $location.path('/login');
+      });
+    }
+/**
+ * validateCode function
+ * @desc validates authorization code with db
+ * @param chance code from $routeParams
+ * @return success response code
+ */
+ // function validateCode(authCode) {
+ //   console.log('AuthService validateCode', authCode);
+ //   $http.put( '/mail' , authCode ).then(function(response){
+ //   console.log( 'Code Validated: ', response.data );
+ // });
+ // }
     /**
      * validUser function
      * @desc authenticate the username and pwd
@@ -44,6 +66,8 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog',
       }
     return {
       sendActivation : sendActivation,
-      validUser: validUser
+      validUser: validUser,
+      addUserPwd: addUserPwd
     };
+
   }]);
