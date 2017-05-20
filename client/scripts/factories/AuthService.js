@@ -26,7 +26,6 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog',
      * @return success redirect to login page
      */
     function addUserPwd(user) {
-      console.log('start hash pwd', user);
       $http.post('/register/addPwd', user).then(function(response) {
          $location.path('/login');
       });

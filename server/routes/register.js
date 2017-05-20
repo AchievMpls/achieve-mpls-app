@@ -92,7 +92,7 @@ router.post('/regAdmin', function(req, res, next) {
 
 });
 
-//  Handles POST request with new user pwd
+//  Handles POST to create the new pwd for user
   router.post('/addPwd', function(req, res, next) {
     console.log('new pwd:', req.body);
     var savePwd= {
