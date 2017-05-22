@@ -52,7 +52,8 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
      * @param user Object from input fields in login.html
      * @return success to let coach view
      * {CHANGE} there needs to be validation on whether a user is a coach or not.
-     * if the user is a coach, it can go through {auth.getTickets}
+     * if the user is a coach, it can go through {auth.getTickets} which is a plug-and-play
+     * function that can be put wherever it needs to be in this factory.
      */
   function loginUser(user) {
     console.log('get me here', user);
