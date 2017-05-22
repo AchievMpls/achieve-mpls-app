@@ -29,6 +29,14 @@ function(AdminService, AuthService, $routeParams, $http, $location, $mdDialog){
             AuthService.loginUser(user);
           }
         };
+
+  user.logout = function (){
+    $http.get('/user/logout').then(function(response){
+      console.log('logout pressed');
+    });
+    $location.path('/login');
+  };
+
   /**
   * registerAdmin function
   * @desc allows administrator to establish initial account - should only be used once

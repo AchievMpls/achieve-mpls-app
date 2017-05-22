@@ -5,19 +5,25 @@
 * @return
 */
 
-myApp.controller('coachController', ['AdminService', 'AuthService', '$mdDialog', '$mdPanel',
-function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
+myApp.controller('coachController', ['CoachService', 'AuthService', '$mdDialog', '$mdPanel',
+function(CoachService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
   var coach = this;
+
+  coach.ticketToSend = CoachService.ticketToSend;
+  coach.getTickets = CoachService.getTickets;
+  coach.tickets = CoachService.tickets;
+
   /**
   * @this {object} will be replaced by the object that comes back from the database.
   * @desc there is an ng-repeat that goes through the array of open tickets that are brought back from the DB
   * each ticket should have a "name" parameter.  If there is a different parameter that comes back
   * {change} the parameter of {ticket.name} to the appropriate name
   */
-  coach.openTickets = [
-    {name : 'default', questions : ['q1', 'q2', 'q3', 'q4']},
-    {name : 'default2', questions : ['dq1', 'dq2', 'dq3']}
-  ];
+  coach.openTickets = CoachService.ticketArray;
+
+
+
+
 
   /**
   * @var ticketToComplete
@@ -25,7 +31,6 @@ function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
   * binding happens with this.
   */
   coach.ticketToComplete = {};
-
   /**
   * @function Select ticket
   * @desc populates the object ticketToComplete with the data from the ticket
@@ -48,13 +53,14 @@ function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
     console.log('answers are: ', answers);
     //what gets put in this comes from ticketToComplete and the answer object
     var objectToSend = {
-      name : coach.ticketToComplete.name,
+      user_id : coach.ticketToComplete.user_id,
+      event_id : coach.tietToComplete.event_id,
+      date_form_completed : moment().format(MM/DD/YYYY),
       answers : answers
-
     };
+  console.log('Object To Send is ', objectToSend);
+    coach.ticketToSend(objectToSend);
 
-    console.log('Object To Send is ', objectToSend);
-    //put function to send to DB right here
     var emptyTicket = {};
     angular.copy(emptyTicket, coach.ticketToComplete);
     coach.toggleForm();
