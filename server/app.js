@@ -51,7 +51,7 @@ app.use('/mail', mail);
 app.use('/register', register);
 app.use('/tickets', tickets);
 app.use('/coach', coach);
-app.use('/', index);
+app.use('/*', index);
 
 
 //listen
