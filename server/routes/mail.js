@@ -32,7 +32,7 @@ router.post('/', function(req, res, next) {
          }
         //  db.query('UPDATE "users" SET "chance_token" = ($1) WHERE "id" = ($2) AND "email" = ($3);',
         //  [user.code, user.id, user.email],
-         db.query('UPDATE "users" SET "chance_token" = ($1), "timestamp" = ($2) WHERE "id" = ($3) AND "email" = ($4);',
+         db.query('UPDATE "users" SET "chance_token" = ($1), "chance_expiration" = ($2) WHERE "id" = ($3) AND "email" = ($4);',
          [user.code, user.timestamp, user.id, user.email],
          function(queryError, result) {
            done();
