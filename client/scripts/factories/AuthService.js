@@ -1,11 +1,14 @@
-    /**
-     * Auth Service Factory
-     * @desc Manages all of the functions related to Authorization
-     * @param $http, $location
-     * @return the user is logged in
-     */
-myApp.factory('AuthService', ['$http', '$location', '$mdDialog',
-  function($http, $location, $mdDialog) {
+/**
+ * Auth Service Factory
+ * @desc Manages all of the functions related to Authorization
+ * @param $http, $location
+ * @return the user is logged in
+ */
+myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
+  function($http, $location, $mdDialog, CoachService) {
+    var auth = this;
+
+    auth.getTickets = CoachService.getTickets;
     // var code = {}; // CC possibly passed to pass param to validate chance code
     /**
      * sendActivation function
@@ -75,10 +78,12 @@ var clearance = function(){
      */
   function loginUser(user) {
     console.log('get me here', user);
-    $http.post('/login', user).then(function(response) {
+
+    $http.post('/', user).then(function(response) {
           console.log('RESPONSE: ', response.data);
           if(response) {
             console.log('success: ', response.data);
+            auth.getTickets(response.data);
             // location works with SPA (ng-route)
             console.log('redirecting to user page');
             $location.path('/adminHome');

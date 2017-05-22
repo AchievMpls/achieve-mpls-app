@@ -18,6 +18,7 @@ var events = require('./routes/events');
 var mail = require('./routes/mail');
 var register = require('./routes/register');
 var tickets = require('./routes/tickets');
+var coach = require('./routes/coach');
 
 //app config
 app.set('port', (process.env.PORT || 5000));
@@ -49,7 +50,8 @@ app.use('/events', events);
 app.use('/mail', mail);
 app.use('/register', register);
 app.use('/tickets', tickets);
-app.use('/', index);
+app.use('/coach', coach);
+app.use('/*', index);
 
 
 //listen
