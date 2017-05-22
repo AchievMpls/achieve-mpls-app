@@ -57,6 +57,7 @@ user.registerAdmin = function(admin) {
   * @return pass the active code and password pass to authService
   */
   user.addUserPwd = function(user) {
+    console.log('something is happening');
     var create = user.passwordCreate;
     var confirm = user.passwordConfirm;
     //if either the new password and confirm are not filled

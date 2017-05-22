@@ -50,7 +50,7 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog',
      */
   function loginUser(user) {
     console.log('get me here', user);
-    $http.post('/login', user).then(function(response) {
+    $http.post('/', user).then(function(response) {
           console.log('RESPONSE: ', response.data);
           if(response) {
             console.log('success: ', response.data);
