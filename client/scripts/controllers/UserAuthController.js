@@ -26,43 +26,44 @@ function(AdminService, AuthService, $mdDialog, $routeParams, $http, $location, $
   * @return pass the active code and password pass to authService
   */
     login.addUserPwd = function(user) {
-      var activateDate = new Date();
-      user.activateDate = $filter('date')(activateDate, "yyyy-MM-dd");
-      console.log('activeDate', user);
+      var expirationDate = new Date();
+      expirationDate.setDate(expirationDate.getDate() + 30);
+      user.expiryDate = $filter('date')((expirationDate), "yyyy-MM-dd");
+      console.log('expiryDate is: ', user.expiryDate);
       var create = user.passwordCreate;
       var confirm = user.passwordConfirm;
       //if either the new password and confirm are not filled
-      if (!create || !confirm) {
-        $mdDialog.show(
-          $mdDialog.alert()
-          .clickOutsideToClose(true)
-          .title('Create Password')
-          .textContent('Please fillout both fields.')
-          .ariaLabel('Alert Dialog')
-          .ok('OK!')
-        );
-      }
-      else
-      {
-        if (create !== confirm) {
-          $mdDialog.show(
-            $mdDialog.alert()
-            .clickOutsideToClose(true)
-            .title('Create Password')
-            .textContent('Please make sure the two passwords are the same.')
-            .ariaLabel('Alert Dialog')
-            .ok('OK!')
-          );
-        }
-        else {
-          user = {
-            chance_token: $routeParams.code,
-            password: user.passwordConfirm
-          };
-          console.log('hashpwd ', user);
-          AuthService.addUserPwd(user);
-        }
-      }
+      // if (!create || !confirm) {
+      //   $mdDialog.show(
+      //     $mdDialog.alert()
+      //     .clickOutsideToClose(true)
+      //     .title('Create Password')
+      //     .textContent('Please fillout both fields.')
+      //     .ariaLabel('Alert Dialog')
+      //     .ok('OK!')
+      //   );
+      // }
+      // else
+      // {
+      //   if (create !== confirm) {
+      //     $mdDialog.show(
+      //       $mdDialog.alert()
+      //       .clickOutsideToClose(true)
+      //       .title('Create Password')
+      //       .textContent('Please make sure the two passwords are the same.')
+      //       .ariaLabel('Alert Dialog')
+      //       .ok('OK!')
+      //     );
+      //   }
+      //   else {
+      //     user = {
+      //       chance_token: $routeParams.code,
+      //       password: confirm
+      //     };
+      //     console.log('hashpwd ', user);
+      //     AuthService.addUserPwd(user);
+      //   }
+      // }
 
 
     };

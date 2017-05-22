@@ -59,6 +59,7 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', '$filter',
             // location works with SPA (ng-route)
             console.log('redirecting to user page');
             $location.path('/adminHome');
+            //@TODO: call the 'nullify out-of-date chance token' function here
           } else {
             console.log('failure: ', response);
           //  var message = {'text': 'wrong passcode'};
