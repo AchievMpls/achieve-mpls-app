@@ -109,7 +109,11 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
     })
     .when('/createPassword/:code',{
       templateUrl: '/views/templates/createPassword.html',
-      controller: 'UserAuthController as login',
+      controller: 'UserAuthController as code',
+    })
+    .when('/register',{
+      templateUrl: 'views/templates/register.html',
+      controller: 'UserAuthController as admin',
     })
     .when('/home', {
       templateUrl: '/views/templates/adminHome.html',
