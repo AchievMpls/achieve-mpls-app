@@ -11,7 +11,7 @@ function(CoachService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
 
   coach.ticketToSend = CoachService.ticketToSend;
   coach.getTickets = CoachService.getTickets;
-
+  coach.tickets = CoachService.tickets;
 
   /**
   * @this {object} will be replaced by the object that comes back from the database.
@@ -19,10 +19,11 @@ function(CoachService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
   * each ticket should have a "name" parameter.  If there is a different parameter that comes back
   * {change} the parameter of {ticket.name} to the appropriate name
   */
-  coach.openTickets = [
-    {name : 'default', questions : ['q1', 'q2', 'q3', 'q4']},
-    {name : 'default2', questions : ['dq1', 'dq2', 'dq3']}
-  ];
+  coach.openTickets = CoachService.ticketArray;
+
+
+
+
 
   /**
   * @var ticketToComplete

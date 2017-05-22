@@ -4,8 +4,12 @@
  * @param $http, $location
  * @return the user is logged in
  */
-myApp.factory('AuthService', ['$http', '$location', '$mdDialog',
-  function($http, $location, $mdDialog) {
+myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
+  function($http, $location, $mdDialog, CoachService) {
+
+    var auth = this;
+
+    auth.getTickets = CoachService.getTickets;
     // var code = {}; // CC possibly passed to pass param to validate chance code
 /**
  * sendActivation function
@@ -51,9 +55,10 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog',
   function loginUser(user) {
     console.log('get me here', user);
     $http.post('/login', user).then(function(response) {
-          console.log('RESPONSE: ', response.data);
+          console.log('RESPONSE: ', response);
           if(response) {
             console.log('success: ', response.data);
+            auth.getTickets(response.data);
             // location works with SPA (ng-route)
             console.log('redirecting to user page');
             $location.path('/adminHome');

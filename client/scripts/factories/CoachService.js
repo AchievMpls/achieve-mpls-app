@@ -10,16 +10,26 @@ function($http, $location, $mdDialog) {
 
   var tickets = {};
 
+
   /**
   * @function Get Tickets
   * @desc gets the open tickets for the coach
   * @param sends the user
   * @return brings back all the tickets for the particular user.
   */
-  function getTickets(user) {
-    $http.get('/coach/:' + user).then(function(response) {
-      tickets = response.data;
-    });
+  function getTickets(userResponse) {
+    console.log(userResponse);
+    // $http.get('/coach/:' + user).then(function(response) {
+    //   tickets = response.data;
+    // });
+  }
+
+  var ticketArray = [];
+
+  function createTicketArray (ticket) {
+    for (var i = 0; i < ticket.array.length; i++){
+      ticketArray.push(ticket.array[i]);
+    }
   }
 
   /**
@@ -37,7 +47,8 @@ function($http, $location, $mdDialog) {
   return {
     tickets : tickets,
     getTickets : getTickets,
-    ticketToSend : ticketToSend
+    ticketToSend : ticketToSend,
+    ticketArray : ticketArray
   };
 }
 ]);
