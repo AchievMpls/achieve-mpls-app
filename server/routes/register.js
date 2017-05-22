@@ -60,7 +60,6 @@ router.post('/', function(req, res, next) {
 });
 
 router.post('/admin', function(req, res, next) {
-  console.log('new admin:', req.body);
   var saveAdmin = {
     fname: req.body.fname,
     lname: req.body.lname,
@@ -68,14 +67,11 @@ router.post('/admin', function(req, res, next) {
     password: encryptLib.encryptPassword(req.body.password),
     role:'admin'
   };
-  console.log('new admin:', saveAdmin);
-
   pool.connect(function(err, client, done) {
     if(err) {
       console.log("Error connecting: ", err);
       next(err);
     }
-    // TODO: ALL REQUIRED FIELDS
     client.query("INSERT INTO users (fname, lname, email, password, role) VALUES ($1, $2, $3, $4, $5) RETURNING id",
       [saveAdmin.fname, saveAdmin.lname, saveAdmin.email, saveAdmin.password, saveAdmin.role],
         function (err, result) {
@@ -93,5 +89,36 @@ router.post('/admin', function(req, res, next) {
 
 });
 
+//  Handles POST to create the new pwd for user
+  router.post('/addPwd', function(req, res, next) {
+    console.log('new pwd:', req.body);
+    var savePwd= {
+      chance_token: req.body.chance_token,
+      password: encryptLib.encryptPassword(req.body.password)
+    };
+    console.log('new user:', savePwd);
+
+    pool.connect(function(err, client, done) {
+      if(err) {
+        console.log("Error connecting: ", err);
+        next(err);
+      }
+      // TODO: ALL REQUIRED FIELDS
+      client.query('UPDATE "users" SET "password" = $1 WHERE "chance_token" = $2;',
+        [savePwd.password, savePwd.chance_token],
+          function (err, result) {
+            client.end();
+
+            if(err) {
+              console.log("Error inserting data: ", err);
+              next(err);
+            } else {
+              console.log('LOGIN FAILED');
+              res.redirect('/');
+            }
+          });
+    });
+
+  });
 
 module.exports = router;
