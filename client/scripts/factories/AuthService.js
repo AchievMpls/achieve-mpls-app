@@ -33,7 +33,7 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
     }
     /**
      * addUserPwd function
-     * @desc add the user Pwd
+     * @desc add the user Pwd, if the chance expiration code is expired, notify the admin
      * @param user Object from input fields in submit button createPassword.html
      * @return success redirect to login page
      */
