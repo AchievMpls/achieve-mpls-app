@@ -97,13 +97,19 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
 
     users.activeUser = function(user) {
        // console.log('sending the email: ', user);
-        var _alert = $mdDialog.alert()
-          .title('Your code has been sent to ' + user.email + '.')
-          .ok('Yes');
+        var _alert = $mdDialog.confirm()
+          .title('You are inviting ' + user.fname + ' ' + user.lname + 'to join AchieveMpls.')
+          // .title('Your code has been sent to ' + user.email + '.')
+          .ok('Yes')
+          .cancel('No');
          $mdDialog.show(_alert).then(function() {
-         AuthService.sendActivation(user);
+           AuthService.sendActivation(user);
+           console.log('successsssss');
        });
      };
+
+
+
     //hard coding data for the dropdown menus. this will be removed later
 
     users.roleArray = ['coach', 'admin'];
