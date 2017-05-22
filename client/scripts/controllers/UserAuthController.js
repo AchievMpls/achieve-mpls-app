@@ -5,8 +5,8 @@
 * @return User is logged in
 */
 
-myApp.controller('UserAuthController', ['AdminService', 'AuthService', '$mdDialog', '$routeParams', '$http', '$location',
-function(AdminService, AuthService, $mdDialog, $routeParams, $http, $location){
+myApp.controller('UserAuthController', ['AdminService', 'AuthService', '$mdDialog', '$routeParams', '$http', '$location', '$filter',
+function(AdminService, AuthService, $mdDialog, $routeParams, $http, $location, $filter){
   // Route params with code
   // This happens after view/controller loads -- not ideal but it works for now.
   var login = this;
@@ -26,6 +26,9 @@ function(AdminService, AuthService, $mdDialog, $routeParams, $http, $location){
   * @return pass the active code and password pass to authService
   */
     login.addUserPwd = function(user) {
+      var activateDate = new Date();
+      user.activateDate = $filter('date')(activateDate, "yyyy-MM-dd");
+      console.log('activeDate', user);
       var create = user.passwordCreate;
       var confirm = user.passwordConfirm;
       //if either the new password and confirm are not filled
@@ -40,9 +43,8 @@ function(AdminService, AuthService, $mdDialog, $routeParams, $http, $location){
         );
       }
       else
-      //if
       {
-        if (user.passwordCreate !== user.passwordConfirm) {
+        if (create !== confirm) {
           $mdDialog.show(
             $mdDialog.alert()
             .clickOutsideToClose(true)

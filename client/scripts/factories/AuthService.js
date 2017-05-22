@@ -4,8 +4,8 @@
  * @param $http, $location
  * @return the user is logged in
  */
-myApp.factory('AuthService', ['$http', '$location', '$mdDialog',
-  function($http, $location, $mdDialog) {
+myApp.factory('AuthService', ['$http', '$location', '$mdDialog', '$filter',
+  function($http, $location, $mdDialog, $filter) {
     // var code = {}; // CC possibly passed to pass param to validate chance code
 /**
  * sendActivation function
@@ -14,6 +14,8 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog',
  * @return success response code
  */
     function sendActivation(userObject) {
+      var timestamp = new Date();
+      userObject.timestamp = $filter('date')(timestamp, "yyyy-MM-dd");
       console.log('AuthService line 11', userObject);
       $http.post( '/mail' , userObject ).then(function(response){
       console.log( 'Email sent: ', response.data );
