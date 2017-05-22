@@ -43,6 +43,7 @@ router.get('/:year', function(req, res) {
 
 
 router.post('/add', function(req, res) {
+  console.log('log in post path ', req.body);
   var year = req.body.year;
   var eventsToAdd = req.body.eventsToAdd;
   var session_count = req.body.session_count;
