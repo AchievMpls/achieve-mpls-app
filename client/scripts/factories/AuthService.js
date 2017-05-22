@@ -14,8 +14,14 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', '$filter',
  * @return success response code
  */
     function sendActivation(userObject) {
-      var timestamp = new Date();
-      userObject.timestamp = $filter('date')(timestamp, "yyyy-MM-dd");
+
+      //set the expiration date for the chance
+      var chance_expiration = new Date();
+      console.log('exp', chance_expiration);
+      chance_expiration.setDate(chance_expiration.getDate() + 30);
+      userObject.chance_expiration = $filter('date')((chance_expiration), "yyyy-MM-dd");
+      console.log('expiryDate is: ', userObject.chance_expiration);
+
       console.log('AuthService line 11', userObject);
       $http.post( '/mail' , userObject ).then(function(response){
       console.log( 'Email sent: ', response.data );
@@ -59,7 +65,6 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', '$filter',
             // location works with SPA (ng-route)
             console.log('redirecting to user page');
             $location.path('/adminHome');
-            //@TODO: call the 'nullify out-of-date chance token' function here
           } else {
             console.log('failure: ', response);
           //  var message = {'text': 'wrong passcode'};

@@ -26,10 +26,10 @@ function(AdminService, AuthService, $mdDialog, $routeParams, $http, $location, $
   * @return pass the active code and password pass to authService
   */
     login.addUserPwd = function(user) {
-      var expirationDate = new Date();
-      expirationDate.setDate(expirationDate.getDate() + 30);
-      user.expiryDate = $filter('date')((expirationDate), "yyyy-MM-dd");
-      console.log('expiryDate is: ', user.expiryDate);
+      var timestamp = new Date();
+      user.timestamp = $filter('date')(timestamp, "yyyy-MM-dd");
+
+      console.log('add now', timestamp);
       var create = user.passwordCreate;
       var confirm = user.passwordConfirm;
       //if either the new password and confirm are not filled
