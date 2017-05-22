@@ -106,11 +106,11 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
     .when('/login', {
       templateUrl: '/views/templates/login.html',
       controller: 'UserAuthController as login',
-      // resolve: {
-      //   clearance : ['AuthService', function(AuthService){
-      //     return AuthService.clearance();
-      //   }]
-      // }
+      resolve: {
+        clearance : ['AuthService', function(AuthService){
+          return AuthService.clearance();
+        }]
+      }
     })
     .when('/createPassword/:code',{
       templateUrl: '/views/templates/createPassword.html',
@@ -170,7 +170,7 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
       controller: 'coachController as coach',
       resolve: {
         clearance : ['AuthService', function(AuthService){
-          return AuthService.coachClearance();
+          return AuthService.clearance();
         }]
       }
     })

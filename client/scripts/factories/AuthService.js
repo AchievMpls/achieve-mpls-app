@@ -38,10 +38,8 @@ var clearance = function(){
           userObject.email = response.data.email;
           userObject.id = response.data.id;
           console.log('User Data: ', userObject);
-          $location.path("/home");
       } else if (response.data.email && (response.data.role === 'coach')) {
         console.log(response.data.role);
-        $location.path("/coach");
       } else {
         // Store the activation code for later use
         // code.tempCode = $route.current.params.code;
