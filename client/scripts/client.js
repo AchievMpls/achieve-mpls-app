@@ -131,6 +131,10 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
       templateUrl: '/views/templates/adminUsers.html',
       controller: 'AdminUsersController as users',
     })
+    .when('/coach', {
+      templateUrl: '/views/templates/coach.html',
+      controller: 'coachController as coach',
+    })
     .otherwise({
       redirectTo: 'home'
     });
