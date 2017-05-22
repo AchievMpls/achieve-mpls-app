@@ -6,7 +6,8 @@
 */
 
 console.log('client.js sourced');
-var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'md.data.table', 'ngAria']);
+var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'md.data.table', 'ngAria', 'angular.filter']);
+
 /// Routes ///
 myApp.config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
 function($routeProvider, $locationProvider, $mdThemingProvider) {
@@ -104,19 +105,15 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
 
     .when('/login', {
       templateUrl: '/views/templates/login.html',
-      controller: 'UserAuthController as user',
+      controller: 'UserAuthController as login',
     })
-    .when('/createPassword',{
+    .when('/createPassword/:code',{
       templateUrl: '/views/templates/createPassword.html',
-      controller: 'UserAuthController as user',
+      controller: 'UserAuthController as code',
     })
-    .when('/activation',{
-      templateUrl: 'views/templates/activation.html',
-      controller: 'UserAuthController as user',
-    })
-    .when('/activation/:code', {
-      templateUrl: '/views/templates/activation.html',
-      controller: 'UserAuthController as user',
+    .when('/register',{
+      templateUrl: 'views/templates/register.html',
+      controller: 'UserAuthController as admin',
     })
     .when('/home', {
       templateUrl: '/views/templates/adminHome.html',
@@ -157,6 +154,10 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
           return AuthService.clearance();
         }]
       }
+    })
+    .when('/coach', {
+      templateUrl: '/views/templates/coach.html',
+      controller: 'coachController as coach',
     })
     .otherwise({
       redirectTo: 'home'
