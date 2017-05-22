@@ -30,20 +30,38 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog',
     console.log('get me here', user);
     $http.post('/login', user).then(function(response) {
           console.log('RESPONSE: ', response.data);
-          if(response.data.username) {
+          if(response) {
             console.log('success: ', response.data);
             // location works with SPA (ng-route)
             console.log('redirecting to user page');
             $location.path('/adminHome');
           } else {
             console.log('failure: ', response);
-          //  var message = {'text': 'wrong passcode'};
-            //login.message = "Wrong!!";
+          }
+        });
+      }
+
+  /**
+   * registerAdmin function
+   * @desc
+   * @param
+   * @return
+   */
+  function registerAdmin(admin) {
+    console.log('registerAdmin', admin);
+    $http.post('/register/admin', admin).then(function(response) {
+          console.log('RESPONSE: ', response.data);
+          if(response.data == 'OK') {
+            console.log('success: ', response.data);
+            $location.path('/login');
+          } else {
+            console.log('failure: ', response);
           }
         });
       }
     return {
       sendActivation : sendActivation,
-      validUser: validUser
+      validUser: validUser,
+      registerAdmin: registerAdmin
     };
   }]);

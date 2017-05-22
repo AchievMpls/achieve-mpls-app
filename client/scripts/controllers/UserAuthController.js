@@ -5,18 +5,50 @@
 * @return User is logged in
 */
 
-myApp.controller('UserAuthController', ['AdminService', 'AuthService', '$routeParams', '$http', '$location',
-function(AdminService, AuthService, $routeParams, $http, $location){
+myApp.controller('UserAuthController', ['AdminService', 'AuthService', '$routeParams', '$http', '$location', '$mdDialog',
+function(AdminService, AuthService, $routeParams, $http, $location, $mdDialog){
   // Route params with code
   // This happens after view/controller loads -- not ideal but it works for now.
-  var login = this;
-
- login.validUser = function(user) {
+  var user = this;
+  /**
+  * @desc
+  * @param
+  * @return
+  */
+ user.validUser = function(user) {
       console.log('login gets here', user);
-        if(login.username === '' || login.password === '') {
-            login.message = "Enter your username and password!";
+        if(!user.username || !user.password ) {
+          $mdDialog.show(
+            $mdDialog.alert()
+            .clickOutsideToClose(true)
+            .title('Incomplete Form')
+            .textContent("Please enter a username and password")
+            .ariaLabel('Alert Dialog')
+            .ok('OK')
+          );
           } else {
             AuthService.validUser(user);
           }
         };
+
+  /**
+  * @desc allows administrator to establish initial account - should only be used once
+  * @param Object with properties admin.fname, admin.lname, admin.email, admin.password
+  * @return 
+  */
+user.registerAdmin = function(admin) {
+     console.log('register gets here', admin);
+       if(!admin.fname || !admin.lname || !admin.email || !admin.password ) {
+           $mdDialog.show(
+             $mdDialog.alert()
+             .clickOutsideToClose(true)
+             .title('Incomplete Form')
+             .textContent("Please complete all fields")
+             .ariaLabel('Alert Dialog')
+             .ok('OK')
+           );
+         } else {
+           AuthService.registerAdmin(admin);
+         }
+       };
 }]);

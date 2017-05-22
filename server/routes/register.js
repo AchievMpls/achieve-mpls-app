@@ -59,15 +59,16 @@ router.post('/', function(req, res, next) {
 
 });
 
-router.post('/regAdmin', function(req, res, next) {
-  console.log('new user:', req.body);
-  var saveUser = {
+router.post('/admin', function(req, res, next) {
+  console.log('new admin:', req.body);
+  var saveAdmin = {
     fname: req.body.fname,
     lname: req.body.lname,
-    username: req.body.email,
-    password: encryptLib.encryptPassword(req.body.password)
+    email: req.body.email,
+    password: encryptLib.encryptPassword(req.body.password),
+    role:'admin'
   };
-  console.log('new user:', saveUser);
+  console.log('new admin:', saveAdmin);
 
   pool.connect(function(err, client, done) {
     if(err) {
@@ -75,8 +76,8 @@ router.post('/regAdmin', function(req, res, next) {
       next(err);
     }
     // TODO: ALL REQUIRED FIELDS
-    client.query("INSERT INTO users (fname, lname, email, password) VALUES ($1, $2, $3, $4) RETURNING id",
-      [saveUser.fname, saveUser.lname, saveUser.email, saveUser.password],
+    client.query("INSERT INTO users (fname, lname, email, password, role) VALUES ($1, $2, $3, $4, $5) RETURNING id",
+      [saveAdmin.fname, saveAdmin.lname, saveAdmin.email, saveAdmin.password, saveAdmin.role],
         function (err, result) {
           client.end();
 
@@ -84,8 +85,8 @@ router.post('/regAdmin', function(req, res, next) {
             console.log("Error inserting data: ", err);
             next(err);
           } else {
-            console.log('LOGIN FAILED');
-            res.redirect('/');
+            console.log('Success');
+            res.sendStatus(200);
           }
         });
   });
