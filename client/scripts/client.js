@@ -125,38 +125,38 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
     .when('/forms', {
       templateUrl: '/views/templates/adminForms.html',
       controller: 'AdminFormsController as forms',
-      // resolve: {
-      //   clearance : ['AuthService', function(AuthService){
-      //     return AuthService.clearance();
-      //   }]
-      // }
+      resolve: {
+        clearance : ['AuthService', function(AuthService){
+          return AuthService.clearance();
+        }]
+      }
     })
     .when('/sessions', {
       templateUrl: '/views/templates/adminSessions.html',
       controller: 'AdminSessionsController as sessions',
-      // resolve: {
-      //   clearance : ['AuthService', function(AuthService){
-      //     return AuthService.clearance();
-      //   }]
-      // }
+      resolve: {
+        clearance : ['AuthService', function(AuthService){
+          return AuthService.clearance();
+        }]
+      }
     })
     .when('/events', {
       templateUrl: '/views/templates/adminEvents.html',
       controller: 'AdminEventsController as events',
-      // resolve: {
-      //   clearance : ['AuthService', function(AuthService){
-      //     return AuthService.clearance();
-      //   }]
-      // }
+      resolve: {
+        clearance : ['AuthService', function(AuthService){
+          return AuthService.clearance();
+        }]
+      }
     })
     .when('/adminUsers', {
       templateUrl: '/views/templates/adminUsers.html',
       controller: 'AdminUsersController as users',
-      // resolve: {
-      //   clearance : ['AuthService', function(AuthService){
-      //     return AuthService.clearance();
-      //   }]
-      // }
+      resolve: {
+        clearance : ['AuthService', function(AuthService){
+          return AuthService.clearance();
+        }]
+      }
     })
     .otherwise({
       redirectTo: 'home'
