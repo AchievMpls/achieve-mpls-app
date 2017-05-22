@@ -51,16 +51,16 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
      * @desc authenticate the username and pwd
      * @param user Object from input fields in login.html
      * @return success to let coach view
+     * {CHANGE} there needs to be validation on whether a user is a coach or not.
+     * if the user is a coach, it can go through {auth.getTickets}
      */
   function loginUser(user) {
     console.log('get me here', user);
-    $http.post('/login', user).then(function(response) {
-          console.log('RESPONSE: ', response);
+    $http.post('/', user).then(function(response) {
           if(response) {
-            console.log('success: ', response.data);
-            auth.getTickets(response.data);
+            //this needs to only happen if the user is a coach
+            auth.getTickets(response);
             // location works with SPA (ng-route)
-            console.log('redirecting to user page');
             $location.path('/adminHome');
           } else {
             console.log('failure: ', response);

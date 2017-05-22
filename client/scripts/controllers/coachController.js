@@ -11,7 +11,6 @@ function(CoachService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
 
   coach.ticketToSend = CoachService.ticketToSend;
   coach.getTickets = CoachService.getTickets;
-  coach.tickets = CoachService.tickets;
 
   /**
   * @this {object} will be replaced by the object that comes back from the database.
