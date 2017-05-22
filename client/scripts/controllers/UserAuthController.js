@@ -69,43 +69,43 @@ user.registerAdmin = function(admin) {
   */
   user.addUserPwd = function(user) {
     var timestamp = new Date();
-    user.timestamp = $filter('date')(timestamp, "yyyy-MM-dd");
 
-    console.log('add now', timestamp);
+    console.log('add now', user.timestamp);
     var create = user.passwordCreate;
     var confirm = user.passwordConfirm;
     //if either the new password and confirm are not filled
-    // if (!create || !confirm) {
-    //   $mdDialog.show(
-    //     $mdDialog.alert()
-    //     .clickOutsideToClose(true)
-    //     .title('Create Password')
-    //     .textContent('Please fillout both fields.')
-    //     .ariaLabel('Alert Dialog')
-    //     .ok('OK!')
-    //   );
-    // }
-    // else
-    // {
-    //   if (create !== confirm) {
-    //     $mdDialog.show(
-    //       $mdDialog.alert()
-    //       .clickOutsideToClose(true)
-    //       .title('Create Password')
-    //       .textContent('Please make sure the two passwords are the same.')
-    //       .ariaLabel('Alert Dialog')
-    //       .ok('OK!')
-    //     );
-    //   }
-    //   else {
-    //     user = {
-    //       chance_token: $routeParams.code,
-    //       password: confirm
-    //     };
-    //     console.log('hashpwd ', user);
-    //     AuthService.addUserPwd(user);
-    //   }
-    // }
+    if (!create || !confirm) {
+      $mdDialog.show(
+        $mdDialog.alert()
+        .clickOutsideToClose(true)
+        .title('Create Password')
+        .textContent('Please fillout both fields.')
+        .ariaLabel('Alert Dialog')
+        .ok('OK!')
+      );
+    }
+    else
+    {
+      if (create !== confirm) {
+        $mdDialog.show(
+          $mdDialog.alert()
+          .clickOutsideToClose(true)
+          .title('Create Password')
+          .textContent('Please make sure the two passwords are the same.')
+          .ariaLabel('Alert Dialog')
+          .ok('OK!')
+        );
+      }
+      else {
+        user = {
+          chance_token: $routeParams.code,
+          timestamp: $filter('date')(timestamp, "yyyy-MM-dd"),
+          password: confirm
+        };
+        console.log('hashpwd ', user);
+        AuthService.addUserPwd(user);
+      }
+    }
 
 
 

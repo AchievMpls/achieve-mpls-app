@@ -38,9 +38,31 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
      * @return success redirect to login page
      */
     function addUserPwd(user) {
-      $http.post('/register/addPwd', user).then(function(response) {
-         $location.path('/login');
+      console.log('add pwd user', user);
+      $http({
+        method: 'GET',
+        url: '/register',
+        params: user
+      })
+      .then(function(response) {
+        if(response.data.length !== 0) {
+          $http.post('/register/addPwd', user).then(function(response) {
+             $location.path('/coach');
+          });
+        }
+        else {
+          $mdDialog.show(
+            $mdDialog.alert()
+            .clickOutsideToClose(true)
+            .title('The active code is expired!')
+            .textContent('Please contact the AchieveMpls Admin.')
+            .ariaLabel('Alert Dialog')
+            .ok('OK!')
+          );
+        }
+
       });
+
     }
 /**
  * validateCode function
