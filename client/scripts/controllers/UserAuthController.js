@@ -14,6 +14,7 @@ function(AdminService, AuthService, $routeParams, $http, $location, $mdDialog){
   * @param Object with username which is their email, and password
   * @return
   */
+<<<<<<< HEAD
   user.loginUser = function(user) {
     console.log('login gets here', user);
     if( user.username === '' || user.password === '') {
@@ -43,6 +44,31 @@ function(AdminService, AuthService, $routeParams, $http, $location, $mdDialog){
   };
 
 
+=======
+ user.loginUser = function(user) {
+      console.log('login gets here', user);
+        if( user.username === '' || user.password === '') {
+          $mdDialog.show(
+            $mdDialog.alert()
+            .clickOutsideToClose(true)
+            .title('Incomplete Form')
+            .textContent("Please enter a username and password")
+            .ariaLabel('Alert Dialog')
+            .ok('OK')
+          );
+          } else {
+            AuthService.loginUser(user);
+          }
+        };
+
+  user.logout = function (){
+    $http.get('/user/logout').then(function(response){
+      console.log('logout pressed');
+    });
+    $location.path('/login');
+  };
+
+>>>>>>> develop
   /**
   * registerAdmin function
   * @desc allows administrator to establish initial account - should only be used once
@@ -71,6 +97,7 @@ function(AdminService, AuthService, $routeParams, $http, $location, $mdDialog){
   * @return pass the active code and password pass to authService
   */
   user.addUserPwd = function(user) {
+    console.log('something is happening');
     var create = user.passwordCreate;
     var confirm = user.passwordConfirm;
     //if either the new password and confirm are not filled
