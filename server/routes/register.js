@@ -51,7 +51,7 @@ router.post('/', function(req, res, next) {
             console.log("Error inserting data: ", err);
             next(err);
           } else {
-            console.log('LOGIN FAILED');
+            console.log('register success');
             res.redirect('/');
           }
         });

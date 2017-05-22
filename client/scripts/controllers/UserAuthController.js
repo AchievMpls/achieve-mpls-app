@@ -31,9 +31,11 @@ function(AdminService, AuthService, $mdDialog, $routeParams, $http, $location, $
   */
 
   user.addUserPwd = function(user) {
+
     var activateDate = new Date();
     user.activateDate = $filter('date')(activateDate, "yyyy-MM-dd");
     console.log('activeDate', user);
+
     var create = user.passwordCreate;
     var confirm = user.passwordConfirm;
     //if either the new password and confirm are not filled
@@ -65,6 +67,6 @@ function(AdminService, AuthService, $mdDialog, $routeParams, $http, $location, $
         AuthService.addUserPwd(user);
       }
     }
-    
+
   };
 }]);
