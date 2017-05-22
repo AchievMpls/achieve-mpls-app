@@ -10,6 +10,7 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
 
     auth.getTickets = CoachService.getTickets;
     // var code = {}; // CC possibly passed to pass param to validate chance code
+    var userObject = {};
     /**
      * sendActivation function
      * @desc Send email and activation code to coach
@@ -29,23 +30,23 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
      * @return success response code
      */
 var clearance = function(){
-  console.log('inside clearance function');
-  // $http.get('/users/clearance').then(function(response) {
-  //   console.log('hit clearance: ', response);
-  //     // if(response.data.email) {
-  //     //     // user has a curret session on the server
-  //     //     userObject.userName = response.data.email;
-  //     //     userObject.id = response.data.id;
-  //     //     console.log('User Data: ', userObject);
-  //     // } else {
-  //     //     // Store the activation code for later use
-  //     //     // code.tempCode = $route.current.params.code;
-  //     //     // console.log('Activation code: ', $route.current.params.code);
-  //     //
-  //     //     // user has no session, bounce them back to the login page
-  //     //     $location.path("/home");
-  //     // }
-  // });
+  $http.get('/users/clearance').then(function(response) {
+    // console.log('hit clearance: ', response.data.email);
+      if(response.data.email) {
+          // user has a current session on the server
+          userObject.email = response.data.email;
+          userObject.id = response.data.id;
+          console.log('User Data: ', userObject);
+      } else {
+          // Store the activation code for later use
+          // code.tempCode = $route.current.params.code;
+          // console.log('Activation code: ', $route.current.params.code);
+
+          // user has no session, bounce them back to the login page
+          $location.path("/login");
+      }
+
+  });
 };
     /**
      * addUserPwd function
@@ -60,7 +61,7 @@ var clearance = function(){
   }
     /**
      * validateCode function
-     * @desc validates authorization code with db
+     * @desc validates chance code with db
      * @param chance code from $routeParams
      * @return success response code
      */
