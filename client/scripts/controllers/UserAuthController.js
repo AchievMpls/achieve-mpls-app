@@ -7,20 +7,24 @@
 
 myApp.controller('UserAuthController', ['AdminService', 'AuthService', '$mdDialog', '$routeParams', '$http', '$location', '$filter',
 function(AdminService, AuthService, $mdDialog, $routeParams, $http, $location, $filter){
-  // Route params with code
-  // This happens after view/controller loads -- not ideal but it works for now.
-  var login = this;
 
- login.validUser = function(user) {
-      console.log('login gets here', user);
-        if(login.username === '' || login.password === '') {
-            login.message = "Enter your username and password!";
-          } else {
-            AuthService.validUser(user);
-          }
-        };
+  user.registerAdmin = function(admin) {
+    console.log('register gets here', admin);
+    if(!admin.fname || !admin.lname || !admin.email || !admin.password ) {
+      $mdDialog.show(
+        $mdDialog.alert()
+        .clickOutsideToClose(true)
+        .title('Incomplete Form')
+        .textContent("Please complete all fields")
+        .ariaLabel('Alert Dialog')
+        .ok('OK')
+      );
+    } else {
+      AuthService.registerAdmin(admin);
+    }
+  };
   /**
-  * User Auth Controller
+  * addUserPwd
   * @desc user to create the password, if the two inputs are not the same, popup alert is shown
   * @param the user enters in password
   * @return pass the active code and password pass to authService
@@ -66,6 +70,7 @@ function(AdminService, AuthService, $mdDialog, $routeParams, $http, $location, $
       // }
 
 
-    };
 
+
+  };
 }]);
