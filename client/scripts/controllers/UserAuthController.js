@@ -37,9 +37,6 @@ function(AdminService, AuthService, $routeParams, $http, $location, $mdDialog){
     $location.path('/login');
   };
 
-  $http.get('/forms').then(function(response) {
-    allForms.returnedForms = response.data;
-  });
   /**
   * registerAdmin function
   * @desc allows administrator to establish initial account - should only be used once
