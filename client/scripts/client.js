@@ -106,6 +106,11 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
     .when('/login', {
       templateUrl: '/views/templates/login.html',
       controller: 'UserAuthController as login',
+      // resolve: {
+      //   clearance : ['AuthService', function(AuthService){
+      //     return AuthService.clearance();
+      //   }]
+      // }
     })
     .when('/createPassword/:code',{
       templateUrl: '/views/templates/createPassword.html',
@@ -118,6 +123,11 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
     .when('/home', {
       templateUrl: '/views/templates/adminHome.html',
       controller: 'AdminHomeController as home',
+      resolve: {
+        clearance : ['AuthService', function(AuthService){
+          return AuthService.clearance();
+        }]
+      }
     })
     .when('/forms', {
       templateUrl: '/views/templates/adminForms.html',
@@ -158,6 +168,11 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
     .when('/coach', {
       templateUrl: '/views/templates/coach.html',
       controller: 'coachController as coach',
+      resolve: {
+        clearance : ['AuthService', function(AuthService){
+          return AuthService.coachClearance();
+        }]
+      }
     })
     .when('/logout', {
       controller: 'UserAuthController as user',

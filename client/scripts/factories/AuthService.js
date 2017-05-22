@@ -31,22 +31,31 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
      */
 var clearance = function(){
   $http.get('/users/clearance').then(function(response) {
-    // console.log('hit clearance: ', response.data.email);
-      if(response.data.email) {
+    console.log('hit clearance: ', response.data.email, response.data.role);
+      if(response.data.email && (response.data.role === 'admin')) {
           // user has a current session on the server
+          userObject.role = response.data.role;
           userObject.email = response.data.email;
           userObject.id = response.data.id;
           console.log('User Data: ', userObject);
+          $location.path("/home");
+      } else if (response.data.email && (response.data.role === 'coach')) {
+        console.log(response.data.role);
+        $location.path("/coach");
       } else {
-          // Store the activation code for later use
-          // code.tempCode = $route.current.params.code;
-          // console.log('Activation code: ', $route.current.params.code);
+        // Store the activation code for later use
+        // code.tempCode = $route.current.params.code;
+        // console.log('Activation code: ', $route.current.params.code);
 
-          // user has no session, bounce them back to the login page
-          $location.path("/login");
+        // user has no session, bounce them back to the login page
+        $location.path("/login");
       }
 
   });
+};
+
+var coachClearance = function() {
+  console.log('hit coachClearance');
 };
     /**
      * addUserPwd function
@@ -84,10 +93,27 @@ var clearance = function(){
           console.log('RESPONSE: ', response.data);
           if(response) {
             console.log('success: ', response.data);
-            auth.getTickets(response.data);
             // location works with SPA (ng-route)
             console.log('redirecting to user page');
-            $location.path('/adminHome');
+            if(response.data.username && (response.data.role === 'admin')) {
+                // user has a current session on the server
+                userObject.role = response.data.role;
+                userObject.email = response.data.username;
+                userObject.id = response.data.id;
+                console.log('User Data: ', userObject);
+                $location.path("/home");
+            } else if (response.data.username && (response.data.role === 'coach')) {
+              console.log(response.data.role);
+              auth.getTickets(response.data);
+              $location.path("/coach");
+            } else {
+              // Store the activation code for later use
+              // code.tempCode = $route.current.params.code;
+              // console.log('Activation code: ', $route.current.params.code);
+
+              // user has no session, bounce them back to the login page
+              $location.path("/login");
+            }
           } else {
             console.log('failure: ', response);
           }
