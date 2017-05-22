@@ -49,7 +49,7 @@ app.use('/events', events);
 app.use('/mail', mail);
 app.use('/register', register);
 app.use('/tickets', tickets);
-app.use('/', index);
+app.use('/*', index);
 
 
 //listen
