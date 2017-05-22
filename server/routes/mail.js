@@ -10,20 +10,19 @@ var transporter = nodeMailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'gradcoaches@gmail.com',
-        pass: '@chievempls'  // DO NOT HOST THIS INFO ON GITHUB!
+        pass: '@chievempls'
     }
 });
 
 router.post('/', function(req, res, next) {
       var mailer = req.body;
-      // console.log('log mailer ', mailer.email);
       var user = {
-        code : chance.string({length : 10}),
+        // generate a random string and store in database for user with e-mail & id
+        code : chance.string({length : 10, pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%'}),
         id : req.body.id,
         email : req.body.email
       };
       console.log('user: ', user);
-      // generate a random string and store in database for user with e-mail & id
       pool.connect(function(errConnectingToDb, db, done) {
          if (errConnectingToDb) {
            console.log('Error Connecting: ', err);
@@ -45,7 +44,7 @@ router.post('/', function(req, res, next) {
           to: mailer.email,
           subject: 'TEST',
           text: mailer.fname + ' ' + mailer.lname + ' Custom message. Activate here ' +
-          'http://localhost:5000/#/activation/' + user.code
+          'http://localhost:5000/#/createPassword/' + user.code
       //     html: '<b>' + mailer.message + '</b>' // html body
       };
       transporter.sendMail(mailOptions, function(error, info){

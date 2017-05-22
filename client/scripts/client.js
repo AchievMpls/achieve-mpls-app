@@ -107,17 +107,13 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
       templateUrl: '/views/templates/login.html',
       controller: 'UserAuthController as login',
     })
-    .when('/createPassword',{
+    .when('/createPassword/:code',{
       templateUrl: '/views/templates/createPassword.html',
-      controller: 'UserAuthController as user',
+      controller: 'UserAuthController as code',
     })
-    .when('/activation',{
-      templateUrl: 'views/templates/activation.html',
-      controller: 'UserAuthController as user',
-    })
-    .when('/activation/:code', {
-      templateUrl: '/views/templates/activation.html',
-      controller: 'UserAuthController as user',
+    .when('/register',{
+      templateUrl: 'views/templates/register.html',
+      controller: 'UserAuthController as admin',
     })
     .when('/home', {
       templateUrl: '/views/templates/adminHome.html',
@@ -138,6 +134,14 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
     .when('/adminUsers', {
       templateUrl: '/views/templates/adminUsers.html',
       controller: 'AdminUsersController as users',
+    })
+    .when('/coach', {
+      templateUrl: '/views/templates/coach.html',
+      controller: 'coachController as coach',
+    })
+    .when('/logout', {
+      controller: 'UserAuthController as user',
+      template: '<h1 ng-init="user.logout()">logout</h1>',
     })
     .otherwise({
       redirectTo: 'home'
