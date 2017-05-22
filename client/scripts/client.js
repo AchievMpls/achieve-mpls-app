@@ -139,6 +139,10 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
       templateUrl: '/views/templates/coach.html',
       controller: 'coachController as coach',
     })
+    .when('/logout', {
+      controller: 'UserAuthController as user',
+      template: '<h1 ng-init="user.logout()">logout</h1>',
+    })
     .otherwise({
       redirectTo: 'home'
     });

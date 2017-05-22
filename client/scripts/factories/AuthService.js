@@ -4,8 +4,12 @@
  * @param $http, $location
  * @return the user is logged in
  */
-myApp.factory('AuthService', ['$http', '$location', '$mdDialog', '$filter',
-  function($http, $location, $mdDialog, $filter) {
+myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService', '$filter',
+  function($http, $location, $mdDialog, CoachService, $filter) {
+
+    var auth = this;
+
+    auth.getTickets = CoachService.getTickets;
     // var code = {}; // CC possibly passed to pass param to validate chance code
 /**
  * sendActivation function
@@ -34,9 +38,31 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', '$filter',
      * @return success redirect to login page
      */
     function addUserPwd(user) {
-      $http.post('/register/addPwd', user).then(function(response) {
-         $location.path('/login');
+      console.log('add pwd user', user);
+      $http({
+        method: 'GET',
+        url: '/register',
+        params: user
+      })
+      .then(function(response) {
+        if(response.data.length !== 0) {
+          $http.post('/register/addPwd', user).then(function(response) {
+             $location.path('/coach');
+          });
+        }
+        else {
+          $mdDialog.show(
+            $mdDialog.alert()
+            .clickOutsideToClose(true)
+            .title('The active code is expired!')
+            .textContent('Please contact the AchieveMpls Admin.')
+            .ariaLabel('Alert Dialog')
+            .ok('OK!')
+          );
+        }
+
       });
+
     }
 /**
  * validateCode function
@@ -58,10 +84,12 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', '$filter',
      */
   function loginUser(user) {
     console.log('get me here', user);
+
     $http.post('/', user).then(function(response) {
           console.log('RESPONSE: ', response.data);
           if(response) {
             console.log('success: ', response.data);
+            auth.getTickets(response.data);
             // location works with SPA (ng-route)
             console.log('redirecting to user page');
             $location.path('/adminHome');

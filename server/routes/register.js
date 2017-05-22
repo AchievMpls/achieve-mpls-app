@@ -22,10 +22,26 @@ pool.on('connect', function () {
   console.log('client connected: ', connectCount);
 });
 
-// Handles request for HTML file
+//get the record that has the today date ISN'T passed the expired date
 router.get('/', function(req, res, next) {
-    res.sendFile(path.resolve(__dirname, '../public/views/register.html'));
-});
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log("Error connecting: ", err);
+      next(err);
+    } else {
+      client.query('SELECT * FROM "users" WHERE "chance_expiration" >= $1 AND "chance_token" = $2;',
+      [req.query.timestamp, req.query.chance_token],
+      function(queryError, result) {
+        done();
+        if (queryError) {
+          res.sendStatus(500);
+        } else {
+          res.send(result.rows);
+        }
+      });
+    }
+  });
+});//end router.get
 
 // Handles POST request with new user data
 router.post('/', function(req, res, next) {
@@ -88,6 +104,7 @@ router.post('/admin', function(req, res, next) {
   });
 
 });
+
 
 //  Handles POST to create the new pwd for user
   router.post('/addPwd', function(req, res, next) {
