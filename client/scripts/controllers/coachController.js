@@ -28,13 +28,13 @@ function(CoachService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
   */
   coach.submitAnswers = function (answers) {
     var objectToSend = {
+      session_id : currentCoach.data.session_id,
       user_id : currentCoach.data.user_id,
       event_id : coach.tickets.open[0].id,
       answers : answers
     };
     console.log('Object To Send is ', objectToSend);
     CoachService.ticketToSend(objectToSend);
-    CoachService.getTickets(currentCoach.data);
   };
 
 }

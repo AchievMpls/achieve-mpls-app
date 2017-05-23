@@ -32,6 +32,7 @@ function($http, $location, $mdDialog) {
   */
   function ticketToSend(completedTicket) {
     $http.post('/coach/completedTicket', completedTicket).then(function(response) {
+      getTickets(completedTicket);
     });
   }
 
