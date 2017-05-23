@@ -13,7 +13,8 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
     // var code = {}; // CC possibly passed to pass param to validate chance code
 /**
  * sendActivation function
- * @desc Send email and activation code to coach
+ * @desc Send email and activation code to coach,
+ *       the code will be expired in 30 days
  * @param userObject from input fields in 'send activation' button adminUser.html
  * @return success response code
  */
@@ -33,9 +34,11 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
     }
     /**
      * addUserPwd function
-     * @desc add the user Pwd
+     * @desc add the user Pwd, if the chance expiration code is expired, notify the admin
+     * if chance is valid, means the get function get the user record,
+     * then, triggers post function and send the user object to register.js
      * @param user Object from input fields in submit button createPassword.html
-     * @return success redirect to login page
+     * @return success redirect to coach page
      */
     function addUserPwd(user) {
       console.log('add pwd user', user);
@@ -46,6 +49,7 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
       })
       .then(function(response) {
         if(response.data.length !== 0) {
+          user.userId = response.data[0].id;
           $http.post('/register/addPwd', user).then(function(response) {
              $location.path('/coach');
           });
