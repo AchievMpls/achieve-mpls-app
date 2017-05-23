@@ -27,9 +27,10 @@ function(CoachService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
   * @return ideally, submit to DB.  Also closes the form on submit.
   */
   coach.submitAnswers = function (answers) {
+      console.log('here currentCoach: ', currentCoach);
     var objectToSend = {
-      session_id : currentCoach.data.session_id,
-      user_id : currentCoach.data.user_id,
+      session_id : currentCoach.session_id,
+      user_id : currentCoach.user_id,
       event_id : coach.tickets.open[0].id,
       answers : answers
     };
