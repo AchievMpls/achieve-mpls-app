@@ -106,40 +106,79 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
     .when('/login', {
       templateUrl: '/views/templates/login.html',
       controller: 'UserAuthController as login',
+      resolve: {
+        clearance : ['AuthService', function(AuthService){
+          return AuthService.clearance();
+        }]
+      }
     })
-    .when('/createPassword',{
+    .when('/createPassword/:code',{
       templateUrl: '/views/templates/createPassword.html',
-      controller: 'UserAuthController as user',
+      controller: 'UserAuthController as code',
     })
-    .when('/activation',{
-      templateUrl: 'views/templates/activation.html',
-      controller: 'UserAuthController as user',
-    })
-    .when('/activation/:code', {
-      templateUrl: '/views/templates/activation.html',
-      controller: 'UserAuthController as user',
+    .when('/register',{
+      templateUrl: 'views/templates/register.html',
+      controller: 'UserAuthController as admin',
     })
     .when('/home', {
       templateUrl: '/views/templates/adminHome.html',
       controller: 'AdminHomeController as home',
+      resolve: {
+        clearance : ['AuthService', function(AuthService){
+          return AuthService.clearance();
+        }]
+      }
     })
     .when('/forms', {
       templateUrl: '/views/templates/adminForms.html',
       controller: 'AdminFormsController as forms',
+      resolve: {
+        clearance : ['AuthService', function(AuthService){
+          return AuthService.clearance();
+        }]
+      }
     })
     .when('/sessions', {
       templateUrl: '/views/templates/adminSessions.html',
       controller: 'AdminSessionsController as sessions',
+      resolve: {
+        clearance : ['AuthService', function(AuthService){
+          return AuthService.clearance();
+        }]
+      }
     })
     .when('/events', {
       templateUrl: '/views/templates/adminEvents.html',
       controller: 'AdminEventsController as events',
+      resolve: {
+        clearance : ['AuthService', function(AuthService){
+          return AuthService.clearance();
+        }]
+      }
     })
     .when('/adminUsers', {
       templateUrl: '/views/templates/adminUsers.html',
       controller: 'AdminUsersController as users',
+      resolve: {
+        clearance : ['AuthService', function(AuthService){
+          return AuthService.clearance();
+        }]
+      }
+    })
+    .when('/coach', {
+      templateUrl: '/views/templates/coach.html',
+      controller: 'coachController as coach',
+      resolve: {
+        coachClearance : ['AuthService', function(AuthService){
+          return AuthService.coachClearance();
+        }]
+      }
+    })
+    .when('/logout', {
+      controller: 'UserAuthController as user',
+      template: '<h1 ng-init="user.logout()">logout</h1>',
     })
     .otherwise({
-      redirectTo: 'home'
+      redirectTo: 'login'
     });
 }]);

@@ -5,20 +5,20 @@ var path = require('path');
 var bodyParser = require('body-parser');
 
 //Auth Routes
-var passport = require('./strategies/user_sql.js');
+var passport = require('./strategies/user_sql');
 var session = require('express-session');
 
 //Route Modules
-var index = require('./routes/index.js');
-var user = require('./routes/user.js');
-var users = require('./routes/users.js');
-var forms = require('./routes/forms.js');
-var sessions = require('./routes/sessions.js');
-var events = require('./routes/events.js');
-var mail = require('./routes/mail.js');
+var index = require('./routes/index');
+var user = require('./routes/user');
+var users = require('./routes/users');
+var forms = require('./routes/forms');
+var sessions = require('./routes/sessions');
+var events = require('./routes/events');
+var mail = require('./routes/mail');
 var register = require('./routes/register');
-
-var tickets = require('./routes/tickets.js');
+var tickets = require('./routes/tickets');
+var coach = require('./routes/coach');
 
 //app config
 app.set('port', (process.env.PORT || 5000));
@@ -50,7 +50,8 @@ app.use('/events', events);
 app.use('/mail', mail);
 app.use('/register', register);
 app.use('/tickets', tickets);
-app.use('/', index);
+app.use('/coach', coach);
+app.use('/*', index);
 
 
 //listen

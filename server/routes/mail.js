@@ -10,27 +10,30 @@ var transporter = nodeMailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'gradcoaches@gmail.com',
-        pass: '@chievempls'  // DO NOT HOST THIS INFO ON GITHUB!
+        pass: '@chievempls'
     }
 });
 
 router.post('/', function(req, res, next) {
       var mailer = req.body;
-      // console.log('log mailer ', mailer.email);
+
       var user = {
-        code : chance.string({length : 10}),
+        // generate a random string and store in database for user with e-mail & id
+        code : chance.string({length : 15, pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'}),
         id : req.body.id,
-        email : req.body.email
+        email : req.body.email,
+        chance_expiration: req.body.chance_expiration
       };
       console.log('user: ', user);
-      // generate a random string and store in database for user with e-mail & id
       pool.connect(function(errConnectingToDb, db, done) {
          if (errConnectingToDb) {
            console.log('Error Connecting: ', err);
            next(err);
          }
-         db.query('UPDATE "users" SET "chance_token" = ($1) WHERE "id" = ($2) AND "email" = ($3);',
-         [user.code, user.id, user.email],
+        //  db.query('UPDATE "users" SET "chance_token" = ($1) WHERE "id" = ($2) AND "email" = ($3);',
+        //  [user.code, user.id, user.email],
+         db.query('UPDATE "users" SET "chance_token" = ($1), "chance_expiration" = ($2) WHERE "id" = ($3) AND "email" = ($4);',
+         [user.code, user.chance_expiration, user.id, user.email],
          function(queryError, result) {
            done();
            if (queryError) {
@@ -45,7 +48,7 @@ router.post('/', function(req, res, next) {
           to: mailer.email,
           subject: 'TEST',
           text: mailer.fname + ' ' + mailer.lname + ' Custom message. Activate here ' +
-          'http://localhost:5000/#/activation/' + user.code
+          'http://localhost:5000/#/createPassword/' + user.code
       //     html: '<b>' + mailer.message + '</b>' // html body
       };
       transporter.sendMail(mailOptions, function(error, info){

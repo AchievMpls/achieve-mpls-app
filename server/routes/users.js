@@ -28,6 +28,22 @@ router.get('/', function(req, res) {
   });
 });//end router.get
 
+router.get('/clearance', function(req, res) {
+  console.log('hit get /clearance route');
+  // check if logged in
+  if(req.isAuthenticated()) {
+    // send back user object from database
+    console.log('logged in');
+    //prepare an object = { }
+    res.send(req.user);
+  } else {
+    // failure best handled on the server. do redirect here.
+    console.log('not logged in');
+    // should probably be res.sendStatus(403) and handled client-side, esp if this is an AJAX request (which is likely with AngularJS)
+    res.send(false);
+  }
+});
+
 router.put('/deactivateUser', function(req, res) {
   console.log('on server, id is: ', req.body.id);
   var id = req.body.id;
