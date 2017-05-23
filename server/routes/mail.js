@@ -16,11 +16,13 @@ var transporter = nodeMailer.createTransport({
 
 router.post('/', function(req, res, next) {
       var mailer = req.body;
+
       var user = {
         // generate a random string and store in database for user with e-mail & id
         code : chance.string({length : 10, pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%'}),
         id : req.body.id,
-        email : req.body.email
+        email : req.body.email,
+        chance_expiration: req.body.chance_expiration
       };
       console.log('user: ', user);
       pool.connect(function(errConnectingToDb, db, done) {
@@ -28,8 +30,10 @@ router.post('/', function(req, res, next) {
            console.log('Error Connecting: ', err);
            next(err);
          }
-         db.query('UPDATE "users" SET "chance_token" = ($1) WHERE "id" = ($2) AND "email" = ($3);',
-         [user.code, user.id, user.email],
+        //  db.query('UPDATE "users" SET "chance_token" = ($1) WHERE "id" = ($2) AND "email" = ($3);',
+        //  [user.code, user.id, user.email],
+         db.query('UPDATE "users" SET "chance_token" = ($1), "chance_expiration" = ($2) WHERE "id" = ($3) AND "email" = ($4);',
+         [user.code, user.chance_expiration, user.id, user.email],
          function(queryError, result) {
            done();
            if (queryError) {
