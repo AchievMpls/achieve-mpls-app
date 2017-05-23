@@ -22,10 +22,26 @@ pool.on('connect', function () {
   console.log('client connected: ', connectCount);
 });
 
-// Handles request for HTML file
+//get the record that has the today date ISN'T passed the expired date
 router.get('/', function(req, res, next) {
-    res.sendFile(path.resolve(__dirname, '../public/views/register.html'));
-});
+  pool.connect(function(err, client, done) {
+    if (err) {
+      console.log("Error connecting: ", err);
+      next(err);
+    } else {
+      client.query('SELECT * FROM "users" WHERE "chance_expiration" >= $1 AND "chance_token" = $2;',
+      [req.query.timestamp, req.query.chance_token],
+      function(queryError, result) {
+        done();
+        if (queryError) {
+          res.sendStatus(500);
+        } else {
+          res.send(result.rows);
+        }
+      });
+    }
+  });
+});//end router.get
 
 // Handles POST request with new user data
 router.post('/', function(req, res, next) {
@@ -88,37 +104,29 @@ router.post('/admin', function(req, res, next) {
   });
 
 });
-
 //  Handles POST to create the new pwd for user
   router.post('/addPwd', function(req, res, next) {
-    console.log('new pwd:', req.body);
     var savePwd= {
-      chance_token: req.body.chance_token,
-      password: encryptLib.encryptPassword(req.body.password)
+      password: encryptLib.encryptPassword(req.body.password),
+      id: req.body.userId
     };
-    console.log('new user:', savePwd);
-
     pool.connect(function(err, client, done) {
       if(err) {
         console.log("Error connecting: ", err);
         next(err);
       }
-      // TODO: ALL REQUIRED FIELDS
-      client.query('UPDATE "users" SET "password" = $1 WHERE "chance_token" = $2;',
-        [savePwd.password, savePwd.chance_token],
+      client.query('UPDATE "users" SET "password" = $1, "chance_expiration" = NULL, "chance_token" = NULL WHERE "id" = $2;',
+        [savePwd.password, savePwd.id],
           function (err, result) {
             client.end();
 
             if(err) {
               console.log("Error inserting data: ", err);
               next(err);
-            } else {
-              console.log('LOGIN FAILED');
-              res.redirect('/');
             }
           });
     });
-
+    res.sendStatus(200);
   });
 
 module.exports = router;
