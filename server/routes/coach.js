@@ -9,17 +9,15 @@ var incompleteTicketArray = [];
  * @return the tickets associated with that username should be sent back.
  */
 router.get('/tickets/:userSession/:userID', function(req, res) {
-  //@TODO: remove user_id along route; it's vestigial
-  console.log('at the beginning of a call, the incompleteTicketArray is: ', incompleteTicketArray);
   var session_id = req.params.userSession;
   var user_id = req.params.userID;
   var today = new Date();
-  console.log('the session to get tickets for is: ', session_id, " and date is: ", today, "and user is: ", user_id);
   pool.connect(function(errorConnectingToDb, db, done) {
     if (errorConnectingToDb) {
       res.sendStatus(500);
     } else {
-      db.query('SELECT * FROM "form_responses" WHERE "user_id"= $1;', [user_id],
+      db.query('SELECT * FROM "form_responses" WHERE "user_id"= $1;',
+        [user_id],
         function(queryError, result) {
           done();
           if (queryError) {
@@ -30,13 +28,12 @@ router.get('/tickets/:userSession/:userID', function(req, res) {
             for (var i = 0; i < result.rows.length; i++) {
               completedTickets.push(result.rows[i].event_id);
             }
-            console.log('here completed tickets: ', completedTickets);
             pool.connect(function(errorConnectingToDb, db, done) {
               if (errorConnectingToDb) {
                 res.sendStatus(500);
               } else {
                 db.query('SELECT * FROM "events" WHERE "session_id"= $1 AND "date_form_open" < $2 AND "date_form_close" > $2 ORDER BY "date_form_close" ASC;',
-                [session_id, today],
+                  [session_id, today],
                   function(queryError, result) {
                     done();
                     if (queryError) {
@@ -44,23 +41,26 @@ router.get('/tickets/:userSession/:userID', function(req, res) {
                       res.sendStatus(500);
                     } else {
                       var openEvents = result.rows;
-                      console.log('here open events: ', openEvents);
                       findUniqueTickets(completedTickets, openEvents);
-                      console.log("open and incomplete: ", incompleteTicketArray);
-                      db.query('SELECT * FROM "forms" JOIN "events" ON "forms"."id" ="events"."form_id" WHERE "events"."id"=$1;',
-                      [incompleteTicketArray[0].id],
-                      function(queryError, result) {
-                        done();
-                        if (queryError) {
-                          console.log('error selecting soonest incomplete event : ', queryError);
-                          res.sendStatus(500);
-                        } else {
-                          console.log('the final data we getting is:', result.rows);
-                          incompleteTicketArray.length=0;
-                          res.send(result.rows);
-                          return incompleteTicketArray;
-                        }
-                      });
+                      if (incompleteTicketArray.length===0) {
+                        console.log("no tickets!");
+                        res.send("no open, incomplete tickets!");
+                      } else {
+                        console.log("here is incomplete ticket array: ", incompleteTicketArray);
+                        db.query('SELECT * FROM "forms" JOIN "events" ON "forms"."id" ="events"."form_id" WHERE "events"."id"=$1;',
+                          [incompleteTicketArray[0].id],
+                          function(queryError, result) {
+                            done();
+                            if (queryError) {
+                              console.log('error selecting soonest incomplete event : ', queryError);
+                              res.sendStatus(500);
+                            } else {
+                              incompleteTicketArray.length = 0;
+                              res.send(result.rows);
+                              return incompleteTicketArray;
+                            }
+                          });
+                      }
                     }
                   });
               }
@@ -80,48 +80,12 @@ router.get('/tickets/:userSession/:userID', function(req, res) {
 var findUniqueTickets = function(completed, open) {
   incompleteTicketArray.length = 0;
   open.forEach(function(ticket) {
-    if (completed.includes(ticket.id)) {
-    } else {
+    if (completed.includes(ticket.id)) {} else {
       incompleteTicketArray.push(ticket);
     }
-
-
-    // for (var i = 0; i < completed.length; i++) {
-    //   if (ticket.id !== completed[i].event_id) {
-    //     console.log("ticket.id was: ", ticket.id);
-    //     console.log("and the completed event was: ", completed[i].event_id);
-    //     incompleteTicketArray.push(ticket);
-    //   }
-    // }
   });
   return incompleteTicketArray;
 };
-
-//CURRENT WORKING QUERY (DOESN'T TEST WHETHER RESPONSE HAS BEEN SUBMITTED)
-// pool.connect(function(errorConnectingToDb, db, done) {
-//   if (errorConnectingToDb) {
-//     res.sendStatus(500);
-//   } else {
-//     db.query('SELECT * FROM "forms" JOIN "events" ON "forms"."id" ="events"."form_id" WHERE "session_id"= $1 AND "date_form_open" < $2 AND "date_form_close" > $2 ORDER BY "date_form_close" ASC;',
-//     [session_id, today],
-//     function(queryError, result) {
-//       done();
-//       if (queryError) {
-//         console.log('error selecting: ', queryError);
-//         res.sendStatus(500);
-//       } else {
-//         res.send(result.rows);
-//       }
-//     });
-//   }
-// });
-
-
-
-
-
-
-
 
 
 router.post('/completedTicket', function(req, res) {

@@ -33,8 +33,20 @@ function(CoachService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
       event_id : coach.tickets.open[0].id,
       answers : answers
     };
-    console.log('Object To Send is ', objectToSend);
-    CoachService.ticketToSend(objectToSend);
+    if (isNaN(parseInt(objectToSend.answers[0], 10))) {
+      console.log('dis triggered');
+      $mdDialog.show(
+        $mdDialog.alert()
+        .clickOutsideToClose(true)
+        .title('Incomplete form!')
+        .textContent('For Question 01, please include a numeric response between 1 and 10.')
+        .ariaLabel('Alert Dialog')
+        .ok('OK!')
+      );
+    } else {
+      CoachService.ticketToSend(objectToSend);
+      coach.ticketToComplete = [];      
+    }
   };
 
 }

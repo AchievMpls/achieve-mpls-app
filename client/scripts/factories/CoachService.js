@@ -20,6 +20,7 @@ function($http, $location, $mdDialog) {
   function getTickets(user) {
     console.log('here the user: ', user);
     $http.get('/coach/tickets/' + user.session_id +'/'+user.user_id).then(function(response) {
+      console.log("here the response: ", response);
       tickets.open = response.data;
     });
   }

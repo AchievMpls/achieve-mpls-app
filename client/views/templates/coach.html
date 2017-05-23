@@ -1,6 +1,6 @@
 <h1>Coach Home</h1>
 
-    <md-card>
+    <md-card ng-hide="coach.tickets.open==='no open, incomplete tickets!'">
       <md-card-title>
         <md-card-title-text>
           <span class="md-headline">Meeting #{{coach.tickets.open[0].meeting_count}}</span>
@@ -31,4 +31,12 @@
           <i class="material-icons" id="addButton">done</i>
         </md-button>
       </md-input-container>
+    </md-card>
+
+    <md-card ng-show="coach.tickets.open==='no open, incomplete tickets!'">
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">All feedback complete! </span>
+        </md-card-title-text>
+      </md-card-title>
     </md-card>
