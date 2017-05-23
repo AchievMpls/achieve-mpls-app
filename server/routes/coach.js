@@ -9,20 +9,37 @@ var pool = require('../modules/db');
 * @return the tickets associated with that username should be sent back.
 */
 router.get('/tickets/:userSession/:userID', function(req, res) {
+  //@TODO: remove user_id along route; it's vestigial
   var session_id = req.params.userSession;
   var user_id = req.params.userID;
   var today = new Date();
   console.log('the session to get tickets for is: ', session_id, " and date is: ", today, "and user is: ", user_id);
+
+  // 1. query events for the event ID's from all events that (1) are open and (2) are from the session that the user belongs to.
+          // 'SELECT "id" FROM "events" WHERE WHERE "session_id"= $1 AND "date_form_open" < $2 AND "date_form_close" > $2'
+          // [session_id, today]
+  // 2. map the returned array of objects to an array of numbers.
+          //var eventIDarray = result.rows.map(function(obj) {
+          //    var value;
+          //    value = obj.id;
+          //    return value;
+          // });
+  // 3. in a for loop (?) select (from form_responses) all rows that match the user_id AND event_id (i.e. whether the user has already completed the post)
+          // 'SELECT * FROM "form_responses" WHERE "event_id" = $1 AND "user_id" = $2;'
+          // [eventIDarray[i], user_id]
+      // 4. positive? repeat 3, with the next event ID in the array.
+      // 5. negative? select the form associated with that event ID, and send to client.
+
   pool.connect(function(errorConnectingToDb, db, done) {
     if (errorConnectingToDb) {
       res.sendStatus(500);
     } else {
-      db.query('SELECT * FROM "forms" JOIN "events" ON "forms"."id" ="events"."form_id" WHERE "session_id"= $1 AND "date_form_open" < $2 AND "date_form_close" > $2 ORDER BY "date_form_close" ASC',
-      //@TODO: remove user_id
-      [session_id, today],
+      db.query('SELECT * FROM "forms" JOIN "events" ON "forms"."id" ="events"."form_id" JOIN "form_responses" ON "events"."id"="form_responses"."event_id" WHERE "session_id"= $1 AND "date_form_open" < $2 AND "date_form_close" > $2 AND "user_id" = $3 ORDER BY "date_form_close" ASC;',
+      [session_id, today, user_id],
       function(queryError, result) {
         done();
         if (queryError) {
+          console.log('error selecting: ', queryError);
           res.sendStatus(500);
         } else {
           res.send(result.rows);
