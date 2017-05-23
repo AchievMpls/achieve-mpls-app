@@ -13,7 +13,8 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
     // var code = {}; // CC possibly passed to pass param to validate chance code
 /**
  * sendActivation function
- * @desc Send email and activation code to coach
+ * @desc Send email and activation code to coach,
+ *       the code will be expired in 30 days
  * @param userObject from input fields in 'send activation' button adminUser.html
  * @return success response code
  */
@@ -45,7 +46,10 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
         params: user
       })
       .then(function(response) {
+        console.log('response', response);
         if(response.data.length !== 0) {
+          user.userId = response.data[0].id;
+          console.log('user,', user);
           $http.post('/register/addPwd', user).then(function(response) {
              $location.path('/coach');
           });
