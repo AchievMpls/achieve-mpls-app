@@ -74,7 +74,6 @@ router.post('/', function(req, res, next) {
   });
 
 });
-
 router.post('/admin', function(req, res, next) {
   var saveAdmin = {
     fname: req.body.fname,
