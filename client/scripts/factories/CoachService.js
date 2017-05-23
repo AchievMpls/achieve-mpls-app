@@ -8,6 +8,7 @@
 myApp.factory('CoachService', ['$http', '$location', '$mdDialog',
 function($http, $location, $mdDialog) {
 
+  var tickets = {};
 
   /**
   * @function Get Tickets
@@ -16,25 +17,11 @@ function($http, $location, $mdDialog) {
   * @return brings back all the tickets for the particular user and pushes them
   * into the ticketArray.
   */
-  function getTickets(userResponse) {
-    console.log('in get tickets path: ', userResponse.data);
-    $http.get('/coach/:' + userResponse.data.username).then(function(response) {
-    var tickets = response.data;
-    createTicketArray (tickets);
+  function getTickets(user) {
+    console.log('here the user: ', user);
+    $http.get('/coach/tickets/' + user.session_id +'/'+user.user_id).then(function(response) {
+      tickets.open = response.data;
     });
-  }
-
-  /**
-  * @desc ticketArray
-  * @param tickets from the database
-  * @return provides the array of tickets that are used in the ng-repeat in coach.html
-  */
-  var ticketArray = [];
-
-  function createTicketArray (ticket) {
-    for (var i = 0; i < ticket.array.length; i++){
-      ticketArray.push(ticket.array[i]);
-    }
   }
 
   /**
@@ -45,14 +32,13 @@ function($http, $location, $mdDialog) {
   */
   function ticketToSend(completedTicket) {
     $http.post('/coach/completedTicket', completedTicket).then(function(response) {
-      console.log('ticket sent');
     });
   }
 
   return {
     getTickets : getTickets,
     ticketToSend : ticketToSend,
-    ticketArray : ticketArray
+    tickets: tickets
   };
 }
 ]);
