@@ -27,8 +27,14 @@ router.get('/tickets/:userSession/:userID', function(req, res) {
   // 3. in a for loop (?) select (from form_responses) all rows that match the user_id AND event_id (i.e. whether the user has already completed the post)
           // 'SELECT * FROM "form_responses" WHERE "event_id" = $1 AND "user_id" = $2;'
           // [eventIDarray[i], user_id]
-      // 4. positive? repeat 3, with the next event ID in the array.
-      // 5. negative? select the form associated with that event ID, and send to client.
+      // 4. no results from the form_responses query? select the form associated with that event ID, and send to client.
+      // 5. if there are results? repeat 3, with the next event ID in the array.
+          // if (!result.rows) {
+          //  'SELECT * FROM "forms" JOIN "events" ON "forms"."id"="events"."form_id" WHERE "event_id"= $1;'
+          //  [eventIDarray[i]]
+          // }else {
+          //
+          // }
 
   pool.connect(function(errorConnectingToDb, db, done) {
     if (errorConnectingToDb) {
