@@ -179,6 +179,6 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
       template: '<h1 ng-init="user.logout()">logout</h1>',
     })
     .otherwise({
-      redirectTo: 'home'
+      redirectTo: 'login'
     });
 }]);
