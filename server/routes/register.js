@@ -125,9 +125,13 @@ router.post('/admin', function(req, res, next) {
             }
           });
     });
+<<<<<<< HEAD
 
     res.sendStatus(200);
 
+=======
+    res.sendStatus(200);
+>>>>>>> e8492069128fe050fad7d272506c87b678a6bbba
   });
 
 module.exports = router;

@@ -19,7 +19,7 @@ router.post('/', function(req, res, next) {
 
       var user = {
         // generate a random string and store in database for user with e-mail & id
-        code : chance.string({length : 10, pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%'}),
+        code : chance.string({length : 15, pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'}),
         id : req.body.id,
         email : req.body.email,
         chance_expiration: req.body.chance_expiration

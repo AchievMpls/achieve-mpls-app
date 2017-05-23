@@ -3,14 +3,13 @@
  * @desc Manages all of the functions related to Authorization
  * @param $http, $location
  * @return the user is logged in
- */
+*/
 
 myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService', '$filter',
   function($http, $location, $mdDialog, CoachService, $filter) {
 
     var auth = this;
 
-    auth.getTickets = CoachService.getTickets;
     // var code = {}; // CC possibly passed to pass param to validate chance code
     var userObject = {};
 
@@ -21,6 +20,8 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
  * @param userObject from input fields in 'send activation' button adminUser.html
  * @return success response code
  */
+
+
 
     function sendActivation(userObject) {
 
@@ -51,8 +52,6 @@ var clearance = function(){
           userObject.email = response.data.email;
           userObject.id = response.data.id;
           console.log('User Data: ', userObject);
-      } else if (response.data.email && (response.data.role === 'coach')) {
-        console.log(response.data.role);
       } else {
         // Store the activation code for later use
         // code.tempCode = $route.current.params.code;
@@ -66,7 +65,20 @@ var clearance = function(){
 };
 
 var coachClearance = function() {
-  console.log('hit coachClearance');
+  $http.get('/users/clearance').then(function(response) {
+    console.log('hit coach clearance: ', response.data.email, response.data.role);
+      if (response.data.email && (response.data.role === 'coach')) {
+        console.log('HERE ',response.data.role);
+      } else {
+        // Store the activation code for later use
+        // code.tempCode = $route.current.params.code;
+        // console.log('Activation code: ', $route.current.params.code);
+
+        // user has no session, bounce them back to the login page
+        $location.path("/login");
+      }
+
+  });
 };
     /**
      * addUserPwd function
@@ -75,13 +87,6 @@ var coachClearance = function() {
      * then, triggers post function and send the user object to register.js
      * @param user Object from input fields in submit button createPassword.html
      * @return success redirect to coach page
-     */
-
-    /**
-     * validateCode function
-     * @desc validates chance code with db
-     * @param chance code from $routeParams
-     * @return success response code
      */
 
     function addUserPwd(user) {
@@ -149,7 +154,7 @@ var coachClearance = function() {
                 console.log('User Data: ', userObject);
                 $location.path("/home");
             } else if (response.data.username && (response.data.role === 'coach')) {
-              console.log(response.data.role);
+              console.log('ROLE:', response.data.role);
               auth.getTickets(response.data);
               $location.path("/coach");
             } else {
@@ -186,6 +191,7 @@ var coachClearance = function() {
     return {
       sendActivation : sendActivation,
       clearance : clearance,
+      coachClearance : coachClearance,
       loginUser: loginUser,
       registerAdmin: registerAdmin,
       addUserPwd: addUserPwd
