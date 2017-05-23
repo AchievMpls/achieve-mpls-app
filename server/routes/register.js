@@ -104,12 +104,9 @@ router.post('/admin', function(req, res, next) {
   });
 
 });
-
-
 //  Handles POST to create the new pwd for user
   router.post('/addPwd', function(req, res, next) {
     var savePwd= {
-      //chance_token: req.body.chance_token,
       password: encryptLib.encryptPassword(req.body.password),
       id: req.body.userId
     };
