@@ -45,7 +45,7 @@ function(CoachService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
       );
     } else {
       CoachService.ticketToSend(objectToSend);
-      coach.ticketToComplete = [];      
+      coach.ticketToComplete = [];
     }
   };
 
