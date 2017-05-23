@@ -16,15 +16,15 @@ router.get('/tickets/:userSession/:userID', function(req, res) {
   console.log('the session to get tickets for is: ', session_id, " and date is: ", today, "and user is: ", user_id);
 
   // 1. query events for the event ID's from all events that (1) are open and (2) are from the session that the user belongs to.
-          // 'SELECT "id" FROM "events" WHERE WHERE "session_id"= $1 AND "date_form_open" < $2 AND "date_form_close" > $2'
-          // [session_id, today]
-  // 2. map the returned array of objects to an array of numbers.
+          // db.query('SELECT "id" FROM "events" WHERE WHERE "session_id"= $1 AND "date_form_open" < $2 AND "date_form_close" > $2',
+          // [session_id, today],
+  // 2. [SKIP; UNNECESSARY]  map the returned array of objects to an array of numbers.
           //var eventIDarray = result.rows.map(function(obj) {
           //    var value;
           //    value = obj.id;
           //    return value;
           // });
-  // 3. in a for loop (?) select (from form_responses) all rows that match the user_id AND event_id (i.e. whether the user has already completed the post)
+  // 3. in a for-loop (?), select (from form_responses) all rows that match the user_id AND event_id (i.e. whether the user has already completed the post)
           // 'SELECT * FROM "form_responses" WHERE "event_id" = $1 AND "user_id" = $2;'
           // [eventIDarray[i], user_id]
       // 4. no results from the form_responses query? select the form associated with that event ID, and send to client.
@@ -36,24 +36,65 @@ router.get('/tickets/:userSession/:userID', function(req, res) {
           //
           // }
 
-  pool.connect(function(errorConnectingToDb, db, done) {
-    if (errorConnectingToDb) {
-      res.sendStatus(500);
-    } else {
-      db.query('SELECT * FROM "forms" JOIN "events" ON "forms"."id" ="events"."form_id" JOIN "form_responses" ON "events"."id"="form_responses"."event_id" WHERE "session_id"= $1 AND "date_form_open" < $2 AND "date_form_close" > $2 AND "user_id" = $3 ORDER BY "date_form_close" ASC;',
-      [session_id, today, user_id],
-      function(queryError, result) {
-        done();
-        if (queryError) {
-          console.log('error selecting: ', queryError);
-          res.sendStatus(500);
-        } else {
-          res.send(result.rows);
-        }
-      });
-    }
-  });
+  //NEW ATTEMPT @ ABOVE LOGIC
+    pool.connect(function(errorConnectingToDb, db, done) {
+      if (errorConnectingToDb) {
+        console.log('error connecting: ', errorConnectingToDb);
+        res.sendStatus(500);
+      } else {
+        // query events for the event ID's from all events that (1) are open and (2) are from the session that the user belongs to.
+        db.query('SELECT "id" FROM "events" WHERE "session_id"= $1 AND "date_form_open" < $2 AND "date_form_close" > $2',
+        [session_id, today],
+        function(queryError, result) {
+          done();
+          if (queryError) {
+            console.log('error selecting eventID: ', queryError);
+            res.sendStatus(500);
+          } else {
+
+            // in a for-loop, select (from form_responses) all rows that match the user_id AND event_id (i.e. whether the user has already completed the post)
+            db.query('SELECT "id" FROM "events" WHERE "session_id"= $1 AND "date_form_open" < $2 AND "date_form_close" > $2',
+            [session_id, today],
+            function(queryError, result) {
+              done();
+              if (queryError) {
+                console.log('error selecting eventID: ', queryError);
+                res.sendStatus(500);
+              } else {
+                res.send(result.rows);
+              }//end select-completed-forms-else
+            });
+          }//end select-eventID-else
+        });
+      }
+    });
+
+//CURRENT WORKING QUERY (DOESN'T TEST WHETHER RESPONSE HAS BEEN SUBMITTED)
+  // pool.connect(function(errorConnectingToDb, db, done) {
+  //   if (errorConnectingToDb) {
+  //     res.sendStatus(500);
+  //   } else {
+  //     db.query('SELECT * FROM "forms" JOIN "events" ON "forms"."id" ="events"."form_id" JOIN "form_responses" ON "events"."id"="form_responses"."event_id" WHERE "session_id"= $1 AND "date_form_open" < $2 AND "date_form_close" > $2 AND "user_id" = $3 ORDER BY "date_form_close" ASC;',
+  //     [session_id, today, user_id],
+  //     function(queryError, result) {
+  //       done();
+  //       if (queryError) {
+  //         console.log('error selecting: ', queryError);
+  //         res.sendStatus(500);
+  //       } else {
+  //         res.send(result.rows);
+  //       }
+  //     });
+  //   }
+  // });
 });//end router.get
+
+
+
+
+
+
+
 
 router.post('/completedTicket', function(req, res) {
   var dateToday = new Date();
