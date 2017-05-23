@@ -38,8 +38,6 @@ var clearance = function(){
           userObject.email = response.data.email;
           userObject.id = response.data.id;
           console.log('User Data: ', userObject);
-      } else if (response.data.email && (response.data.role === 'coach')) {
-        console.log(response.data.role);
       } else {
         // Store the activation code for later use
         // code.tempCode = $route.current.params.code;
@@ -53,7 +51,20 @@ var clearance = function(){
 };
 
 var coachClearance = function() {
-  console.log('hit coachClearance');
+  $http.get('/users/clearance').then(function(response) {
+    console.log('hit coach clearance: ', response.data.email, response.data.role);
+      if (response.data.email && (response.data.role === 'coach')) {
+        console.log('HERE ',response.data.role);
+      } else {
+        // Store the activation code for later use
+        // code.tempCode = $route.current.params.code;
+        // console.log('Activation code: ', $route.current.params.code);
+
+        // user has no session, bounce them back to the login page
+        $location.path("/login");
+      }
+
+  });
 };
     /**
      * addUserPwd function
@@ -101,7 +112,7 @@ var coachClearance = function() {
                 console.log('User Data: ', userObject);
                 $location.path("/home");
             } else if (response.data.username && (response.data.role === 'coach')) {
-              console.log(response.data.role);
+              console.log('ROLE:', response.data.role);
               auth.getTickets(response.data);
               $location.path("/coach");
             } else {
@@ -138,6 +149,7 @@ var coachClearance = function() {
     return {
       sendActivation : sendActivation,
       clearance : clearance,
+      coachClearance : coachClearance,
       loginUser: loginUser,
       registerAdmin: registerAdmin,
       addUserPwd: addUserPwd

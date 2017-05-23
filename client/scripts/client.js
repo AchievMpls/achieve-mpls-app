@@ -169,8 +169,8 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
       templateUrl: '/views/templates/coach.html',
       controller: 'coachController as coach',
       resolve: {
-        clearance : ['AuthService', function(AuthService){
-          return AuthService.clearance();
+        coachClearance : ['AuthService', function(AuthService){
+          return AuthService.coachClearance();
         }]
       }
     })
