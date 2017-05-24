@@ -9,6 +9,7 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
   function($http, $location, $mdDialog, CoachService, $filter) {
 
     var auth = this;
+<<<<<<< HEAD
 
     // var code = {}; // CC possibly passed to pass param to validate chance code
     var userObject = {};
@@ -22,6 +23,17 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
  */
 
 
+=======
+    auth.getTickets = CoachService.getTickets;
+    var userObject = {};
+    var coach = {};
+    /**
+     * sendActivation function
+     * @desc Send email and activation code to coach
+     * @param userObject from input fields in 'send activation' button adminUser.html
+     * @return success response code
+     */
+>>>>>>> 43f589a09861df07743f6482223bf847b79bb294
 
     function sendActivation(userObject) {
 
@@ -31,7 +43,6 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
       chance_expiration.setDate(chance_expiration.getDate() + 30);
       userObject.chance_expiration = $filter('date')((chance_expiration), "yyyy-MM-dd");
       console.log('expiryDate is: ', userObject.chance_expiration);
-
       console.log('AuthService line 11', userObject);
       $http.post( '/mail' , userObject ).then(function(response){
       console.log( 'Email sent: ', response.data );
@@ -90,6 +101,8 @@ var coachClearance = function() {
      */
 
     function addUserPwd(user) {
+      $http.post('/register/addPwd', user).then(function(response) {
+        $location.path('/login');
       console.log('add pwd user', user);
       $http({
         method: 'GET',
@@ -102,8 +115,7 @@ var coachClearance = function() {
           $http.post('/register/addPwd', user).then(function(response) {
              $location.path('/coach');
           });
-        }
-        else {
+        } else {
           $mdDialog.show(
             $mdDialog.alert()
             .clickOutsideToClose(true)
@@ -113,22 +125,9 @@ var coachClearance = function() {
             .ok('OK!')
           );
         }
-
       });
-
+    });
     }
-/**
- * validateCode function
- * @desc validates authorization code with db
- * @param chance code from $routeParams
- * @return success response code
- */
- // function validateCode(authCode) {
- //   console.log('AuthService validateCode', authCode);
- //   $http.put( '/mail' , authCode ).then(function(response){
- //   console.log( 'Code Validated: ', response.data );
- // });
- // }
     /**
      * loginUser function
      * @desc authenticate the username and pwd
@@ -140,9 +139,14 @@ var coachClearance = function() {
      */
   function loginUser(user) {
     console.log('get me here', user);
-    $http.post('/', user).then(function(response) {
-          if(response) {
 
+    $http.post('/', user).then(function(response) {
+          console.log('RESPONSE: ', response.data);
+          if(response) {
+<<<<<<< HEAD
+
+=======
+>>>>>>> 43f589a09861df07743f6482223bf847b79bb294
             console.log('success: ', response.data);
             // location works with SPA (ng-route)
             console.log('redirecting to user page');
@@ -155,6 +159,9 @@ var coachClearance = function() {
                 $location.path("/home");
             } else if (response.data.username && (response.data.role === 'coach')) {
               console.log('ROLE:', response.data.role);
+              coach.session_id = response.data.session_id;
+              coach.user_id = response.data.user_id;
+              console.log('coach post assignment: ', coach);
               auth.getTickets(response.data);
               $location.path("/coach");
             } else {
@@ -165,11 +172,20 @@ var coachClearance = function() {
               // user has no session, bounce them back to the login page
               $location.path("/login");
             }
+<<<<<<< HEAD
           } else {
             console.log('failure: ', response);
           }
         });
       }
+=======
+        } else {
+          console.log('failure: ', response);
+        }
+      });
+    }
+
+>>>>>>> 43f589a09861df07743f6482223bf847b79bb294
   /**
    * registerAdmin function
    * @desc
@@ -194,7 +210,9 @@ var coachClearance = function() {
       coachClearance : coachClearance,
       loginUser: loginUser,
       registerAdmin: registerAdmin,
-      addUserPwd: addUserPwd
+      addUserPwd: addUserPwd,
+      coach: coach
     };
 
-  }]);
+  }
+]);

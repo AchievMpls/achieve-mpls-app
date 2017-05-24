@@ -66,6 +66,10 @@ user.registerAdmin = function(admin) {
            AuthService.registerAdmin(admin);
          }
        };
+<<<<<<< HEAD
+=======
+
+>>>>>>> 43f589a09861df07743f6482223bf847b79bb294
   /**
   * addUserPwd
   * @desc user to create the password, if the two inputs are not the same, popup alert is shown
@@ -111,9 +115,5 @@ user.registerAdmin = function(admin) {
         AuthService.addUserPwd(user);
       }
     }
-
-
-
-
   };
 }]);
