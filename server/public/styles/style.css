@@ -13,15 +13,14 @@ h1 {
 .background-logo {
   background-color: #AB182F;
 }
-.dialog-container {
-  background-color: white;
+
+.card-panel {
   padding: 20px;
 }
 
-.close-button {
-  /*padding-right: 15px;*/
-  /*margin: 0px 30px 0px 20px;*/
-  /*display: inline-block;*/
+.dialog-container {
+  background-color: white;
+  padding: 20px;
 }
 
 .coach-ticket {
@@ -33,7 +32,7 @@ h1 {
 }
 
 .form-wrapper {
-  max-height: 85%;
+  min-height: 85%;
   top: 50%;
   left: 50%;
   overflow: scroll;
@@ -78,4 +77,8 @@ h1 {
    width: 24px;
    min-height: 24px;
    min-width: 24px;
+}
+
+#main {
+  padding: 20px;
 }

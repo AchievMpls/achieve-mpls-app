@@ -1,8 +1,12 @@
 <div class="_md-panel-focus-trap" tabindex="0"></div>
-<div class="form-row" layout="row" layout-align="center center" class="admin_table">
 <div class="form-wrapper">
-  <md-card>
+  <md-card class="card-panel">
     <div layout="row" layout-align="end center">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Create New Event</span>
+          </md-card-title-text>
+    </md-card-title>
     <md-input-container class="close-button">
     <md-button class="md-fab md-primary" aria-label="Close Form" ng-click="events.toggleForm();">
       <i class="material-icons" id="addButton">clear</i>
@@ -12,7 +16,7 @@
     <div layout="row" layout-align="space-around none">
       <div layout = "column">
       <md-input-container>
-        <label>Meeting Count</label>
+        <label>Event Number</label>
         <input ng-model="events.event.meeting_count">
       </md-input-container>
     </div>
@@ -27,21 +31,20 @@
       </md-input-container>
     </div>
   </div>
-    <div layout="row" layout-align="space-around none" class="admin_table">
+    <div layout="row" layout-align="center">
       <div layout= "column">
       <md-input-container>
-        <label>Date Exit-Ticket Opens</label>
+        <label>Open Date</label>
         <md-datepicker ng-model="events.event.open_date"></md-datepicker>
       </md-input-container>
     </div>
     <div layout = "column">
       <md-input-container>
-        <label>Date Exit-Ticket Opens</label>
+        <label>Close Date</label>
         <md-datepicker ng-model="events.event.close_date"></md-datepicker>
       </md-input-container>
     </div>
   </div>
-  <div class="form-row" layout="row" layout-align="space-around none" class="admin_table">
     <div layout = "row">
       <md-input-container>
       <md-button class="md-fab md-primary" aria-label="Submit New Event" ng-click="events.sendEvent(events.event); forms.closeDialog()">
@@ -50,9 +53,6 @@
       </md-input-container>
       </md-card>
     </div>
-    </div>
   </md-card>
-</div>
-</div>
 </div>
 <div class="_md-panel-focus-trap" tabindex="0"></div>

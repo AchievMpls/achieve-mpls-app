@@ -5,11 +5,10 @@
  * @return the user is logged in
 */
 
-myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService', '$filter',
-  function($http, $location, $mdDialog, CoachService, $filter) {
+myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService', 'AdminService', '$filter',
+  function($http, $location, $mdDialog, CoachService, $filter, AdminService) {
 
     var auth = this;
-
     auth.getTickets = CoachService.getTickets;
     var userObject = {};
     var coach = {};

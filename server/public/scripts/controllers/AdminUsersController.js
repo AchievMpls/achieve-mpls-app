@@ -4,6 +4,8 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     console.log('Admin Users sourced: ');
     var users = this;
 
+    var sessions = AdminService.specificYear;
+
     /**
      * @global object that limits table's display length and orders by first name
      */
@@ -113,7 +115,21 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     //hard coding data for the dropdown menus. this will be removed later
 
     users.roleArray = ['coach', 'admin'];
-    users.sessionArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    users.sessionArray = [];
+
+    /**
+    * @function populate session array
+    * @desc populates the session array with the number of sessions available for that year.
+    * @param the total number of sessions
+    * @return sessionArray populated with numbers based on number of sessions
+    */
+    var populateSessionArray = function (array) {
+      for (var i = 1; i <= array.length; i++){
+        users.sessionArray.push(i);
+      }
+    };
+
+    populateSessionArray(AdminService.specificYear.sessions);
 
 
     //the rest of this is code to get $mdPanel to work.
