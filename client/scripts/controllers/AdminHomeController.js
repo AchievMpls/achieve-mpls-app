@@ -17,6 +17,8 @@ function(AdminService){
   home.getYearsTickets = AdminService.getYearsTickets;
   home.specificYear = AdminService.specificYear;
 
+  home.getYearsSessions = AdminService.getYearsSessions;
+
   home.filterTickets = function() {
     //transforms data from the "coach ratings" checkboxes from an object to an array of arrays
     var ratingsArray = Object.keys(home.filterParams.ratings).map(function(data){
