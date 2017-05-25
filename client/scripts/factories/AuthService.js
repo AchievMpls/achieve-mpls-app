@@ -145,7 +145,6 @@ var coachClearance = function() {
               // Store the activation code for later use
               // code.tempCode = $route.current.params.code;
               // console.log('Activation code: ', $route.current.params.code);
-
               // user has no session, bounce them back to the login page
               $location.path("/login");
             }
