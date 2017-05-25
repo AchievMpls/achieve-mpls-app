@@ -1,0 +1,87 @@
+<h1>Admin Home</h1>
+
+<div layout="row" layout-align="start center">
+  <md-input-container flex="25" class="md-block" flex-gt-sm>
+    <label>School Year</label>
+    <md-select ng-model="home.chosenYear">
+      <md-option ng-repeat="year in home.sessionYear.uniques" ng-value="year.year">
+        {{year.year}}-{{(year.year)+1}}
+      </md-option>
+    </md-select>
+  </md-input-container>
+  <md-button class="md-raised" ng-click="home.getYearsTickets(home.chosenYear)">Display Sessions</md-button>
+</div>
+
+<div layout="row" layout-align="space-around center">
+    <md-input-container class="md-block" flex-gt-sm ng-show="home.specificYear.tickets">
+      <label>Session Number</label>
+      <md-select ng-model="home.filterParams.session_id">
+        <md-option ng-value="ticket.session_id">
+          Select All
+        </md-option>
+        <md-option ng-repeat="ticket in home.specificYear.tickets | unique: 'session_id' | orderBy:'session_id'" ng-value="ticket.session_id">
+          {{ticket.session_id}}
+        </md-option>
+      </md-select>
+    </md-input-container>
+
+      <md-input-container class="md-block" flex-gt-sm ng-show="home.specificYear.tickets">
+      <label>Coach</label>
+      <md-select ng-model="home.filterParams.user_id">
+        <md-option ng-value="ticket.user_id">
+          Select All
+        </md-option>
+        <md-option ng-repeat="ticket in home.specificYear.tickets | unique: 'fname && lname' | orderBy:'lname'" ng-value="ticket.user_id">
+          {{ticket.fname}} {{ticket.lname}}
+        </md-option>
+      </md-select>
+    </md-input-container>
+
+      <div layout="row" flex="20" ng-show="home.specificYear.tickets" layout-align="space-between center" layout-wrap>
+        <legend>Rating: </legend>
+        <!-- <span ng-repeat="ticket in home.specificYear.tickets | unique: 'q1_answer' | orderBy:'-q1_answer' track by ticket.q1_answer">
+          <md-checkbox type="checkbox" ng-checked="ticket.q1_answer" ng-model="home.filterParams.ratings[ticket.q1_answer]" ng-value="{{ticket.q1_answer}}">{{ticket.q1_answer}}</md-checkbox>
+        </span> -->
+        <span ng-repeat="ticket in home.tenScale | orderBy:-ticket track by $index">
+          <md-checkbox type="checkbox" ng-checked="ticket" ng-model="home.filterParams.ratings[ticket]" ng-value="{{ticket}}">{{ticket}}</md-checkbox>
+        </span>
+      </div>
+
+  <md-button class="md-raised md-primary" ng-show="home.specificYear.tickets" ng-click="home.filterTickets()">Apply Filter</md-button>
+</div>
+
+
+<div layout="row" layout-align="center center" class="admin_table">
+  <md-card md-whiteframe="8" flex="90">
+    <md-table-container>
+      <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
+        <thead md-head md-order="home.query.order">
+          <tr md-row>
+            <th md-column md-order-by="session_id" class=""><span>Session</span></th>
+            <th md-column md-order-by="lname" class=""><span>Coach Name</span></th>
+            <th md-column md-order-by="date_form_completed" class=""><span>Date Completed</span></th>
+            <th md-column md-numeric md-order-by="q1_answer" md-desc class=""><span>Question 01</span></th>
+            <th md-column md-order-by="q2_answer" md-desc class=""><span>Question 02</span></th>
+            <th md-column md-order-by="q3_answer" md-desc class=""><span>Question 03</span></th>
+            <th md-column md-order-by="q4_answer" md-desc class=""><span>Question 04</span></th>
+            <th md-column md-order-by="q5_answer" md-desc class=""><span>Question 05</span></th>
+          </tr>
+        </thead>
+        <tbody md-body>
+          <tr md-row md-auto-select="options.autoSelect" ng-repeat="ticket in home.specificYear.tickets | orderBy: home.query.order | limitTo: home.query.limit : (home.query.page -1) * home.query.limit">
+            <td md-cell class="">{{ticket.session_id}}</td>
+            <td md-cell class="">{{ticket.fname}} {{ticket.lname}}</td>
+            <td md-cell class="">{{ticket.date_form_completed | date:'longDate'}}</td>
+            <td md-cell class="">{{ticket.q1_answer}}</td>
+            <td md-cell class="">{{ticket.q2_answer}}</td>
+            <td md-cell class="">{{ticket.q3_answer}}</td>
+            <td md-cell class="">{{ticket.q4_answer}}</td>
+            <td md-cell class="">{{ticket.q5_answer}}</td>
+
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+    <md-table-pagination md-limit="home.query.limit" md-limit-options="limitOptions" md-page="home.query.page" md-total="{{home.specificYear.tickets.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+  </md-card>
+</div>

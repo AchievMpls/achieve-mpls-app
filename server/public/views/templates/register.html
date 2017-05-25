@@ -1,0 +1,26 @@
+<md-content layout="row" layout-align="center center">
+  <form class="register-input" ng-submit="admin.registerAdmin(admin)">
+    <md-input-container>
+      <label for="fname">First Name</label>
+      <input type="text" ng-model="admin.fname"/>
+    </md-input-container>
+    <br>
+    <md-input-container>
+      <label for="lname">Last Name</label>
+      <input type="text" ng-model="admin.lname"/>
+    </md-input-container>
+    <br>
+    <md-input-container>
+      <label for="email">E-Mail</label>
+      <input type="text" ng-model="admin.email"/>
+    </md-input-container>
+    <br>
+    <md-input-container>
+      <label for="password">Password</label>
+      <input type="password" ng-model="admin.password"/>
+    </md-input-container>
+    <div layout="row" layout-align="space-around center">
+      <md-button class="md-raised md-primary" type="submit" name="submit" value="Register">Register</md-button>
+    </div>
+  </form>
+</md-content>
