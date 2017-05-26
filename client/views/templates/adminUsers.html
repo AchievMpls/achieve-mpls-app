@@ -66,11 +66,6 @@
           </tbody>
         </table>
       </md-table-container>
-      limit: {{users.query.limit}}
-      page: {{users.query.page}}
-      length: {{users.allUsers.length}}
-      <!-- <md-button ng-click = "users.logPagination()">button</md-button> -->
-
       <md-table-pagination md-limit="users.query.limit"
       md-limit-options="limitOptions" md-page="users.query.page"
       md-total="{{users.allUsers.length}}"

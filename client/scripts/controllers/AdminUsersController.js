@@ -9,7 +9,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      */
     users.query = {
       order: 'fname',
-      limit: 5,
+      limit: 25,
       page: 1
     };
 
@@ -47,7 +47,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     AdminService.getUsers(users.query.page, users.query.limit, function(rows) {
       users.pageUsers = rows;
     });
-    
+
     users.logPagination = function() {
       console.log('log pagination');
       AdminService.getUsers(users.query.page, users.query.limit, function(rows) {
