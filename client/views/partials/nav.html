@@ -1,10 +1,11 @@
-  <md-toolbar class="md-padding header md-warn">
-    <div layout="row" layout-xs="column" layout-align="space-between center" layout-align-xs="start stretch">
-    <div layout="column" layout-xs="row">
-    <h1 class="logo-sample"> Achieve Mpls </h1>
-  </div>
-  <div layout="column" layout-xs='row'>
+  <md-toolbar  class="md-padding header md-warn" flex="100">
+    <div class="background-logo" layout="row" layout-align="space-between center">
+    <div layout="column">
+    <img src="./views/images/achievempls-logo-white.png" flex="30">
+    </div>
+    <div layout="column">
     <md-nav-bar
+      hide show-gt-sm flex="60"
       md-selected-nav-item="currentNavItem"
       nav-bar-aria-label="navigation links"
       class = "md-warn"
@@ -25,6 +26,29 @@
         Logout
       </md-nav-item>
     </md-nav-bar>
-    </div>
+  </div>
+  <div layout="column">
+  <md-menu hide-gt-sm>
+    <md-button aria-label="menu" class="md-icon-button large" ng-click="$mdMenu.open($event)" style="color:white">
+      <i class="material-icons" id="addButton">menu</i>
+    </md-button>
+    <md-menu-content width="2" ng-click="$mdMenu.close()">
+      <md-menu-item>
+        <md-button md-nav-href="#adminUsers"> <span md-menu-align-target>View Tickets</span></md-button>
+      </md-menu-item>
+      <md-menu-item>
+        <md-button ng-click="showRun.logout()"> <span md-menu-align-target>Manage Users</span></md-button>
+      </md-menu-item>
+      <md-menu-item>
+        <md-button ng-click="showRun.logout()"> <span md-menu-align-target>Ticket Templates</span></md-button>
+      </md-menu-item>
+      <md-menu-item>
+        <md-button ng-click="showRun.logout()"> <span md-menu-align-target>Manage Sessions</span></md-button>
+      </md-menu-item>
+      <md-menu-item>
+        <md-button ng-click="showRun.logout()"> <span md-menu-align-target>Logout</span></md-button>
+      </md-menu-item>
+  </md-menu>
+</div>
   </div>
 </md-toolbar>

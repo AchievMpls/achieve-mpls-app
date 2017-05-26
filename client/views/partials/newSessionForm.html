@@ -1,6 +1,11 @@
 <div class="form-wrapper">
-  <md-card>
+  <md-card class="card-panel">
     <div layout="row" layout-align="end center">
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Create New Session</span>
+        </md-card-title-text>
+      </md-card-title>
       <md-input-container class="close-button">
         <md-button class="md-fab md-primary" aria-label="Close Form" ng-click="sessions.toggleForm(); sessions.clearFields()">
           <i class="material-icons" id="addButton">clear</i>
@@ -42,30 +47,25 @@
         </md-input-container>
       </div>
     </div>
-    <div layout="row" layout-align="space-around none">
-            <div>
-              <md-input-container>
-                <label>Hours</label>
-                <md-select ng-model="sessions.currentSession.hours">
-                  <md-option ng-repeat="hour in sessions.timeDropdown.hours" value={{hour}}>{{hour}}</md-option>
-                </md-select>
-              </md-input-container>
-            </div>
-            <div>
-              <md-input-container>
-                <label>Minutes</label>
-                <md-select ng-model="sessions.currentSession.minutes" aria-label="minutes">
-                  <md-option ng-repeat="minutes in sessions.timeDropdown.minutes" value={{minutes}}>{{minutes}}</md-option>
-                </md-select>
-              </md-input-container>
-            </div>
-          </div>
-      <div layout="column">
-        <md-input-container>
-          <label>School</label>
-          <input ng-model="sessions.currentSession.school">
-        </md-input-container>
-      </div>
+    <div layout="row" layout-align="center">
+      <md-input-container>
+        <label>Time:</label>
+        <md-select ng-model="sessions.currentSession.hours">
+          <md-option ng-repeat="hour in sessions.timeDropdown.hours" aria-label="hours" value={{hour}}>{{hour}}</md-option>
+        </md-select>
+      </md-input-container>
+      <md-input-container>
+        <md-select ng-model="sessions.currentSession.minutes" aria-label="minutes">
+          <md-option ng-repeat="minutes in sessions.timeDropdown.minutes" value={{minutes}}>{{minutes}}</md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <div layout="column">
+      <md-input-container>
+        <label>School</label>
+        <input ng-model="sessions.currentSession.school">
+      </md-input-container>
+    </div>
     <div layout="row" layout-align="center center">
       <md-input-container>
         <md-button class="md-primary md-raised" ng-click="sessions.sendSession(sessions.currentSession)">Submit</button>

@@ -290,7 +290,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @desc selects all tickets for a single school year
      * @param {number} year the year whose tickets are to be returned
      */
-    function getYearsTickets(year) {
+     function getYearsTickets (year) {
       if (!year) {
         $mdDialog.show(
           $mdDialog.alert()

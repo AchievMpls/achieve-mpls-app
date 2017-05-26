@@ -1,21 +1,26 @@
-  <div class="_md-panel-focus-trap" tabindex="0"></div>
+<div class="_md-panel-focus-trap" tabindex="0"></div>
 <div class="form-wrapper">
-  <div layout="row" layout-align="end center">
-  <md-input-container class="close-button">
-  <md-button class="md-fab md-fab-top-right md-primary" aria-label="Close Form" ng-click="forms.toggleForm();">
-    <i class="material-icons" id="addButton">clear</i>
-  </md-button>
-  </md-input-container>
-</div>
-<div class="form-row" layout="row" layout-align="center center" class="admin_table">
-    <md-card md-whiteframe="8" flex="90">
+  <div class="form-row" layout="row" layout-align="center center" class="admin_table">
+    <md-card class="card-panel">
+      <div layout="row" layout-align="end center">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Create New Form</span>
+          </md-card-title-text>
+          <md-input-container class="close-button">
+            <md-button class="md-fab md-fab-top-right md-primary" aria-label="Close Form" ng-click="forms.toggleForm();">
+              <i class="material-icons" id="addButton">clear</i>
+            </md-button>
+          </md-input-container>
+        </md-card-title>
+      </div>
       <div class="form-row" layout="row" layout-align="space-around none" class="admin_table">
         <md-input-container>
           <label>Form Name</label>
           <textarea rows="2" cols="50" ng-model="forms.prompts.form_name">{{forms.prompts.form_name}}</textarea>
         </md-input-container>
       </div>
-        <div class="form-row" layout="row" layout-align="space-around none" class="admin_table">
+      <div class="form-row" layout="row" layout-align="space-around none" class="admin_table">
         <md-input-container>
           <label>Question 01</label>
           <textarea rows="2" cols="50" ng-model="forms.prompts.promptsArray[0]">{{forms.prompts.promptsArray[0]}}</textarea>
@@ -27,7 +32,7 @@
           <textarea rows="2" cols="50" ng-model="forms.prompts.promptsArray[1]">{{forms.prompts.promptsArray[1]}}</textarea>
         </md-input-container>
       </div>
-    <div class="form-row" layout="row" layout-align="space-around none" class="admin_table">
+      <div class="form-row" layout="row" layout-align="space-around none" class="admin_table">
         <md-input-container>
           <label>Question 03</label>
           <textarea rows="2" cols="50" ng-model="forms.prompts.promptsArray[2]">{{forms.prompts.promptsArray[2]}}</textarea>
@@ -39,22 +44,22 @@
           <textarea rows="2" cols="50" ng-model="forms.prompts.promptsArray[3]">{{forms.prompts.promptsArray[3]}}</textarea>
         </md-input-container>
       </div>
-        <div class="form-row" layout="row" layout-align="space-around none" class="admin_table">
+      <div class="form-row" layout="row" layout-align="space-around none" class="admin_table">
         <md-input-container>
           <label>Question 05</label>
           <textarea rows="2" cols="50" ng-model="forms.prompts.promptsArray[4]">{{forms.prompts.promptsArray[4]}}</textarea>
         </md-input-container>
       </div>
-    <div class="form-row" layout="row" layout-align="space-around none" class="admin_table">
-      <div layout = "row">
-        <md-input-container>
-        <md-button class="md-fab md-primary" aria-label="Submit New User" ng-click="forms.sendForm(forms.prompts); forms.closeDialog()">
-          <i class="material-icons" id="addButton">done</i>
-        </md-button>
-        </md-input-container>
-      </div>
+      <div class="form-row" layout="row" layout-align="space-around none" class="admin_table">
+        <div layout = "row">
+          <md-input-container>
+            <md-button class="md-fab md-primary" aria-label="Submit New User" ng-click="forms.sendForm(forms.prompts); forms.closeDialog()">
+              <i class="material-icons" id="addButton">done</i>
+            </md-button>
+          </md-input-container>
+        </div>
       </div>
     </md-card>
   </div>
 </div>
-  <div class="_md-panel-focus-trap" tabindex="0"></div>
+<div class="_md-panel-focus-trap" tabindex="0"></div>

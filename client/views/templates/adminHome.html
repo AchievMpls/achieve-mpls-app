@@ -1,15 +1,14 @@
-<h1>Admin Home</h1>
+<h1>Completed Exit Tickets</h1>
 
 <div layout="row" layout-align="start center">
   <md-input-container flex="25" class="md-block" flex-gt-sm>
     <label>School Year</label>
-    <md-select ng-model="home.chosenYear">
+    <md-select ng-model="home.sessionYear.currentYear" ng-change="home.getYearsSessions(home.sessionYear.currentYear); home.getYearsTickets(home.sessionYear.currentYear)">
       <md-option ng-repeat="year in home.sessionYear.uniques" ng-value="year.year">
         {{year.year}}-{{(year.year)+1}}
       </md-option>
     </md-select>
   </md-input-container>
-  <md-button class="md-raised" ng-click="home.getYearsTickets(home.chosenYear)">Display Sessions</md-button>
 </div>
 
 <div layout="row" layout-align="space-around center">

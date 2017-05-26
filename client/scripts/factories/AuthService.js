@@ -3,9 +3,11 @@
  * @desc Manages all of the functions related to Authorization
  * @param $http, $location
  * @return the user is logged in
- */
-myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService', '$filter',
-  function($http, $location, $mdDialog, CoachService, $filter) {
+*/
+
+myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService', 'AdminService', '$filter',
+  function($http, $location, $mdDialog, CoachService, AdminService, $filter) {
+
     var auth = this;
     auth.getTickets = CoachService.getTickets;
     var userObject = {};
@@ -81,6 +83,7 @@ var coachClearance = function() {
      * @param user Object from input fields in submit button createPassword.html
      * @return success redirect to coach page
      */
+
     function addUserPwd(user) {
       $http.post('/register/addPwd', user).then(function(response) {
         $location.path('/login');
@@ -148,6 +151,8 @@ var coachClearance = function() {
               // user has no session, bounce them back to the login page
               $location.path("/login");
             }
+
+
         } else {
           console.log('failure: ', response);
         }
