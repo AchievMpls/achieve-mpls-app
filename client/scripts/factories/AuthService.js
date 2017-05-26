@@ -6,7 +6,7 @@
 */
 
 myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService', 'AdminService', '$filter',
-  function($http, $location, $mdDialog, CoachService, $filter, AdminService) {
+  function($http, $location, $mdDialog, CoachService, AdminService, $filter) {
 
     var auth = this;
     auth.getTickets = CoachService.getTickets;
