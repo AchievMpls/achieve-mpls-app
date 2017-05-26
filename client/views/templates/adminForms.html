@@ -1,5 +1,5 @@
-<h1>Forms</h1>
-<div layout="row" layout-align="end center" ng-keypress="forms.formHide($event)">
+<div layout="row" layout-align="space-between center" ng-keypress="forms.formHide($event)">
+  <h1>Forms</h1>
     <md-card class="card" flex="30">
       <div layout="row" layout-align="space-between center">
         <div layout="column">
@@ -36,12 +36,12 @@
 
           <tr md-row md-auto-select="options.autoSelect" ng-repeat="form in forms.allForms.returnedForms | orderBy: forms.query.order | limitTo: forms.query.limit : (forms.query.page -1) * forms.query.limit">
             <td md-cell>
-              <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="forms.confirmDelete(form)">
-                Delete
+              <md-button flex="10" aria-label="delete" ng-click="forms.confirmDelete(form)">
+              <i class="material-icons" >delete</i>
                 <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_clear_black_48px.svg"></md-icon> -->
               </md-button>
-              <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="forms.editForm(form); forms.toggleForm()">
-                Edit
+              <md-button flex="10" aria-label="edit" ng-click="forms.editForm(form); forms.toggleForm()">
+                <i class="material-icons">create</i>
                 <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_mode_edit_white_48px.svg"></md-icon> -->
               </md-button>
             </td>

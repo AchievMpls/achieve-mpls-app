@@ -47,9 +47,9 @@
         </md-input-container>
       </div>
     </div>
-    <div layout="row" layout-align="center">
+    <div layout="row" layout-align="center center">
+      <label style="color:gray">Start Time:</label>
       <md-input-container>
-        <label>Time:</label>
         <md-select ng-model="sessions.currentSession.hours">
           <md-option ng-repeat="hour in sessions.timeDropdown.hours" aria-label="hours" value={{hour}}>{{hour}}</md-option>
         </md-select>
@@ -64,6 +64,12 @@
       <md-input-container>
         <label>School</label>
         <input ng-model="sessions.currentSession.school">
+      </md-input-container>
+    </div>
+    <div layout="column">
+      <md-input-container>
+        <label>Events to Add</label>
+        <input ng-model="sessions.currentSession.eventsToAdd">
       </md-input-container>
     </div>
     <div layout="row" layout-align="center center">
