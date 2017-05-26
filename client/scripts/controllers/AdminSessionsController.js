@@ -135,7 +135,7 @@ function(AdminService, $mdDialog, $filter) {
       return;
     }
     var sessionToSend = {
-      eventsToAdd : 0,
+      eventsToAdd : session.eventsToAdd,
       grade : session.grade,
       facilitator : session.facilitator,
       day : session.day,
@@ -171,6 +171,7 @@ function(AdminService, $mdDialog, $filter) {
       AdminService.deleteSession(session);
     });
   };
+
 
   sessions.addYear = function() {
     sessionToSend = {

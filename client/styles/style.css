@@ -33,6 +33,7 @@ h1 {
 
 .form-wrapper {
   min-height: 85%;
+  max-height: 95%;
   top: 50%;
   left: 50%;
   overflow: scroll;
@@ -44,6 +45,15 @@ h1 {
 .header {
   background-color: black;
   color: white;
+}
+
+.home-table {
+  cursor: pointer;
+  cursor: hand;
+}
+
+.home-table-item:hover {
+  background-color : #EBF1F5;
 }
 
 .md-button {

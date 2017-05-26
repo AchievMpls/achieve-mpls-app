@@ -1,5 +1,4 @@
 <h1>Completed Exit Tickets</h1>
-
 <div layout="row" layout-align="start center">
   <md-input-container flex="25" class="md-block" flex-gt-sm>
     <label>School Year</label>
@@ -58,29 +57,35 @@
           <tr md-row>
             <th md-column md-order-by="session_id" class=""><span>Session</span></th>
             <th md-column md-order-by="lname" class=""><span>Coach Name</span></th>
+            <th md-column md-numeric md-order-by="q1_answer" md-desc class=""><span>Rating</span></th>
+            <th md-column md-order-by="facilitator" class=""><span>Facilitator</span></th>
+            <th md-column md-order-by="day" class=""><span>Day</span></th>
+            <th md-column md-order-by="start_time" class=""><span>Start Time</span></th>
+            <th md-column md-order-by="school" class=""><span>School</span></th>
             <th md-column md-order-by="date_form_completed" class=""><span>Date Completed</span></th>
-            <th md-column md-numeric md-order-by="q1_answer" md-desc class=""><span>Question 01</span></th>
-            <th md-column md-order-by="q2_answer" md-desc class=""><span>Question 02</span></th>
-            <th md-column md-order-by="q3_answer" md-desc class=""><span>Question 03</span></th>
-            <th md-column md-order-by="q4_answer" md-desc class=""><span>Question 04</span></th>
-            <th md-column md-order-by="q5_answer" md-desc class=""><span>Question 05</span></th>
+
           </tr>
         </thead>
-        <tbody md-body>
-          <tr md-row md-auto-select="options.autoSelect" ng-repeat="ticket in home.specificYear.tickets | orderBy: home.query.order | limitTo: home.query.limit : (home.query.page -1) * home.query.limit">
+        <tbody md-body class="home-table">
+          <tr md-row class="home-table-item" md-auto-select="options.autoSelect" ng-repeat="ticket in home.specificYear.tickets | orderBy: home.query.order | limitTo: home.query.limit : (home.query.page -1) * home.query.limit" ng-click="home.clearFields(); home.toggleForm(); home.populateTicket(ticket)">
             <td md-cell class="">{{ticket.session_id}}</td>
             <td md-cell class="">{{ticket.fname}} {{ticket.lname}}</td>
-            <td md-cell class="">{{ticket.date_form_completed | date:'longDate'}}</td>
             <td md-cell class="">{{ticket.q1_answer}}</td>
-            <td md-cell class="">{{ticket.q2_answer}}</td>
-            <td md-cell class="">{{ticket.q3_answer}}</td>
-            <td md-cell class="">{{ticket.q4_answer}}</td>
-            <td md-cell class="">{{ticket.q5_answer}}</td>
-
+            <td md-cell class="">{{ticket.facilitator}}</td>
+            <td md-cell class="">{{ticket.day}}</td>
+            <td md-cell class="">{{ticket.start_time}}</td>
+            <td md-cell class="">{{ticket.school}}</td>
+            <td md-cell class="">{{ticket.date_form_completed | date:'longDate'}}</td>
           </tr>
         </tbody>
       </table>
     </md-table-container>
     <md-table-pagination md-limit="home.query.limit" md-limit-options="limitOptions" md-page="home.query.page" md-total="{{home.specificYear.tickets.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
   </md-card>
+</div>
+
+</div>
+<div id="form-container" ng-show="forms.form">
+<ng-include src="'./views/partials/currentExitTicket.html'"></ng-include>
+</div>
 </div>
