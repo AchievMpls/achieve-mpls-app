@@ -10,22 +10,26 @@ var pool = require('../modules/db');
 */
 
 router.get('/', function(req, res) {
-  pool.connect(function(errorConnectingToDb, db, done) {
-    if (errorConnectingToDb) {
-      res.sendStatus(500);
-    } else {
-
-      db.query('SELECT * from "users" ORDER BY "fname" ASC ;',
-      function(queryError, result) {
-        done();
-        if (queryError) {
+if (req.isAuthenticated()) {
+      pool.connect(function(errorConnectingToDb, db, done) {
+        if (errorConnectingToDb) {
           res.sendStatus(500);
         } else {
-          res.send(result.rows);
+
+          db.query('SELECT * from "users" ORDER BY "fname" ASC ;',
+          function(queryError, result) {
+            done();
+            if (queryError) {
+              res.sendStatus(500);
+            } else {
+              res.send(result.rows);
+            }
+          });
         }
       });
+    } else {
+         res.sendStatus(401);
     }
-  });
 });//end router.get
 
 router.get('/clearance', function(req, res) {
@@ -47,24 +51,28 @@ router.get('/clearance', function(req, res) {
 router.put('/deactivateUser', function(req, res) {
   console.log('on server, id is: ', req.body.id);
   var id = req.body.id;
-  pool.connect(function(errorConnectingToDb, db, done) {
-  if (errorConnectingToDb) {
-    console.log('error connecting: ', errorConnectingToDb);
-    res.sendStatus(500);
+  if (req.isAuthenticated()) {
+    pool.connect(function(errorConnectingToDb, db, done) {
+      if (errorConnectingToDb) {
+        console.log('error connecting: ', errorConnectingToDb);
+        res.sendStatus(500);
+      } else {
+        db.query('UPDATE "users" SET "session_id"=$1 WHERE "id" = $2;',
+        [null, id],
+          function(queryError, result) {
+            done();
+            if (queryError) {
+              console.log('error querying: ', queryError);
+              res.sendStatus(500);
+            } else {
+              res.sendStatus(201);
+            }
+          });
+      }
+    });
   } else {
-    db.query('UPDATE "users" SET "session_id"=$1 WHERE "id" = $2;',
-    [null, id],
-      function(queryError, result) {
-        done();
-        if (queryError) {
-          console.log('error querying: ', queryError);
-          res.sendStatus(500);
-        } else {
-          res.sendStatus(201);
-        }
-      });
+  res.sendStatus(401);
   }
-});
 });//end router.put
 
 router.post('/postUser', function(req, res) {
@@ -88,29 +96,36 @@ router.post('/postUser', function(req, res) {
   });
 });//end router.post
 
-
 router.put('/updateUser', function(req, res) {
   console.log('updating, we have: ', req.body);
   var id = req.body.id;
   var session_id = parseInt(req.body.session_id);
+  if (isNaN(session_id)) {
+    session_id = null;
+  }
   console.log('now session is: ', session_id);
   var body = req.body;
-  pool.connect(function(errorConnectingToDb, db, done) {
-  if (errorConnectingToDb) {
-    res.sendStatus(500);
+  if (req.isAuthenticated()) {
+    pool.connect(function(errorConnectingToDb, db, done) {
+      if (errorConnectingToDb) {
+        res.sendStatus(500);
+      } else {
+        db.query('UPDATE "users" SET "fname"=$1, "lname"=$2, "email"=$3, "role"=$4, "session_id"=$5 WHERE "id" = $6;',
+        [body.fname, body.lname, body.email, body.role, session_id, id],
+          function(queryError, result) {
+            done();
+            if (queryError) {
+              console.log('hit error query for updateUser', queryError);
+              res.sendStatus(500);
+            } else {
+              res.sendStatus(201);
+            }
+          });
+      }
+    });
   } else {
-    db.query('UPDATE "users" SET "fname"=$1, "lname"=$2, "email"=$3, "role"=$4, "session_id"=$5 WHERE "id" = $6;',
-    [body.fname, body.lname, body.email, body.role, session_id, id],
-      function(queryError, result) {
-        done();
-        if (queryError) {
-          res.sendStatus(500);
-        } else {
-          res.sendStatus(201);
-        }
-      });
+    res.sendStatus(401);
   }
-});
 });//end router.put
 
 module.exports = router;

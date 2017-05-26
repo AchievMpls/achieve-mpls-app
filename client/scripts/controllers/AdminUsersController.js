@@ -58,7 +58,6 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      * @param {object} item - The entry to be added (specified in AdminController.)
      */
     users.sendUser = function(user) {
-      console.log('user', user);
       if (!user.fname || !user.lname) {
         completeFields();
         return;
@@ -68,7 +67,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
           console.log('update', user.id);
           AdminService.updateUser(user);
         } else {
-          console.log('add');
+          console.log('add', user);
           AdminService.addNewUser(user);
 
         }
