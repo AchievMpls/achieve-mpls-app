@@ -40,9 +40,17 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @param
      * @return AllUsers object
      */
-    function getAllUsers() {
+    function getAllUsers(callback) {
       $http.get('/users').then(function(response) {
-        allUsers.users = response.data;
+        callback(response.data);
+      });
+    }
+
+    function getUsers(page, limit, callback) {
+      $http.get('/users').then(function(response) {
+        var users = response.data.slice((page-1)*limit,limit*page);
+        console.log('page:', page, 'limit=', limit);
+        callback(users);
       });
     }
 
@@ -90,6 +98,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     function getAllForms() {
       $http.get('/forms').then(function(response) {
         allForms.returnedForms = response.data;
+        console.log('returnform=', allForms.returnedForms);
       });
     }
 
@@ -318,6 +327,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     }
 
     return {
+      getUsers: getUsers,
       getAllUsers: getAllUsers,
       allUsers: allUsers,
       addNewUser: addNewUser,

@@ -41,7 +41,7 @@
             </tr>
           </thead>
           <tbody md-body>
-            <tr md-row md-auto-select="options.autoSelect" ng-repeat="user in users.allUsers.users | orderBy: users.query.order | limitTo: query.limit : (query.page -1) * query.limit">
+            <tr md-row md-auto-select="options.autoSelect" ng-repeat="user in users.pageUsers | orderBy: users.query.order | limitTo: query.limit : (query.page -1) * query.limit">
 
               <td md-cell>
                 <md-button ng-show="user.session_id" flex="45" aria-label="delete" class="md-raised admin-button" ng-click="users.deactivateUser(user)">
@@ -66,7 +66,17 @@
           </tbody>
         </table>
       </md-table-container>
-      <md-table-pagination md-limit="users.query.limit" md-limit-options="limitOptions" md-page="users.query.page" md-total="{{users.allUsers.users.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+      limit: {{users.query.limit}}
+      page: {{users.query.page}}
+      length: {{users.allUsers.length}}
+      <!-- <md-button ng-click = "users.logPagination()">button</md-button> -->
+
+      <md-table-pagination md-limit="users.query.limit"
+      md-limit-options="limitOptions" md-page="users.query.page"
+      md-total="{{users.allUsers.length}}"
+      md-page-select="options.pageSelect"
+      md-boundary-links="options.boundaryLinks"
+      md-on-paginate="users.logPagination"></md-table-pagination>
     </md-card>
 
   </div>

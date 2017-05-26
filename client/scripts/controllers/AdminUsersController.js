@@ -9,9 +9,11 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      */
     users.query = {
       order: 'fname',
-      limit: 25,
+      limit: 5,
       page: 1
     };
+
+
 
     /**
     * @desc clears all ng-model fields
@@ -38,10 +40,21 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      * @param AdminService
      * @return AllUser objects
      */
-    AdminService.getAllUsers();
-    users.allUsers = AdminService.allUsers;
-    console.log('users', users.allUsers);
+    AdminService.getAllUsers(function(rows) {
+      users.allUsers = rows;
+    });
 
+    AdminService.getUsers(users.query.page, users.query.limit, function(rows) {
+      users.pageUsers = rows;
+    });
+    
+    users.logPagination = function() {
+      console.log('log pagination');
+      AdminService.getUsers(users.query.page, users.query.limit, function(rows) {
+        users.pageUsers = rows;
+      });
+
+    };
 
     /**
      * @desc displays a popup when 'delete' button is clicked, then
