@@ -1,4 +1,4 @@
-
+<div class= "main">
 <ng-include src="'./views/partials/nav.html'"></ng-include>
 <h1>Events for Session number: {{events.specificSession.events[0].session_id }}</h1>
 <div layout="row" layout-align="end center" ng-keypress="events.formHide($event)">
@@ -61,4 +61,5 @@
   <div id="form-container" ng-show="events.form">
   <ng-include src="'./views/partials/newEventForm.html'"></ng-include>
   </div>
+</div>
 </div>
