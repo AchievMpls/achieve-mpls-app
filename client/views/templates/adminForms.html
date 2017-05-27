@@ -1,5 +1,5 @@
 <div layout="row" layout-align="space-between center" ng-keypress="forms.formHide($event)">
-  <h1>Forms</h1>
+  <h1>Feedback Form Templates</h1>
     <md-card class="card" flex="30">
       <div layout="row" layout-align="space-between center">
         <div layout="column">
@@ -58,7 +58,7 @@
     <md-table-pagination md-limit="forms.query.limit" md-limit-options="limitOptions" md-page="forms.query.page" md-total="{{forms.allForms.returnedForms.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
   </md-card>
 </div>
-<div id="form-container" ng-show="forms.form">
+<div id="form-container" class="background-darken" ng-show="forms.form">
   <ng-include src="'./views/partials/newFormForm.html'"></ng-include>
 </div>
 </div>

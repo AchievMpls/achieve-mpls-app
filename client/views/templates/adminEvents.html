@@ -56,7 +56,7 @@
     <md-table-pagination md-limit="events.query.limit" md-limit-options="limitOptions" md-page="events.query.page" md-total="{{forms.allForms.returnedForms.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
   </md-card>
 
-  <div id="form-container" ng-show="events.form">
+  <div id="form-container" class="background-darken" ng-show="events.form">
   <ng-include src="'./views/partials/newEventForm.html'"></ng-include>
   </div>
 </div>
