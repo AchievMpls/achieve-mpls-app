@@ -58,7 +58,8 @@
     <md-table-pagination md-limit="forms.query.limit" md-limit-options="limitOptions" md-page="forms.query.page" md-total="{{forms.allForms.returnedForms.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
   </md-card>
 </div>
-<div id="form-container" class="background-darken" ng-show="forms.form">
+<div id="form-container" ng-show="forms.form">
+  <div id="forms-background-darken"></div>
   <ng-include src="'./views/partials/newFormForm.html'"></ng-include>
 </div>
 </div>

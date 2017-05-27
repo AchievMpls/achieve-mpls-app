@@ -6,7 +6,7 @@
 myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel', '$sce',
 function($mdDialog, AdminService, $mdPanel, $mdPanelRef, $sce) {
   var forms = this;
-
+console.log('forms controller sourced');
   /**
   * @global object that limits table's display length
   */
@@ -134,6 +134,19 @@ function($mdDialog, AdminService, $mdPanel, $mdPanelRef, $sce) {
       itemToClose.setAttribute("aria-hidden", true);
       forms.clearFields();
     }
+  };
+
+  /**
+  * @function On click
+  * @desc closes popup when clicked outside
+  * @param click
+  * @return hides the popup form
+  */
+  document.getElementById('forms-background-darken').onclick = function() {
+    var itemToClose = document.getElementById('form-container');
+    itemToClose.classList.add('ng-hide');
+    itemToClose.setAttribute('aria-hidden', true);
+    forms.clearFields();
   };
 
   /**
