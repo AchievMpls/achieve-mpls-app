@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html ng-App="myApp">
   <head>
     <meta charset="utf-8">
@@ -51,11 +50,28 @@
     <script type="text/javascript" src="scripts/controllers/AdminEventsController.js"></script>
     <script type="text/javascript" src="scripts/controllers/coachController.js"></script>
 
-
   </head>
   <body>
-
-    <div id="main" ng-view></div>
-
+    <div class="background-logo-big" layout="row" layout-align="space-between center">
+      <div layout="column">
+        <img src="./views/images/achievempls-logo-white.png" flex="30">
+      </div>
+    </div>
+    <md-content layout="row" layout-align="center center">
+      <form class="login-input" ng-submit="login.loginUser(user)">
+        <md-input-container>
+          <label for="email">E-Mail</label>
+          <input type="text" ng-model="user.email"/>
+        </md-input-container>
+        <br>
+        <md-input-container>
+          <label for="password">Password</label>
+          <input type="password" ng-model="user.password"/>
+        </md-input-container>
+        <div layout="row" layout-align="space-around center">
+          <md-button class="md-raised md-primary" type="submit" name="submit" value="Log In">Log In</md-button>
+        </div>
+      </form>
+    </md-content>
   </body>
 </html>

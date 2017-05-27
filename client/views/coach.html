@@ -28,19 +28,16 @@
     <script type="text/javascript" src="vendors/angular-moment/angular-moment.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.8/angular-filter.min.js"></script>
 
-
     <!-- configuration files -->
     <script type="text/javascript" src="scripts/utilities/constants.js"></script>
     <script type="text/javascript" src="scripts/client.js"></script>
 
-
-
     <!-- factories -->
     <script type="text/javascript" src="scripts/factories/AdminService.js"></script>
+
     <!-- CoachService is used in AuthService so it needs to load first -->
     <script type="text/javascript" src="scripts/factories/CoachService.js"></script>
     <script type="text/javascript" src="scripts/factories/AuthService.js"></script>
-
 
     <!-- controllers -->
     <script type="text/javascript" src="scripts/controllers/UserAuthController.js"></script>
@@ -51,11 +48,62 @@
     <script type="text/javascript" src="scripts/controllers/AdminEventsController.js"></script>
     <script type="text/javascript" src="scripts/controllers/coachController.js"></script>
 
-
   </head>
   <body>
+  <div class="background-logo-big" layout="row" layout-align="space-between center">
+    <div layout="column">
+      <img src="./views/images/achievempls-logo-white.png" flex="30">
+    </div>
+    <md-menu hide-gt-sm>
+      <md-button aria-label="menu" class="md-icon-button large" ng-click="$mdMenu.open($event)" style="color:white">
+        <i class="material-icons" id="addButton">menu</i>
+      </md-button>
+      <md-menu-content width="2" ng-click="$mdMenu.close()">
+        <md-menu-item>
+          <md-button ng-click="showRun.logout()"> <span md-menu-align-target>Logout</span></md-button>
+        </md-menu-item>
+    </md-menu>
+  </div>
 
-    <div id="main" ng-view></div>
+  <md-card ng-hide="coach.tickets.open==='no open, incomplete tickets!'">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Meeting #{{coach.tickets.open[0].meeting_count}}</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-input-container ng-show="coach.tickets.open[0].q1_prompt">
+      <label>{{coach.tickets.open[0].q1_prompt}}</label>
+      <input ng-model="coach.ticketToComplete[0]">
+    </md-input-container>
+    <md-input-container ng-show="coach.tickets.open[0].q2_prompt">
+      <label>{{coach.tickets.open[0].q2_prompt}}</label>
+      <input ng-model="coach.ticketToComplete[1]">
+    </md-input-container>
+    <md-input-container ng-show="coach.tickets.open[0].q3_prompt">
+      <label>{{coach.tickets.open[0].q3_prompt}}</label>
+      <input ng-model="coach.ticketToComplete[2]">
+    </md-input-container>
+    <md-input-container ng-show="coach.tickets.open[0].q4_prompt">
+      <label>{{coach.tickets.open[0].q4_prompt}}</label>
+      <input ng-model="coach.ticketToComplete[3]">
+    </md-input-container>
+    <md-input-container ng-show="coach.tickets.open[0].q5_prompt">
+      <label>{{coach.tickets.open[0].q5_prompt}}</label>
+      <input ng-model="coach.ticketToComplete[4]">
+    </md-input-container>
+    <md-input-container>
+      <md-button class="md-fab md-primary" aria-label="Submit New Event" ng-click="coach.submitAnswers(coach.ticketToComplete)">
+        <i class="material-icons" id="addButton">done</i>
+      </md-button>
+    </md-input-container>
+  </md-card>
 
-  </body>
+  <md-card ng-show="coach.tickets.open==='no open, incomplete tickets!'">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">All feedback complete! </span>
+      </md-card-title-text>
+    </md-card-title>
+  </md-card>
+</body>
 </html>

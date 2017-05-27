@@ -127,7 +127,7 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
   $routeProvider
 
     .when('/login', {
-      templateUrl: '/views/templates/login.html',
+      templateUrl: '/views/login.html',
       controller: 'UserAuthController as login',
       resolve: {
         clearance : ['AuthService', function(AuthService){
@@ -189,7 +189,7 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
       }
     })
     .when('/coach', {
-      templateUrl: '/views/templates/coach.html',
+      templateUrl: '/views/coach.html',
       controller: 'coachController as coach',
       resolve: {
         coachClearance : ['AuthService', function(AuthService){
