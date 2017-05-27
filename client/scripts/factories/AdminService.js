@@ -41,10 +41,18 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @return AllUsers object
      */
     function getAllUsers(callback) {
+      console.log('user_callback=', callback);
       $http.get('/users').then(function(response) {
         callback(response.data);
       });
     }
+
+    /**
+     * @desc getUsers to set the limit item per page
+     * @param generate the page, static limit and callback
+     * to trigger the getAllUsers in order to get all data
+     * @return limit amount of users object per page
+     */
 
     function getUsers(page, limit, callback) {
       $http.get('/users').then(function(response) {
@@ -58,21 +66,22 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @desc adds new users to db
      * @param userToSend object to user data
      */
-    function addNewUser(userToSend) {
+    function addNewUser(userToSend, callback) {
       console.log("addNewUser function: ",userToSend);
+      console.log("callback in addnewUser=", callback);
       userToSend.password = generateId(10);
       $http.post('/users/postUser', userToSend).then(function(response) {
-        getAllUsers();
+        getAllUsers(callback);
       });
     }
     /**
      * @desc updates user
      * @param userToSend object has be changed
      */
-    function updateUser(userToSend) {
+    function updateUser(userToSend, callback) {
       userToSend.password = generateId(10);
       $http.put('/users/updateUser', userToSend).then(function(response) {
-        getAllUsers();
+        getAllUsers(callback);
       });
     }
 

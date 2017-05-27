@@ -9,7 +9,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      */
     users.query = {
       order: 'fname',
-      limit: 25,
+      limit: 5,
       page: 1
     };
 
@@ -77,11 +77,20 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
       } else {
         users.toggleForm();
         if (user.id !== undefined) {
+
           console.log('update', user.id);
-          AdminService.updateUser(user);
+          AdminService.updateUser(user, function(rows) {
+            users.logPagination();
+            users.allUsers = rows;
+
+
+          });
         } else {
           console.log('add', user);
-          AdminService.addNewUser(user);
+          AdminService.addNewUser(user, function(rows) {
+            users.logPagination();
+            users.allUsers = rows;
+          });
 
         }
       }
