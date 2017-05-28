@@ -1,13 +1,11 @@
-
-<h1>Events for Session number: {{events.specificSession.events[0].session_id }}</h1>
-<div layout="row" layout-align="end center" ng-keypress="events.formHide($event)">
-  <div flex-xs flex-gt-xs="20">
-<md-card class="card">
+<div layout="row" layout-align="space-between center" ng-keypress="events.formHide($event)">
+  <h1>Events for Session number: {{events.specificSession.events[0].session_id }}</h1>
+<md-card class="card" flex="30">
   <div layout="row" layout-align="space-between center">
     <div layout="column">
 <md-card-title>
   <md-card-title-text>
-    <span class="md-headline">Add New Form</span>
+    <span class="md-headline">Add New Event</span>
   </md-card-title>
 </md-card-title-text>
 </div>
@@ -18,7 +16,6 @@
 </div>
 </div>
 </md-card>
-</div>
 </div>
 
 <div layout="row" layout-align="center center" class="admin_table">
@@ -69,6 +66,7 @@
   </md-card>
 
   <div id="form-container" ng-show="events.form">
+  <div id="events-background-darken"></div>
   <ng-include src="'./views/partials/newEventForm.html'"></ng-include>
   </div>
 </div>

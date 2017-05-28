@@ -1,5 +1,5 @@
+<div layout="row" layout-align="space-between center" ng-keypress="forms.formHide($event)">
 <h1>Sessions</h1>
-<div layout="row" layout-align="end center" ng-keypress="forms.formHide($event)">
   <div flex-xs flex-gt-xs="30">
 <md-card class="card">
   <div layout="row" layout-align="space-between center">
@@ -11,7 +11,7 @@
 </md-card-title-text>
 </div>
 <div layout="column">
-<md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add New Form" ng-click="sessions.clearFields(); sessions.toggleForm()">
+<md-button class="md-fab md-primary" aria-label="Add New Form" ng-click="sessions.clearFields(); sessions.toggleForm()">
   <i class="material-icons" id="addButton">add</i>
 </md-button>
 </div>
@@ -21,15 +21,13 @@
 </div>
 <div layout="row" layout-align="space-between none" flex="50">
   <md-input-container class="md-block" flex-gt-sm>
-    <md-button class="md-raised">New School Year</md-button>
-    <!-- @Kevin: the button above has no current use; it's just a placeholder for-->
-    <!-- the 'toggle panel' function -->
+    <md-button class="md-raised" ng-click="newYear = !newYear">New School Year</md-button>
   </md-input-container>
-  <md-input-container>
+  <md-input-container ng-show="newYear">
     <label>New Year</label>
     <input type="number" ng-value="sessions.nextYear" ng-model="sessions.nextYear">
   </md-input-container>
-  <md-input-container class="md-block" flex-gt-sm>
+  <md-input-container class="md-block" ng-show="newYear" flex-gt-sm>
     <md-button class="md-raised" ng-click="sessions.addYear()">Create Year</md-button>
   </md-input-container>
 </div>
@@ -107,6 +105,7 @@
 
 </div>
 <div id="form-container" ng-show="forms.form">
+<div id="sessions-background-darken"></div>
 <ng-include src="'./views/partials/newSessionForm.html'"></ng-include>
 </div>
 </div>

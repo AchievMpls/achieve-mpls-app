@@ -7,7 +7,7 @@
  */
 myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
   function($http, $location, $mdDialog) {
-
+    console.log('AdminService Sourced');
     //@TODO: this is disgusting, and it's all y's fault.
     // if we have time, let's refactor.
     var allUsers = {
@@ -20,9 +20,11 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     var specificYear = {};
     var currentSessionForEvents;
     var specificSession = {};
+    getYearsSessions(moment().format('YYYY'));
 
     //----------CRUD USERs ------------
     /**
+
        * @desc generate the random pwd
        * @param the length of the pwd
        * @return Interger -> String
@@ -30,6 +32,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       function dec2hex(dec) {
         return ('0' + dec.toString(16)).substr(-2);
       }
+
 
       function generateId(len) {
         var arr = new Uint8Array((len || 40) / 2);
@@ -138,6 +141,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      */
     function getSessionYears() {
       $http.get('/sessions/years').then(function(response) {
+        console.log('get session years triggered');
         sessionYear.uniques = response.data;
         sessionYear.currentYear = moment().format('YYYY');
       });
@@ -298,7 +302,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @desc selects all tickets for a single school year
      * @param {number} year the year whose tickets are to be returned
      */
-    function getYearsTickets(year) {
+     function getYearsTickets (year) {
       if (!year) {
         $mdDialog.show(
           $mdDialog.alert()

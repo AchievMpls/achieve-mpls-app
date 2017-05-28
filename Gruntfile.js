@@ -97,10 +97,10 @@ module.exports = function(grunt){
       },
       images: {
         expand: true,
-        cwd: 'client/images/',
+        cwd: 'client/views/images/',
         src: ['**/*.png',
               '**/*.jpg'],
-        dest: 'server/public/images/'
+        dest: 'server/public/views/images/'
       }
     },
 

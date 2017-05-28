@@ -1,7 +1,5 @@
-<div layout="column">
-  <!-- raised add user button -->
-  <md-content>
-    <div layout="row" layout-xs="column" layout-align="end center" layout-align-xs="center">
+    <div layout="row" layout-xs="column" layout-align="space-between center" layout-align-xs="center">
+      <h1>Users</h1>
       <div flex-xs flex-gt-xs="30">
         <md-card class="card">
           <div layout="row" layout-align="space-between center">
@@ -13,7 +11,7 @@
               </md-card-title-text>
             </div>
             <div layout="column">
-              <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add User" ng-click="users.clearFields(); users.toggleForm()">
+              <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add User" ng-click="users.clearFields(); users.toggleForm(); users.populateSessionArray()">
                 <i class="material-icons" id="addButton">add</i>
               </md-button>
             </div>
@@ -21,7 +19,6 @@
         </md-card>
       </div>
     </div>
-  </md-content>
   <!-- end raised add user button -->
 
   <!-- start users table code -->
@@ -32,7 +29,8 @@
           <thead md-head md-order="users.query.order">
             <tr md-row>
 
-              <th md-column class=""><span>Delete/Edit</span></th>
+              <th md-column class=""><span>Registration</span></th>
+              <th md-column class=""><span>Edit</span></th>
               <th md-column md-order-by="fname" class=""><span>First Name</span></th>
               <th md-column md-order-by="lname" md-desc class=""><span>Last Name</span></th>
               <th md-column md-order-by="email" md-desc class=""><span>Email Address</span></th>
@@ -47,17 +45,16 @@
                         | limitTo: users.query.limit : (users.query.page - 1) * users.query.limit">
 
               <td md-cell>
-                <md-button ng-show="user.session_id" flex="45" aria-label="delete" class="md-raised admin-button" ng-click="users.deactivateUser(user)">
-                  <p>Make Inactive</p>
-                </md-button>
-
-                <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="users.editUser(user); users.toggleForm()">
-
-                  <p>Edit</p>
-                </md-button>
                 <md-button flex="45" aria-label="warn" class="md-raised md-primary admin-button" ng-click="users.activeUser(user)">
-
-                  <p>Register</p>
+                  Register
+                </md-button>
+                <md-button ng-show="user.session_id" flex="45" aria-label="delete" class="md-raised admin-button" ng-click="users.deactivateUser(user)">
+                  Deactivate
+                </md-button>
+              </td>
+              <td md-cell>
+                <md-button flex="45" aria-label="edit" class="md-icon-button" ng-click="users.editUser(user); users.toggleForm()">
+                  <i class="material-icons">create</i>
                 </md-button>
               </td>
               <td md-cell class="">{{user.fname}}</td>
@@ -82,6 +79,7 @@
   <!-- stop users table code -->
 </div>
 <div id="form-container" ng-show="users.form">
+<div id="users-background-darken"></div>
 <ng-include src="'./views/partials/newUserForm.html'"></ng-include>
 
 </div>

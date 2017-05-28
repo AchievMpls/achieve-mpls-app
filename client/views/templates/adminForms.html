@@ -1,7 +1,6 @@
-<h1>Forms</h1>
-<div layout="row" layout-align="end center" ng-keypress="forms.formHide($event)">
-  <div flex-xs flex-gt-xs="20">
-    <md-card class="card">
+<div layout="row" layout-align="space-between center" ng-keypress="forms.formHide($event)">
+  <h1>Feedback Form Templates</h1>
+    <md-card class="card" flex="30">
       <div layout="row" layout-align="space-between center">
         <div layout="column">
           <md-card-title>
@@ -19,7 +18,6 @@
       </div>
     </md-card>
   </div>
-</div>
 <div layout="row" layout-align="center center" class="admin_table">
   <md-card md-whiteframe="8" flex="90">
     <md-table-container>
@@ -44,12 +42,12 @@
 
 
             <td md-cell>
-              <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="forms.confirmDelete(form)">
-                Delete
+              <md-button flex="10" aria-label="delete" ng-click="forms.confirmDelete(form)">
+              <i class="material-icons" >delete</i>
                 <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_clear_black_48px.svg"></md-icon> -->
               </md-button>
-              <md-button flex="45" aria-label="edit" class="md-raised md-primary admin-button" ng-click="forms.editForm(form); forms.toggleForm()">
-                Edit
+              <md-button flex="10" aria-label="edit" ng-click="forms.editForm(form); forms.toggleForm()">
+                <i class="material-icons">create</i>
                 <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_mode_edit_white_48px.svg"></md-icon> -->
               </md-button>
             </td>
@@ -73,6 +71,7 @@
   </md-card>
 </div>
 <div id="form-container" ng-show="forms.form">
+  <div id="forms-background-darken"></div>
   <ng-include src="'./views/partials/newFormForm.html'"></ng-include>
 </div>
 </div>
