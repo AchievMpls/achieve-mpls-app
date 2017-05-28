@@ -100,13 +100,11 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
 
           console.log('update', user.id);
           AdminService.updateUser(user, function(rows) {
-            users.logPagination();
             users.allUsers = rows;
           });
         } else {
           console.log('add', user);
           AdminService.addNewUser(user, function(rows) {
-            users.logPagination();
             users.allUsers = rows;
           });
 
