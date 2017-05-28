@@ -11,7 +11,7 @@
               </md-card-title-text>
             </div>
             <div layout="column">
-              <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add User" ng-click="users.clearFields(); users.toggleForm()">
+              <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add User" ng-click="users.clearFields(); users.toggleForm(); users.populateSessionArray()">
                 <i class="material-icons" id="addButton">add</i>
               </md-button>
             </div>
@@ -70,6 +70,7 @@
   <!-- stop users table code -->
 </div>
 <div id="form-container" ng-show="users.form">
+<div id="users-background-darken"></div>
 <ng-include src="'./views/partials/newUserForm.html'"></ng-include>
 
 </div>

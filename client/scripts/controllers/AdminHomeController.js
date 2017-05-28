@@ -116,6 +116,19 @@ function(AdminService){
   };
 
   /**
+  * @function On click
+  * @desc closes popup when clicked outside
+  * @param click
+  * @return hides the popup form
+  */
+  document.getElementById('home-background-darken').onclick = function() {
+    var itemToClose = document.getElementById('form-container');
+    itemToClose.classList.add('ng-hide');
+    itemToClose.setAttribute('aria-hidden', true);
+    home.clearFields();
+  };
+
+  /**
   * @function Toggle form
   * @desc toggles the form from visible to hidden.
   * @param used on the ng-click of both the add form and edit form.
