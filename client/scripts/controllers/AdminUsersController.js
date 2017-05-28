@@ -135,7 +135,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     users.activeUser = function(user) {
        // console.log('sending the email: ', user);
         var _alert = $mdDialog.confirm()
-          .title('You are inviting ' + user.fname + ' ' + user.lname + 'to join AchieveMpls.')
+          .title('You are inviting ' + user.fname + ' ' + user.lname + ' to join AchieveMpls.')
           // .title('Your code has been sent to ' + user.email + '.')
           .ok('Yes')
           .cancel('No');

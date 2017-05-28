@@ -1,3 +1,5 @@
+<div class= "main">
+<ng-include src="'./views/partials/nav.html'"></ng-include>
 <div layout="row" layout-align="space-between center" ng-keypress="events.formHide($event)">
   <!-- <h1>Events for Session number: {{events.specificSession.events[0].session_id }}</h1> -->
   <h1>Events for This Session </h1>
@@ -70,4 +72,5 @@
   <div id="events-background-darken"></div>
   <ng-include src="'./views/partials/newEventForm.html'"></ng-include>
   </div>
+</div>
 </div>

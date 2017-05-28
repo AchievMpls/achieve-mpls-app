@@ -1,3 +1,6 @@
+
+<div class= "main">
+<ng-include src="'./views/partials/nav.html'"></ng-include>
 <div layout="row" layout-align="space-between center" ng-keypress="forms.formHide($event)">
 <h1>Sessions</h1>
   <div flex-xs flex-gt-xs="30">
@@ -101,8 +104,6 @@
     md-on-paginate="sessions.logPagination"
     ></md-table-pagination>
   </md-card>
-</div>
-
 </div>
 <div id="form-container" ng-show="forms.form">
 <div id="sessions-background-darken"></div>
