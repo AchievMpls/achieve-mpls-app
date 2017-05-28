@@ -16,7 +16,7 @@ if (req.isAuthenticated()) {
           res.sendStatus(500);
         } else {
 
-          db.query('SELECT * from "users" ORDER BY "id" DESC ;',
+          db.query('SELECT * from "users" ORDER BY "fname" ASC ;',
           function(queryError, result) {
             done();
             if (queryError) {
