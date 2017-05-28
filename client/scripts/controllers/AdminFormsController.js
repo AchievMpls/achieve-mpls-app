@@ -1,3 +1,4 @@
+
 /**
 * Admin Forms Controller
 * @desc controls the Admin Forms View
@@ -30,10 +31,16 @@ console.log('forms controller sourced');
   * If the form is being edited it sends the form on a different route.
   */
   var editingForm = false;
-
-  AdminService.getAllForms();
-  forms.allForms = AdminService.allForms;
-
+  /**
+   * @desc Admin gets the all the forms
+   * @param
+   * @return all forms object
+   */
+  AdminService.getAllForms(function(rows) {
+      forms.allForms = rows;
+        console.log("all forms controllers: ", forms.allForms);
+    }
+  );
   /**
   * @desc clears all ng-model fields
   */
@@ -44,7 +51,6 @@ console.log('forms controller sourced');
       id : '',
     };
   };
-
   /**
   * @desc displays an item for editing
   * @param {object} form the form to be edited
@@ -80,9 +86,13 @@ console.log('forms controller sourced');
     }
     if (editingForm) {
       editingForm = false;
-      AdminService.updateForm(formToSend);
+      AdminService.updateForm(formToSend, function(rows) {
+        forms.allForms = rows;
+      });
     } else {
-      AdminService.addNewForm(formToSend);
+      AdminService.addNewForm(formToSend, function(rows) {
+        forms.allForms = rows;
+      });
     }
     forms.toggleForm();
     forms.clearFields();
@@ -114,7 +124,9 @@ console.log('forms controller sourced');
     .ok('Yes')
     .cancel('No');
     $mdDialog.show(confirm).then(function() {
-      AdminService.deleteForm(form.id);
+      AdminService.deleteForm(form.id, function(rows) {
+        forms.pageForms = rows;
+      });
     });
   };
 
@@ -133,6 +145,7 @@ console.log('forms controller sourced');
       itemToClose.classList.add("ng-hide");
       itemToClose.setAttribute("aria-hidden", true);
       forms.clearFields();
+      console.log("onkeydown");
     }
   };
 
@@ -158,6 +171,7 @@ console.log('forms controller sourced');
   forms.toggleForm = function () {
     var itemToOpen = document.getElementById('form-container');
     itemToOpen.classList.toggle("ng-hide");
+    console.log("got")
   };
 
 

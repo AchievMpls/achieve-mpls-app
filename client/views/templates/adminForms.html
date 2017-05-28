@@ -13,7 +13,8 @@
           </md-card-title-text>
         </div>
         <div layout="column">
-          <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add New Form" ng-click="forms.clearFields(); forms.toggleForm()">
+          <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add New Form"
+            ng-click="forms.clearFields(); forms.toggleForm()">
             <i class="material-icons" id="addButton">add</i>
           </md-button>
         </div>
@@ -37,7 +38,12 @@
         </thead>
         <tbody md-body>
 
-          <tr md-row md-auto-select="options.autoSelect" ng-repeat="form in forms.allForms.returnedForms | orderBy: forms.query.order | limitTo: forms.query.limit : (forms.query.page -1) * forms.query.limit">
+          <tr md-row md-auto-select="options.autoSelect"
+          ng-repeat="form in forms.allForms
+          | orderBy: forms.query.order
+          | limitTo: forms.query.limit: (forms.query.page - 1) * forms.query.limit">
+
+
             <td md-cell>
               <md-button flex="10" aria-label="delete" ng-click="forms.confirmDelete(form)">
               <i class="material-icons" >delete</i>
@@ -58,7 +64,13 @@
         </tbody>
       </table>
     </md-table-container>
-    <md-table-pagination md-limit="forms.query.limit" md-limit-options="limitOptions" md-page="forms.query.page" md-total="{{forms.allForms.returnedForms.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+    <md-table-pagination md-limit="forms.query.limit"
+
+    md-page="forms.query.page"
+    md-total="{{forms.allForms.length}}"
+    md-page-select="options.pageSelect"
+    md-boundary-links="options.boundaryLinks"
+    md-on-paginate="forms.logPagination"></md-table-pagination>
   </md-card>
 </div>
 <div id="form-container" ng-show="forms.form">
