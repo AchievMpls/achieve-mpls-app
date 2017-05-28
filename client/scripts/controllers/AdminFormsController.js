@@ -12,7 +12,7 @@ function($mdDialog, AdminService, $mdPanel, $mdPanelRef, $sce) {
   */
   forms.query = {
     order: 'name',
-    limit: 25,
+    limit: 2,
     page: 1
   };
 
@@ -31,9 +31,40 @@ function($mdDialog, AdminService, $mdPanel, $mdPanelRef, $sce) {
   */
   var editingForm = false;
 
-  AdminService.getAllForms();
-  forms.allForms = AdminService.allForms;
+  AdminService.getAllForms(function(rows) {
+      forms.allForms = rows;
+    }
 
+  );
+//  forms.allForms = AdminService.allForms;
+  /**
+   * getUser Controller
+   * @desc set the number of records shown at Admin Forms View
+   * @param AdminService
+   * @return set the certain amount in pageForms obj
+   */
+  AdminService.getForms(forms.query.page, forms.query.limit, function(rows) {
+    forms.pageForms = rows;
+    console.log("data forms per page: ", forms.pageForms);
+  });
+  /**
+   * logPagination Controller
+   * @desc pass this func to DOM Forms View
+   * @param
+   * @return pageForms objects per that page
+   */
+
+  forms.logPagination = function() {
+    console.log('log pagination');
+    // console.log('page', forms.query.page);
+    // console.log('limit', forms.query.limit);
+    AdminService.getForms(forms.query.page, forms.query.limit, function(rows) {
+
+      forms.pageForms = rows;
+     console.log("forms per page", forms.pageForms);
+   });
+
+  };
   /**
   * @desc clears all ng-model fields
   */
@@ -80,9 +111,15 @@ function($mdDialog, AdminService, $mdPanel, $mdPanelRef, $sce) {
     }
     if (editingForm) {
       editingForm = false;
-      AdminService.updateForm(formToSend);
+      AdminService.updateForm(formToSend, function(rows) {
+        forms.logPagination();
+        forms.allForms = rows;
+      });
     } else {
-      AdminService.addNewForm(formToSend);
+      AdminService.addNewForm(formToSend, function(rows) {
+        forms.logPagination();
+        forms.allForms = rows;
+      });
     }
     forms.toggleForm();
     forms.clearFields();
@@ -114,7 +151,9 @@ function($mdDialog, AdminService, $mdPanel, $mdPanelRef, $sce) {
     .ok('Yes')
     .cancel('No');
     $mdDialog.show(confirm).then(function() {
-      AdminService.deleteForm(form.id);
+      AdminService.deleteForm(form.id, function(rows) {
+        forms.pageForms = rows;
+      });
     });
   };
 

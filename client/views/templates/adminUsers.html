@@ -66,8 +66,12 @@
           </tbody>
         </table>
       </md-table-container>
+      page: {{users.query.page}}
+      limit: {{users.query.limit}}
+      length: {{users.allUsers.length}}
       <md-table-pagination md-limit="users.query.limit"
-      md-limit-options="limitOptions" md-page="users.query.page"
+      md-limit-options="limitOptions"
+      md-page="users.query.page"
       md-total="{{users.allUsers.length}}"
       md-page-select="options.pageSelect"
       md-boundary-links="options.boundaryLinks"

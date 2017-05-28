@@ -36,7 +36,7 @@
         </thead>
         <tbody md-body>
 
-          <tr md-row md-auto-select="options.autoSelect" ng-repeat="form in forms.allForms.returnedForms | orderBy: forms.query.order | limitTo: forms.query.limit : (forms.query.page -1) * forms.query.limit">
+          <tr md-row md-auto-select="options.autoSelect" ng-repeat="form in forms.pageForms | orderBy: forms.query.order | limitTo: forms.query.limit : (forms.query.page -1) * forms.query.limit">
             <td md-cell>
               <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="forms.confirmDelete(form)">
                 Delete
@@ -57,7 +57,16 @@
         </tbody>
       </table>
     </md-table-container>
-    <md-table-pagination md-limit="forms.query.limit" md-limit-options="limitOptions" md-page="forms.query.page" md-total="{{forms.allForms.returnedForms.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+    page: {{forms.query.page}}
+    limit: {{forms.query.limit}}
+    length: {{forms.allForms.length}}
+    <md-table-pagination md-limit="forms.query.limit"
+    md-limit-options="limitOptions"
+    md-page="forms.query.page"
+    md-total="{{forms.allForms.length}}"
+    md-page-select="options.pageSelect"
+    md-boundary-links="options.boundaryLinks"
+    md-on-paginate="forms.logPagination"></md-table-pagination>
   </md-card>
 </div>
 <div id="form-container" ng-show="forms.form">

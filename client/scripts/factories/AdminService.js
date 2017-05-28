@@ -12,7 +12,9 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     var allUsers = {
       users: []
     };
-    var allForms = {};
+    var allForms = {
+      returnedForms: []
+    };
     var sessionYear = {};
     var specificYear = {};
     var currentSessionForEvents;
@@ -104,10 +106,24 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @param
      * @return AllForms object
      */
-    function getAllForms() {
+    function getAllForms(callback) {
       $http.get('/forms').then(function(response) {
-        allForms.returnedForms = response.data;
-        console.log('returnform=', allForms.returnedForms);
+      //  allForms.returnedForms = response.data;
+        callback(response.data);
+      });
+    }
+
+    /**
+     * @desc getUsers to set the limit item per page
+     * @param generate the page, static limit and callback
+     * to trigger the getAllUsers in order to get all data
+     * @return limit amount of users object per page
+     */
+
+    function getForms(page, limit, callback) {
+      $http.get('/forms').then(function(response) {
+        var forms = response.data.slice((page-1)*limit,limit*page);
+        callback(forms);
       });
     }
 
@@ -115,9 +131,9 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @desc adds new form to db
      * @param {object} formToSend the exit-ticket form to be created
      */
-    function addNewForm(formToSend) {
+    function addNewForm(formToSend, callback) {
       $http.post('/forms/add', formToSend).then(function(response) {
-        getAllForms();
+        getAllForms(callback);
         formToSend.form_name = '';
         formToSend.prompts = [];
       });
@@ -127,9 +143,9 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @desc updates form
      * @param {object} formToSend the exit-ticket form to be altered
      */
-    function updateForm(formToSend) {
+    function updateForm(formToSend, callback) {
       $http.put('/forms/update', formToSend).then(function(response) {
-        getAllForms();
+        getAllForms(callback);
         formToSend.form_name = '';
         formToSend.prompts = [];
       });
@@ -139,12 +155,12 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @desc removes an exit-ticket form, per its ID.
      * @param {number} id - The form to be removed (specified in AdminFormsController.)
      */
-    function deleteForm(id) {
+    function deleteForm(id, callback) {
       $http.delete('/forms/delete/' + id).then(function() {
-        getAllForms();
+        getAllForms(callback);
       });
     }
-
+  //--------CRUD Sessions-----------
     /**
      * @desc selects (one of) each year for which there is currently
      * at least one session in the db
@@ -228,7 +244,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
         );
       });
     }
-
+//--------CRUD Events-----------
     /**
      * @desc takes the user to a new view displaying
      * student view landing page, or from an individual entry.
@@ -342,6 +358,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       addNewUser: addNewUser,
       updateUser: updateUser,
       deactivateUser: deactivateUser,
+      getForms : getForms,
       getAllForms: getAllForms,
       allForms: allForms,
       addNewForm: addNewForm,

@@ -44,10 +44,22 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
       users.allUsers = rows;
     });
 
+    /**
+     * getUser Controller
+     * @desc set the number of records shown at Admin Users View
+     * @param AdminService
+     * @return set the certain amount in pageUsers obj
+     */
     AdminService.getUsers(users.query.page, users.query.limit, function(rows) {
       users.pageUsers = rows;
+      console.log("data user per page:", users.pageUsers);
     });
-
+    /**
+     * logPagination Controller
+     * @desc pass this func to DOM Users View
+     * @param
+     * @return pageUsers objects per that page
+     */
     users.logPagination = function() {
       console.log('log pagination');
       AdminService.getUsers(users.query.page, users.query.limit, function(rows) {
@@ -82,8 +94,6 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
           AdminService.updateUser(user, function(rows) {
             users.logPagination();
             users.allUsers = rows;
-
-
           });
         } else {
           console.log('add', user);
