@@ -9,7 +9,6 @@ var encryptLib = require('../modules/encryption');
 var pg = require('pg');
 var pool = require('../modules/db');
 
-
 var acquireCount = 0;
 pool.on('acquire', function (client) {
   acquireCount++;
@@ -51,28 +50,30 @@ router.post('/', function(req, res, next) {
     password: encryptLib.encryptPassword(req.body.password)
   };
   console.log('new user:', saveUser);
+  if (req.isAuthenticated()) {
+    pool.connect(function(err, client, done) {
+      if(err) {
+        console.log("Error connecting: ", err);
+        next(err);
+      }
+      // TODO: ALL REQUIRED FIELDS
+      client.query("INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id",
+        [saveUser.email, saveUser.password],
+          function (err, result) {
+            client.end();
 
-  pool.connect(function(err, client, done) {
-    if(err) {
-      console.log("Error connecting: ", err);
-      next(err);
-    }
-    // TODO: ALL REQUIRED FIELDS
-    client.query("INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id",
-      [saveUser.email, saveUser.password],
-        function (err, result) {
-          client.end();
-
-          if(err) {
-            console.log("Error inserting data: ", err);
-            next(err);
-          } else {
-            console.log('register success');
-            res.redirect('/');
-          }
-        });
-  });
-
+            if(err) {
+              console.log("Error inserting data: ", err);
+              next(err);
+            } else {
+              console.log('register success');
+              res.redirect('/');
+            }
+          });
+    });
+  } else {
+  res.sendStatus(401);
+  }
 });
 router.post('/admin', function(req, res, next) {
   var saveAdmin = {
@@ -125,6 +126,7 @@ router.post('/admin', function(req, res, next) {
             }
           });
     });
+
     res.sendStatus(200);
   });
 

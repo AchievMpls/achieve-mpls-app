@@ -3,14 +3,15 @@
  * @desc Manages all of the functions related to Authorization
  * @param $http, $location
  * @return the user is logged in
- */
-myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService', '$filter',
-  function($http, $location, $mdDialog, CoachService, $filter) {
-    var auth = this;
+*/
 
+myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService', 'AdminService', '$filter',
+  function($http, $location, $mdDialog, CoachService, AdminService, $filter) {
+
+    var auth = this;
     auth.getTickets = CoachService.getTickets;
-    // var code = {}; // CC possibly passed to pass param to validate chance code
     var userObject = {};
+    var coach = {};
     /**
      * sendActivation function
      * @desc Send email and activation code to coach
@@ -26,7 +27,6 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
       chance_expiration.setDate(chance_expiration.getDate() + 30);
       userObject.chance_expiration = $filter('date')((chance_expiration), "yyyy-MM-dd");
       console.log('expiryDate is: ', userObject.chance_expiration);
-
       console.log('AuthService line 11', userObject);
       $http.post( '/mail' , userObject ).then(function(response){
       console.log( 'Email sent: ', response.data );
@@ -40,13 +40,11 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
      */
 var clearance = function(){
   $http.get('/users/clearance').then(function(response) {
-    console.log('hit clearance: ', response.data.email, response.data.role);
       if(response.data.email && (response.data.role === 'admin')) {
           // user has a current session on the server
           userObject.role = response.data.role;
           userObject.email = response.data.email;
           userObject.id = response.data.id;
-          console.log('User Data: ', userObject);
       } else {
         // Store the activation code for later use
         // code.tempCode = $route.current.params.code;
@@ -83,7 +81,10 @@ var coachClearance = function() {
      * @param user Object from input fields in submit button createPassword.html
      * @return success redirect to coach page
      */
+
     function addUserPwd(user) {
+      $http.post('/register/addPwd', user).then(function(response) {
+        $location.path('/login');
       console.log('add pwd user', user);
       $http({
         method: 'GET',
@@ -96,8 +97,7 @@ var coachClearance = function() {
           $http.post('/register/addPwd', user).then(function(response) {
              $location.path('/coach');
           });
-        }
-        else {
+        } else {
           $mdDialog.show(
             $mdDialog.alert()
             .clickOutsideToClose(true)
@@ -107,27 +107,17 @@ var coachClearance = function() {
             .ok('OK!')
           );
         }
-
       });
-
+    });
     }
-/**
- * validateCode function
- * @desc validates authorization code with db
- * @param chance code from $routeParams
- * @return success response code
- */
- // function validateCode(authCode) {
- //   console.log('AuthService validateCode', authCode);
- //   $http.put( '/mail' , authCode ).then(function(response){
- //   console.log( 'Code Validated: ', response.data );
- // });
- // }
     /**
      * loginUser function
      * @desc authenticate the username and pwd
      * @param user Object from input fields in login.html
      * @return success to let coach view
+     * {CHANGE} there needs to be validation on whether a user is a coach or not.
+     * if the user is a coach, it can go through {auth.getTickets} which is a plug-and-play
+     * function that can be put wherever it needs to be in this factory.
      */
   function loginUser(user) {
     console.log('get me here', user);
@@ -147,21 +137,35 @@ var coachClearance = function() {
                 $location.path("/home");
             } else if (response.data.username && (response.data.role === 'coach')) {
               console.log('ROLE:', response.data.role);
+              coach.session_id = response.data.session_id;
+              coach.user_id = response.data.user_id;
+              console.log('coach post assignment: ', coach);
               auth.getTickets(response.data);
               $location.path("/coach");
             } else {
+              console.log("get here if login isn't successsssss");
               // Store the activation code for later use
               // code.tempCode = $route.current.params.code;
               // console.log('Activation code: ', $route.current.params.code);
-
               // user has no session, bounce them back to the login page
+              $mdDialog.show(
+                $mdDialog.alert()
+                .clickOutsideToClose(true)
+                .title('Login Issue!')
+                .textContent('Your email or passwork incorrect')
+                .ariaLabel('Alert Dialog')
+                .ok('OK!')
+              );
               $location.path("/login");
             }
-          } else {
-            console.log('failure: ', response);
-          }
-        });
-      }
+
+
+        } else {
+          console.log('failure: ', response);
+        }
+      });
+    }
+
   /**
    * registerAdmin function
    * @desc
@@ -186,7 +190,9 @@ var coachClearance = function() {
       coachClearance : coachClearance,
       loginUser: loginUser,
       registerAdmin: registerAdmin,
-      addUserPwd: addUserPwd
+      addUserPwd: addUserPwd,
+      coach: coach
     };
 
-  }]);
+  }
+]);

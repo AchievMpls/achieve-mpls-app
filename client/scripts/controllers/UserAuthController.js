@@ -17,28 +17,34 @@ function(AdminService, AuthService, $mdDialog, $routeParams, $http, $location, $
   * @param Object with username which is their email, and password
   * @return
   */
- user.loginUser = function(user) {
-      console.log('login gets here', user);
-        if( user.username === '' || user.password === '') {
-          $mdDialog.show(
-            $mdDialog.alert()
-            .clickOutsideToClose(true)
-            .title('Incomplete Form')
-            .textContent("Please enter a username and password")
-            .ariaLabel('Alert Dialog')
-            .ok('OK')
-          );
-          } else {
-            AuthService.loginUser(user);
-          }
-        };
+  user.loginUser = function(user) {
+    console.log('login gets here', user);
+    if( user.username === '' || user.password === '') {
+      $mdDialog.show(
+        $mdDialog.alert()
+        .clickOutsideToClose(true)
+        .title('Incomplete Form')
+        .textContent("Please enter a username and password")
+        .ariaLabel('Alert Dialog')
+        .ok('OK')
+      );
+    } else {
+      AuthService.loginUser(user);
+    }
+  };
 
+  /**
+  * @function logout
+  * @desc logs the user out
+  * @param called with an ng-init in the client.js file
+  * @return sends the user back to the login page.
+  */
   user.logout = function (){
     $http.get('/user/logout').then(function(response){
-      console.log('logout pressed');
+      $location.path('/login');
     });
-    $location.path('/login');
   };
+
 
   /**
   * registerAdmin function
@@ -106,9 +112,5 @@ user.registerAdmin = function(admin) {
         AuthService.addUserPwd(user);
       }
     }
-
-
-
-
   };
 }]);
