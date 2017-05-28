@@ -87,12 +87,10 @@ console.log('forms controller sourced');
     if (editingForm) {
       editingForm = false;
       AdminService.updateForm(formToSend, function(rows) {
-        forms.logPagination();
         forms.allForms = rows;
       });
     } else {
       AdminService.addNewForm(formToSend, function(rows) {
-        forms.logPagination();
         forms.allForms = rows;
       });
     }
