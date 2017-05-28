@@ -143,10 +143,19 @@ var coachClearance = function() {
               auth.getTickets(response.data);
               $location.path("/coach");
             } else {
+              console.log("get here if login isn't successsssss");
               // Store the activation code for later use
               // code.tempCode = $route.current.params.code;
               // console.log('Activation code: ', $route.current.params.code);
               // user has no session, bounce them back to the login page
+              $mdDialog.show(
+                $mdDialog.alert()
+                .clickOutsideToClose(true)
+                .title('Login Issue!')
+                .textContent('Your email or passwork incorrect')
+                .ariaLabel('Alert Dialog')
+                .ok('OK!')
+              );
               $location.path("/login");
             }
 
