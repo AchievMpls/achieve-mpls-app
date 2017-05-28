@@ -35,7 +35,10 @@
         </thead>
         <tbody md-body>
 
-          <tr md-row md-auto-select="options.autoSelect" ng-repeat="event in events.specificSession.events | orderBy: events.query.order | limitTo: events.query.limit : (events.query.page -1) * events.query.limit">
+          <tr md-row md-auto-select="options.autoSelect"
+          ng-repeat="event in events.specificSession.events 
+                    | orderBy: events.query.order
+                    | limitTo: events.query.limit : (events.query.page -1) * events.query.limit">
             <td md-cell>
               <md-button flex="45" aria-label="delete" class="md-icon-button" ng-click="events.confirmDelete(event.id)">
                 <i class="material-icons" >delete</i>
@@ -54,10 +57,17 @@
         </tbody>
       </table>
     </md-table-container>
-    <md-table-pagination md-limit="events.query.limit" md-limit-options="limitOptions" md-page="events.query.page" md-total="{{forms.allForms.returnedForms.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+    <md-table-pagination md-limit="events.query.limit"
+    md-limit-options="limitOptions"
+    md-page="events.query.page"
+    md-total="{{forms.allForms.returnedForms.length}}"
+    md-page-select="options.pageSelect"
+    md-boundary-links="options.boundaryLinks"
+    md-on-paginate="logPagination"></md-table-pagination>
   </md-card>
 
   <div id="form-container" ng-show="events.form">
+  <div id="events-background-darken"></div>
   <ng-include src="'./views/partials/newEventForm.html'"></ng-include>
   </div>
 </div>

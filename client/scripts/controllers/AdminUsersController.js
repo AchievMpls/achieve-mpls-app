@@ -1,10 +1,27 @@
+/**
+ * Admin Users Controller
+ * @desc controls the Admin Users View
+ * @param AdminService
+ * @return AllUser objects
+ */
+
 
 myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDialog', '$mdPanel',
   function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
     console.log('Admin Users sourced: ');
     var users = this;
 
-    var sessions = AdminService.specificYear;
+    AdminService.getSessionYears();
+    AdminService.getAllUsers();
+    AdminService.getYearsSessions(moment().format('YYYY'));
+    users.sessionYear = AdminService.sessionYear;
+
+    users.getYearsSessions = AdminService.getYearsSessions;
+    users.specificYear = AdminService.specificYear;
+
+    users.routeToEvents = AdminService.routeToEvents;
+
+    users.allUsers = AdminService.allUsers;
 
     /**
      * @global object that limits table's display length and orders by first name
@@ -14,6 +31,8 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
       limit: 25,
       page: 1
     };
+
+
 
     /**
     * @desc clears all ng-model fields
@@ -35,17 +54,29 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     var editingUser = false;
 
     /**
+
      * Admin Users Controller
      * @desc controls the Admin Users View
      * @param AdminService
      * @return AllUser objects
      */
-    AdminService.getAllUsers();
-    users.allUsers = AdminService.allUsers;
-    console.log('users', users.allUsers);
-
+    AdminService.getAllUsers(function(results) {
+      users.allUsers = results;
+      console.log("users.allUsers", users.allUsers);
+    });
 
     /**
+     * logPagination Controller
+     * @desc pass this func to DOM Users View
+     * @param
+     *
+     */
+    users.logPagination = function() {
+      console.log('log pagination', arguments);
+    };
+
+    /**
+
      * @desc displays a popup when 'delete' button is clicked, then
      * deletes specific user if popup is confirmed
      * @param the user object to be deleted
@@ -66,11 +97,16 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
       } else {
         users.toggleForm();
         if (user.id !== undefined) {
+
           console.log('update', user.id);
-          AdminService.updateUser(user);
+          AdminService.updateUser(user, function(rows) {
+            users.allUsers = rows;
+          });
         } else {
           console.log('add', user);
-          AdminService.addNewUser(user);
+          AdminService.addNewUser(user, function(rows) {
+            users.allUsers = rows;
+          });
 
         }
       }
@@ -122,14 +158,13 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     * @param the total number of sessions
     * @return sessionArray populated with numbers based on number of sessions
     */
-    var populateSessionArray = function (array) {
+    users.populateSessionArray = function () {
+      var array = users.specificYear.sessions;
+      console.log(array);
       for (var i = 1; i <= array.length; i++){
         users.sessionArray.push(i);
       }
     };
-
-    populateSessionArray(AdminService.specificYear.sessions);
-
 
     //the rest of this is code to get $mdPanel to work.
     this._mdPanel = $mdPanel;
@@ -179,6 +214,19 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         itemToClose.setAttribute("aria-hidden", true);
         users.clearFields();
       }
+    };
+
+    /**
+    * @function On click
+    * @desc closes popup when clicked outside
+    * @param click
+    * @return hides the popup form
+    */
+    document.getElementById('users-background-darken').onclick = function() {
+      var itemToClose = document.getElementById('form-container');
+      itemToClose.classList.add('ng-hide');
+      itemToClose.setAttribute('aria-hidden', true);
+      users.clearFields();
     };
 
     /**

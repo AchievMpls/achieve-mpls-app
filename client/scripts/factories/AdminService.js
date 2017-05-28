@@ -1,3 +1,4 @@
+
 /**
  * Admin Service Factory
  * @desc Manages all of the functions related to the Admin
@@ -6,100 +7,108 @@
  */
 myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
   function($http, $location, $mdDialog) {
-
+    console.log('AdminService Sourced');
     //@TODO: this is disgusting, and it's all y's fault.
     // if we have time, let's refactor.
     var allUsers = {
       users: []
     };
-    var allForms = {};
+    var allForms = {
+      returnedForms: []
+  };
     var sessionYear = {};
     var specificYear = {};
     var currentSessionForEvents;
     var specificSession = {};
+    getYearsSessions(moment().format('YYYY'));
 
     //----------CRUD USERs ------------
-
     /**
-     * @desc generate the random pwd
-     * @param the length of the pwd
-     * @return Interger -> String
-     */
-    function dec2hex(dec) {
-      return ('0' + dec.toString(16)).substr(-2);
-    }
 
-    function generateId(len) {
-      var arr = new Uint8Array((len || 40) / 2);
-      window.crypto.getRandomValues(arr);
-      return Array.from(arr, dec2hex).join('');
-    }
-
-    /**
-     * @desc Admin gets the list of users
-     * @param
-     * @return AllUsers object
-     */
-    function getAllUsers() {
-      $http.get('/users').then(function(response) {
-        allUsers.users = response.data;
-      });
-    }
-
-    /**
-     * @desc adds new users to db
-     * @param userToSend object to user data
-     */
-    function addNewUser(userToSend) {
-      console.log("addNewUser function: ",userToSend);
-      userToSend.password = generateId(10);
-      $http.post('/users/postUser', userToSend).then(function(response) {
-        getAllUsers();
-      });
-    }
-    /**
-     * @desc updates user
-     * @param userToSend object has be changed
-     */
-    function updateUser(userToSend) {
-      userToSend.password = generateId(10);
-      $http.put('/users/updateUser', userToSend).then(function(response) {
-        getAllUsers();
-      });
-    }
-
-    /**
-     * @desc sets user session to 'null'
-     * @param id object sent AdminFormsController
-     */
-    function deactivateUser(user) {
-      $http.put('/users/deactivateUser', user).then(function(response) {
-        getAllUsers();
-      });
-    }
+       * @desc generate the random pwd
+       * @param the length of the pwd
+       * @return Interger -> String
+       */
+      function dec2hex(dec) {
+        return ('0' + dec.toString(16)).substr(-2);
+      }
 
 
+      function generateId(len) {
+        var arr = new Uint8Array((len || 40) / 2);
+        window.crypto.getRandomValues(arr);
+        return Array.from(arr, dec2hex).join('');
+      }
+
+      /**
+       * @desc Admin gets the list of users
+       * @param
+       * @return AllUsers object
+       */
+      function getAllUsers(callback) {
+        $http.get('/users').then(function(response) {
+          allUsers.users = response.data;
+          if (callback) {
+            callback(allUsers.users);
+          }
+          console.log("getAllUsers", allUsers);
+        });
+      }
+
+      /**
+       * @desc adds new users to db
+       * @param userToSend object to user data
+       */
+      function addNewUser(userToSend, callback) {
+        console.log("addNewUser function: ",userToSend);
+        console.log("callback in addnewUser=", callback);
+        userToSend.password = generateId(10);
+        $http.post('/users/postUser', userToSend).then(function(response) {
+          getAllUsers(callback);
+        });
+      }
+      /**
+       * @desc updates user
+       * @param userToSend object has be changed
+       */
+      function updateUser(userToSend, callback) {
+        userToSend.password = generateId(10);
+        $http.put('/users/updateUser', userToSend).then(function(response) {
+          getAllUsers(callback);
+        });
+      }
+
+      /**
+       * @desc sets user session to 'null'
+       * @param id object sent AdminFormsController
+       */
+      function deactivateUser(user) {
+        $http.put('/users/deactivateUser', user).then(function(response) {
+          getAllUsers();
+        });
+      }
 
     //--------CRUD FORMs-----------
-
     /**
      * @desc gets all forms from db
      * @param
      * @return AllForms object
      */
-    function getAllForms() {
+    function getAllForms(callback) {
       $http.get('/forms').then(function(response) {
-        allForms.returnedForms = response.data;
+       allForms.returnedForms = response.data;
+       if (callback) {
+        callback(allForms.returnedForms);
+      }
       });
     }
-
     /**
      * @desc adds new form to db
      * @param {object} formToSend the exit-ticket form to be created
      */
-    function addNewForm(formToSend) {
+    function addNewForm(formToSend, callback) {
       $http.post('/forms/add', formToSend).then(function(response) {
-        getAllForms();
+        getAllForms(callback);
         formToSend.form_name = '';
         formToSend.prompts = [];
       });
@@ -109,30 +118,30 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @desc updates form
      * @param {object} formToSend the exit-ticket form to be altered
      */
-    function updateForm(formToSend) {
+    function updateForm(formToSend, callback) {
       $http.put('/forms/update', formToSend).then(function(response) {
-        getAllForms();
+        getAllForms(callback);
         formToSend.form_name = '';
         formToSend.prompts = [];
       });
     }
-
     /**
      * @desc removes an exit-ticket form, per its ID.
      * @param {number} id - The form to be removed (specified in AdminFormsController.)
      */
-    function deleteForm(id) {
+    function deleteForm(id, callback) {
       $http.delete('/forms/delete/' + id).then(function() {
-        getAllForms();
+        getAllForms(callback);
       });
     }
-
+  //--------CRUD Sessions-----------
     /**
      * @desc selects (one of) each year for which there is currently
      * at least one session in the db
      */
     function getSessionYears() {
       $http.get('/sessions/years').then(function(response) {
+        console.log('get session years triggered');
         sessionYear.uniques = response.data;
         sessionYear.currentYear = moment().format('YYYY');
       });
@@ -155,6 +164,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       } else {
         $http.get('/sessions/' + year).then(function(response) {
           specificYear.sessions = response.data;
+
         });
       }
     }
@@ -166,6 +176,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     function addNewSession(sessionToSend) {
       $http.post('/sessions/add', sessionToSend).then(function(response) {
         getYearsSessions(sessionToSend.year);
+
       }, function() {
         sessionConflictPopup();
       });
@@ -189,6 +200,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     function updateSession(sessionToSend) {
       $http.put('/sessions/update', sessionToSend).then(function(response) {
         getYearsSessions(sessionToSend.year);
+
       });
     }
 
@@ -210,7 +222,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
         );
       });
     }
-
+//--------CRUD Events-----------
     /**
      * @desc takes the user to a new view displaying
      * student view landing page, or from an individual entry.
