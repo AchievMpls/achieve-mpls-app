@@ -15,9 +15,34 @@ function(AdminService, $mdDialog, $filter) {
   AdminService.getSessionYears();
 
   sessions.getYearsSessions = AdminService.getYearsSessions;
+
   sessions.specificYear = AdminService.specificYear;
 
   sessions.routeToEvents = AdminService.routeToEvents;
+
+  /**
+   * getUser Controller
+   * @desc set the number of records shown at Admin Users View
+   * @param AdminService
+   * @return set the certain amount in pageUsers obj
+   */
+  AdminService.getUsers(users.query.page, users.query.limit, function(rows) {
+    users.pageUsers = rows;
+    console.log("data user per page:", users.pageUsers);
+  });
+  /**
+   * logPagination Controller
+   * @desc pass this func to DOM Users View
+   * @param
+   * @return pageUsers objects per that page
+   */
+  users.logPagination = function() {
+    console.log('log pagination');
+    AdminService.getUsers(users.query.page, users.query.limit, function(rows) {
+      users.pageUsers = rows;
+    });
+
+  };
 
 
   var daysList = ["Mondays", "Tuesdays", "Wednesdays", "Thursdays", "Fridays", "Saturdays", "Sundays"];

@@ -41,7 +41,10 @@
             </tr>
           </thead>
           <tbody md-body>
-            <tr md-row md-auto-select="options.autoSelect" ng-repeat="user in users.pageUsers | orderBy: users.query.order | limitTo: query.limit : (query.page -1) * query.limit">
+            <tr md-row md-auto-select="options.autoSelect"
+              ng-repeat="user in users.pageUsers
+                        | orderBy: users.query.order
+                        | limitTo: users.query.limit">
 
               <td md-cell>
                 <md-button ng-show="user.session_id" flex="45" aria-label="delete" class="md-raised admin-button" ng-click="users.deactivateUser(user)">
