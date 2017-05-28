@@ -48,8 +48,8 @@ router.post('/', function(req, res, next) {
           from: '"Achieve Mpls" gradcoaches@gmail.com',
           to: mailer.email,
           subject: 'Welcome to Achieve Mpls!',
-          text: 'Hello ' + mailer.fname + ' ' + mailer.lname + ' We are excited to have you join our coach team at Achieve Mpls. The first step is easy, just activate your account by setting your password here: ' +
-          'http://localhost:5000/#/createPassword/' + user.code + ' Thank you and we look forward to working with you.' 
+          text: 'Thank you for volunteering for AchieveMpls, ' + mailer.fname + '! To activate your account, please click here: ' +
+          'http://localhost:5000/#/createPassword/' + user.code + ' Thank you and we look forward to working with you.'
       //     html: '<b>' + mailer.message + '</b>' // html body
       };
       transporter.sendMail(mailOptions, function(error, info){
