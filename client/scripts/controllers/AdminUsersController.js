@@ -5,11 +5,18 @@
  * @return AllUser objects
  */
 
-
 myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDialog', '$mdPanel',
   function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
     console.log('Admin Users sourced: ');
     var users = this;
+    /**
+     * @global object that limits table's display length and orders by first name
+     */
+    users.query = {
+      order: 'fname',
+      limit: 25,
+      page: 1
+    };
 
     AdminService.getSessionYears();
     AdminService.getAllUsers();
@@ -22,18 +29,6 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     users.routeToEvents = AdminService.routeToEvents;
 
     users.allUsers = AdminService.allUsers;
-
-    /**
-     * @global object that limits table's display length and orders by first name
-     */
-    users.query = {
-      order: 'fname',
-      limit: 25,
-      page: 1
-    };
-
-
-
     /**
     * @desc clears all ng-model fields
     */
@@ -52,9 +47,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      * If the form is being edited it sends the form on a different route.
      */
     var editingUser = false;
-
     /**
-
      * Admin Users Controller
      * @desc controls the Admin Users View
      * @param AdminService
@@ -62,18 +55,9 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      */
     AdminService.getAllUsers(function(results) {
       users.allUsers = results;
+      console.log('results', results);
       console.log("users.allUsers", users.allUsers);
     });
-
-    /**
-     * logPagination Controller
-     * @desc pass this func to DOM Users View
-     * @param
-     *
-     */
-    users.logPagination = function() {
-      console.log('log pagination', arguments);
-    };
 
     /**
 
