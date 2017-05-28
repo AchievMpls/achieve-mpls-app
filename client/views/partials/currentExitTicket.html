@@ -1,0 +1,37 @@
+<div class="_md-panel-focus-trap" tabindex="0"></div>
+<div class="form-wrapper">
+  <md-card class="card-panel">
+    <div layout="row" layout-align="end center">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Ticket Info</span>
+          </md-card-title-text>
+    </md-card-title>
+    <md-input-container class="close-button">
+    <md-button class="md-fab md-primary" aria-label="Close Form" ng-click="home.toggleForm();">
+      <i class="material-icons" id="addButton">clear</i>
+    </md-button>
+    </md-input-container>
+    </div>
+    <div layout="row" layout-align="center">
+      <div layout = "column">
+      <md-card-content>
+      <p>Name: {{home.currentTicket.fname}} {{home.currentTicket.lname}} Email: {{home.currentTicket.email}}</p>
+      <p>Grade: {{home.currentTicket.grade}} Facilitator : {{home.currentTicket.facilitator}}</p>
+      <p>School: {{home.currentTicket.school}} Day: {{home.currentTicket.day}} Time: {{home.currentTicket.start_time}}</p>
+      <p>Question 1</p>
+      {{home.currentTicket.q1_answer}}
+      <p>Question 2</p>
+      {{home.currentTicket.q2_answer}}
+      <p>Question 3</p>
+      {{home.currentTicket.q3_answer}}
+      <p>Quesiton 4</p>
+      {{home.currentTicket.q4_answer}}
+      <p>Question 5</p>
+      {{home.currentTicket.q5_answer}}
+      </md-card-content>
+    </div>
+  </div>
+      </md-card>
+</div>
+<div class="_md-panel-focus-trap" tabindex="0"></div>

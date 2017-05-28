@@ -1,7 +1,7 @@
 <div class= "main">
 <ng-include src="'./views/partials/nav.html'"></ng-include>
-<h1>Events for Session number: {{events.specificSession.events[0].session_id }}</h1>
-<div layout="row" layout-align="end center" ng-keypress="events.formHide($event)">
+<div layout="row" layout-align="space-between center" ng-keypress="events.formHide($event)">
+  <h1>Events for Session number: {{events.specificSession.events[0].session_id }}</h1>
 <md-card class="card" flex="30">
   <div layout="row" layout-align="space-between center">
     <div layout="column">
@@ -59,6 +59,7 @@
   </md-card>
 
   <div id="form-container" ng-show="events.form">
+  <div id="events-background-darken"></div>
   <ng-include src="'./views/partials/newEventForm.html'"></ng-include>
   </div>
 </div>

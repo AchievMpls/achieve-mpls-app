@@ -39,17 +39,31 @@ h1 {
 
 .form-wrapper {
   min-height: 85%;
+  max-height: 95%;
   top: 50%;
   left: 50%;
   overflow: scroll;
-  position: absolute;
+  position: fixed;
   transform: translateX(-50%) translateY(-50%);
-  z-index: 80;
+  z-index: 82;
 }
 
 .header {
   background-color: black;
   color: white;
+}
+
+.home-table {
+  cursor: pointer;
+  cursor: hand;
+}
+
+.home-table-item{
+  border: 5px solid pink;
+}
+.home-table-item:hover {
+  background-color : #EBF1F5;
+
 }
 
 .main{
@@ -87,4 +101,64 @@ h1 {
    width: 24px;
    min-height: 24px;
    min-width: 24px;
+}
+
+#form-container {
+    position: relative;
+    z-index: 80;
+}
+
+#events-background-darken {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    /*dim the background*/
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index: 81;
+}
+
+#forms-background-darken {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    /*dim the background*/
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index: 81;
+}
+
+#home-background-darken {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    /*dim the background*/
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index: 81;
+}
+
+#sessions-background-darken {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    /*dim the background*/
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index: 81;
+}
+
+#users-background-darken {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    /*dim the background*/
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index: 81;
 }

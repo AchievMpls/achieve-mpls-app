@@ -40,13 +40,11 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
      */
 var clearance = function(){
   $http.get('/users/clearance').then(function(response) {
-    console.log('hit clearance: ', response.data.email, response.data.role);
       if(response.data.email && (response.data.role === 'admin')) {
           // user has a current session on the server
           userObject.role = response.data.role;
           userObject.email = response.data.email;
           userObject.id = response.data.id;
-          console.log('User Data: ', userObject);
       } else {
         // Store the activation code for later use
         // code.tempCode = $route.current.params.code;

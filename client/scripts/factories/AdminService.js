@@ -6,7 +6,7 @@
  */
 myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
   function($http, $location, $mdDialog) {
-
+    console.log('AdminService Sourced');
     //@TODO: this is disgusting, and it's all y's fault.
     // if we have time, let's refactor.
     var allUsers = {
@@ -17,6 +17,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     var specificYear = {};
     var currentSessionForEvents;
     var specificSession = {};
+    getYearsSessions(moment().format('YYYY'));
 
     //----------CRUD USERs ------------
 
@@ -43,6 +44,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     function getAllUsers() {
       $http.get('/users').then(function(response) {
         allUsers.users = response.data;
+        console.log('get all users triggered with: ', allUsers.users);
       });
     }
 
@@ -89,6 +91,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      */
     function getAllForms() {
       $http.get('/forms').then(function(response) {
+        console.log('get all forms fired');
         allForms.returnedForms = response.data;
       });
     }
@@ -133,6 +136,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      */
     function getSessionYears() {
       $http.get('/sessions/years').then(function(response) {
+        console.log('get session years triggered');
         sessionYear.uniques = response.data;
         sessionYear.currentYear = moment().format('YYYY');
       });
