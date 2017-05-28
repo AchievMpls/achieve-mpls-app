@@ -1,3 +1,4 @@
+
 /**
 * Admin Forms Controller
 * @desc controls the Admin Forms View
@@ -12,7 +13,7 @@ function($mdDialog, AdminService, $mdPanel, $mdPanelRef, $sce) {
   */
   forms.query = {
     order: 'name',
-    limit: 2,
+    limit: 25,
     page: 1
   };
 
@@ -30,41 +31,16 @@ function($mdDialog, AdminService, $mdPanel, $mdPanelRef, $sce) {
   * If the form is being edited it sends the form on a different route.
   */
   var editingForm = false;
-
+  /**
+   * @desc Admin gets the all the forms
+   * @param
+   * @return all forms object
+   */
   AdminService.getAllForms(function(rows) {
       forms.allForms = rows;
+        console.log("all forms controllers: ", forms.allForms);
     }
-
   );
-//  forms.allForms = AdminService.allForms;
-  /**
-   * getUser Controller
-   * @desc set the number of records shown at Admin Forms View
-   * @param AdminService
-   * @return set the certain amount in pageForms obj
-   */
-  AdminService.getForms(forms.query.page, forms.query.limit, function(rows) {
-    forms.pageForms = rows;
-    console.log("data forms per page: ", forms.pageForms);
-  });
-  /**
-   * logPagination Controller
-   * @desc pass this func to DOM Forms View
-   * @param
-   * @return pageForms objects per that page
-   */
-
-  forms.logPagination = function() {
-    console.log('log pagination');
-    // console.log('page', forms.query.page);
-    // console.log('limit', forms.query.limit);
-    AdminService.getForms(forms.query.page, forms.query.limit, function(rows) {
-
-      forms.pageForms = rows;
-     console.log("forms per page", forms.pageForms);
-   });
-
-  };
   /**
   * @desc clears all ng-model fields
   */
@@ -75,7 +51,6 @@ function($mdDialog, AdminService, $mdPanel, $mdPanelRef, $sce) {
       id : '',
     };
   };
-
   /**
   * @desc displays an item for editing
   * @param {object} form the form to be edited
@@ -172,6 +147,7 @@ function($mdDialog, AdminService, $mdPanel, $mdPanelRef, $sce) {
       itemToClose.classList.add("ng-hide");
       itemToClose.setAttribute("aria-hidden", true);
       forms.clearFields();
+      console.log("onkeydown");
     }
   };
 
@@ -184,6 +160,7 @@ function($mdDialog, AdminService, $mdPanel, $mdPanelRef, $sce) {
   forms.toggleForm = function () {
     var itemToOpen = document.getElementById('form-container');
     itemToOpen.classList.toggle("ng-hide");
+    console.log("got")
   };
 
 

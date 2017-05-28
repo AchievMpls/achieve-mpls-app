@@ -1,4 +1,5 @@
 
+
 myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDialog', '$mdPanel',
   function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
     console.log('Admin Users sourced: ');
@@ -9,7 +10,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      */
     users.query = {
       order: 'fname',
-      limit: 5,
+      limit: 25,
       page: 1
     };
 
@@ -40,32 +41,19 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      * @param AdminService
      * @return AllUser objects
      */
-    AdminService.getAllUsers(function(rows) {
-      users.allUsers = rows;
+    AdminService.getAllUsers(function(results) {
+      users.allUsers = results;
+      console.log("users.allUsers", users.allUsers);
     });
 
-    /**
-     * getUser Controller
-     * @desc set the number of records shown at Admin Users View
-     * @param AdminService
-     * @return set the certain amount in pageUsers obj
-     */
-    AdminService.getUsers(users.query.page, users.query.limit, function(rows) {
-      users.pageUsers = rows;
-      console.log("data user per page:", users.pageUsers);
-    });
     /**
      * logPagination Controller
      * @desc pass this func to DOM Users View
      * @param
-     * @return pageUsers objects per that page
+     *
      */
     users.logPagination = function() {
-      console.log('log pagination');
-      AdminService.getUsers(users.query.page, users.query.limit, function(rows) {
-        users.pageUsers = rows;
-      });
-
+      console.log('log pagination', arguments);
     };
 
     /**

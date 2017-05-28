@@ -19,10 +19,6 @@ function(AdminService, $mdDialog, $filter) {
 
   sessions.routeToEvents = AdminService.routeToEvents;
 
-  sessions.logPagination = function() {
-    console.log("session logPagination", arguments);
-
-  };
 
   var daysList = ["Mondays", "Tuesdays", "Wednesdays", "Thursdays", "Fridays", "Saturdays", "Sundays"];
 
@@ -89,7 +85,7 @@ function(AdminService, $mdDialog, $filter) {
   */
   sessions.query = {
     order: 'name',
-    limit: 2,
+    limit: 25,
     page: 1
   };
 

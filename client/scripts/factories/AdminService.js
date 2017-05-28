@@ -1,3 +1,4 @@
+
 /**
  * Admin Service Factory
  * @desc Manages all of the functions related to the Admin
@@ -14,93 +15,77 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     };
     var allForms = {
       returnedForms: []
-    };
+  };
     var sessionYear = {};
-    var specificYear = {
-      sessions: []
-    };
+    var specificYear = {};
     var currentSessionForEvents;
     var specificSession = {};
 
     //----------CRUD USERs ------------
-
     /**
-     * @desc generate the random pwd
-     * @param the length of the pwd
-     * @return Interger -> String
-     */
-    function dec2hex(dec) {
-      return ('0' + dec.toString(16)).substr(-2);
-    }
+       * @desc generate the random pwd
+       * @param the length of the pwd
+       * @return Interger -> String
+       */
+      function dec2hex(dec) {
+        return ('0' + dec.toString(16)).substr(-2);
+      }
 
-    function generateId(len) {
-      var arr = new Uint8Array((len || 40) / 2);
-      window.crypto.getRandomValues(arr);
-      return Array.from(arr, dec2hex).join('');
-    }
+      function generateId(len) {
+        var arr = new Uint8Array((len || 40) / 2);
+        window.crypto.getRandomValues(arr);
+        return Array.from(arr, dec2hex).join('');
+      }
 
-    /**
-     * @desc Admin gets the list of users
-     * @param
-     * @return AllUsers object
-     */
-    function getAllUsers(callback) {
-      console.log('user_callback=', callback);
-      $http.get('/users').then(function(response) {
-        callback(response.data);
-      });
-    }
+      /**
+       * @desc Admin gets the list of users
+       * @param
+       * @return AllUsers object
+       */
+      function getAllUsers(callback) {
+        $http.get('/users').then(function(response) {
+          allUsers.users = response.data;
+          if (callback) {
+            callback(allUsers.users);
+          }
+          console.log("getAllUsers", allUsers);
+        });
+      }
 
-    /**
-     * @desc getUsers to set the limit item per page
-     * @param generate the page, static limit and callback
-     * to trigger the getAllUsers in order to get all data
-     * @return limit amount of users object per page
-     */
+      /**
+       * @desc adds new users to db
+       * @param userToSend object to user data
+       */
+      function addNewUser(userToSend, callback) {
+        console.log("addNewUser function: ",userToSend);
+        console.log("callback in addnewUser=", callback);
+        userToSend.password = generateId(10);
+        $http.post('/users/postUser', userToSend).then(function(response) {
+          getAllUsers(callback);
+        });
+      }
+      /**
+       * @desc updates user
+       * @param userToSend object has be changed
+       */
+      function updateUser(userToSend, callback) {
+        userToSend.password = generateId(10);
+        $http.put('/users/updateUser', userToSend).then(function(response) {
+          getAllUsers(callback);
+        });
+      }
 
-    function getUsers(page, limit, callback) {
-      $http.get('/users').then(function(response) {
-        var users = response.data.slice((page-1)*limit,limit*page);
-        console.log('page:', page, 'limit=', limit);
-        callback(users);
-      });
-    }
-
-    /**
-     * @desc adds new users to db
-     * @param userToSend object to user data
-     */
-    function addNewUser(userToSend, callback) {
-      console.log("addNewUser function: ",userToSend);
-      console.log("callback in addnewUser=", callback);
-      userToSend.password = generateId(10);
-      $http.post('/users/postUser', userToSend).then(function(response) {
-        getAllUsers(callback);
-      });
-    }
-    /**
-     * @desc updates user
-     * @param userToSend object has be changed
-     */
-    function updateUser(userToSend, callback) {
-      userToSend.password = generateId(10);
-      $http.put('/users/updateUser', userToSend).then(function(response) {
-        getAllUsers(callback);
-      });
-    }
-
-    /**
-     * @desc sets user session to 'null'
-     * @param id object sent AdminFormsController
-     */
-    function deactivateUser(user) {
-      $http.put('/users/deactivateUser', user).then(function(response) {
-        getAllUsers();
-      });
-    }
+      /**
+       * @desc sets user session to 'null'
+       * @param id object sent AdminFormsController
+       */
+      function deactivateUser(user) {
+        $http.put('/users/deactivateUser', user).then(function(response) {
+          getAllUsers();
+        });
+      }
 
     //--------CRUD FORMs-----------
-
     /**
      * @desc gets all forms from db
      * @param
@@ -108,25 +93,12 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      */
     function getAllForms(callback) {
       $http.get('/forms').then(function(response) {
-      //  allForms.returnedForms = response.data;
-        callback(response.data);
+       allForms.returnedForms = response.data;
+       if (callback) {
+        callback(allForms.returnedForms);
+      }
       });
     }
-
-    /**
-     * @desc getUsers to set the limit item per page
-     * @param generate the page, static limit and callback
-     * to trigger the getAllUsers in order to get all data
-     * @return limit amount of users object per page
-     */
-
-    function getForms(page, limit, callback) {
-      $http.get('/forms').then(function(response) {
-        var forms = response.data.slice((page-1)*limit,limit*page);
-        callback(forms);
-      });
-    }
-
     /**
      * @desc adds new form to db
      * @param {object} formToSend the exit-ticket form to be created
@@ -150,7 +122,6 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
         formToSend.prompts = [];
       });
     }
-
     /**
      * @desc removes an exit-ticket form, per its ID.
      * @param {number} id - The form to be removed (specified in AdminFormsController.)
@@ -355,13 +326,11 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     }
 
     return {
-      getUsers: getUsers,
       getAllUsers: getAllUsers,
       allUsers: allUsers,
       addNewUser: addNewUser,
       updateUser: updateUser,
       deactivateUser: deactivateUser,
-      getForms : getForms,
       getAllForms: getAllForms,
       allForms: allForms,
       addNewForm: addNewForm,

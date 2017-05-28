@@ -23,8 +23,7 @@
 <div layout="row" layout-align="center center" class="admin_table">
   <md-card md-whiteframe="8" flex="90">
     <md-table-container>
-      <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}"
-        ng-model="selected" md-progress="promise">
+      <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
         <thead md-head md-order="forms.query.order">
           <tr md-row>
             <th md-column class=""><span>Delete/Edit</span></th>
@@ -39,9 +38,11 @@
         <tbody md-body>
 
           <tr md-row md-auto-select="options.autoSelect"
-            ng-repeat="form in forms.pageForms
-                        | orderBy: forms.query.order
-                        | limitTo: forms.query.limit">
+          ng-repeat="form in forms.allForms
+          | orderBy: forms.query.order
+          | limitTo: forms.query.limit: (forms.query.page - 1) * forms.query.limit">
+
+
             <td md-cell>
               <md-button flex="45" aria-label="delete" class="md-raised admin-button" ng-click="forms.confirmDelete(form)">
                 Delete
@@ -62,11 +63,6 @@
         </tbody>
       </table>
     </md-table-container>
-    page: {{forms.query.page}}
-    limit: {{forms.query.limit}}
-    length: {{forms.allForms.length}}
-    boudery: {{options.boundaryLinks}}
-    pageselct: {{options.pageSelect}}
     <md-table-pagination md-limit="forms.query.limit"
 
     md-page="forms.query.page"
