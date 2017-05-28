@@ -64,7 +64,11 @@
 
         <tbody md-body>
 
-          <tr md-row md-auto-select="options.autoSelect" ng-repeat="session in sessions.specificYear.sessions | orderBy: sessions.query.order | limitTo: sessions.query.limit : (sessions.query.page -1) * sessions.query.limit" ng-if="run.date.dateRange === showRun.user.currentDateRange">
+          <tr md-row md-auto-select="options.autoSelect"
+          ng-repeat="session in sessions.specificYear.sessions
+                    | orderBy: sessions.query.order
+                    | limitTo: sessions.query.limit : (sessions.query.page -1) * sessions.query.limit"
+                    ng-if="run.date.dateRange === showRun.user.currentDateRange">
             <td md-cell>
               <md-button flex="45" aria-label="delete" class="md-icon-button" ng-click="sessions.confirmDelete(session)">
                 <i class="material-icons">delete</i>
@@ -90,14 +94,15 @@
         </tbody>
       </table>
     </md-table-container>
-
+    totalpage: {{sessions.specificYear.sessions.length}}
     <md-table-pagination md-limit="sessions.query.limit"
-    md-limit-options="limitOptions" 
+    md-limit-options="limitOptions"
     md-page="sessions.query.page"
-    md-total="{{forms.allForms.returnedForms.length}}"
+    md-total="{{sessions.specificYear.sessions.length}}"
     md-page-select="options.pageSelect"
     md-boundary-links="options.boundaryLinks"
-    md-on-paginate="sessions.logPagination"></md-table-pagination>
+    md-on-paginate="sessions.logPagination"
+    ></md-table-pagination>
   </md-card>
 </div>
 

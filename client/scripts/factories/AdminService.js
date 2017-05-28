@@ -176,7 +176,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @desc selects all sessions for a single school year
      * @param {number} year the year whose sessions are to be returned
      */
-    function getYearsSessions(year, callback) {
+    function getYearsSessions(year) {
       if (!year) {
         $mdDialog.show(
           $mdDialog.alert()
@@ -188,31 +188,20 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
         );
       } else {
         $http.get('/sessions/' + year).then(function(response) {
-          //specificYear.sessions = response.data;
-          callback(response.data);
+          specificYear.sessions = response.data;
+
         });
       }
     }
-        /**
-         * @desc getYrsSessions to set the limit item per page
-         * @param generate the page, static limit and callback
-         * to trigger the getYearsSessions in order to get all data
-         * @return limit amount of users object per page
-         */
-        function getYrsSessions(year, page, limit, callback) {
-          $http.get('/sessions/' + year).then(function(response) {
-            var sessions = response.data.slice((page-1)*limit,limit*page);
-            callback(sessions);
-          });
-        }
+
     /**
      * @desc adds new session (and linked events) to db
      * @param {object} sessionToSend the exit-ticket form to be created
      */
-    function addNewSession(sessionToSend, callback) {
+    function addNewSession(sessionToSend) {
       $http.post('/sessions/add', sessionToSend).then(function(response) {
-        //getYearsSessions(sessionToSend.year);
-        getYearsSessions(sessionToSend.year, callback);
+        getYearsSessions(sessionToSend.year);
+
       }, function() {
         sessionConflictPopup();
       });
@@ -233,10 +222,10 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @desc update session
      * @param {object} sessionToSend the session to be altered
      */
-    function updateSession(sessionToSend, callback) {
+    function updateSession(sessionToSend) {
       $http.put('/sessions/update', sessionToSend).then(function(response) {
-        //getYearsSessions(sessionToSend.year);
-        etYearsSessions(sessionToSend.year, callback);
+        getYearsSessions(sessionToSend.year);
+
       });
     }
 
@@ -244,10 +233,9 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @desc removes a session, per its ID.
      * @param {object} session - The session to be removed & redisplayed
      */
-    function deleteSession(session, callback) {
+    function deleteSession(session) {
       $http.delete('/sessions/delete/' + session.id).then(function() {
-        //getYearsSessions(session.year);
-        getYearsSessions(session.year, callback);
+        getYearsSessions(session.year);
       }, function() {
         $mdDialog.show(
           $mdDialog.alert()
