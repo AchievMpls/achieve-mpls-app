@@ -5,6 +5,7 @@
  * @return AllUser objects
  */
 
+
 myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDialog', '$mdPanel',
   function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
     console.log('Admin Users sourced: ');
@@ -31,6 +32,8 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
       page: 1
     };
 
+
+
     /**
     * @desc clears all ng-model fields
     */
@@ -51,6 +54,29 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     var editingUser = false;
 
     /**
+
+     * Admin Users Controller
+     * @desc controls the Admin Users View
+     * @param AdminService
+     * @return AllUser objects
+     */
+    AdminService.getAllUsers(function(results) {
+      users.allUsers = results;
+      console.log("users.allUsers", users.allUsers);
+    });
+
+    /**
+     * logPagination Controller
+     * @desc pass this func to DOM Users View
+     * @param
+     *
+     */
+    users.logPagination = function() {
+      console.log('log pagination', arguments);
+    };
+
+    /**
+
      * @desc displays a popup when 'delete' button is clicked, then
      * deletes specific user if popup is confirmed
      * @param the user object to be deleted
@@ -71,11 +97,16 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
       } else {
         users.toggleForm();
         if (user.id !== undefined) {
+
           console.log('update', user.id);
-          AdminService.updateUser(user);
+          AdminService.updateUser(user, function(rows) {
+            users.allUsers = rows;
+          });
         } else {
           console.log('add', user);
-          AdminService.addNewUser(user);
+          AdminService.addNewUser(user, function(rows) {
+            users.allUsers = rows;
+          });
 
         }
       }
