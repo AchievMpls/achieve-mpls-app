@@ -82,9 +82,9 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
        * @desc sets user session to 'null'
        * @param id object sent AdminFormsController
        */
-      function deactivateUser(user) {
+      function deactivateUser(user, callback) {
         $http.put('/users/deactivateUser', user).then(function(response) {
-          getAllUsers();
+          getAllUsers(callback);
         });
       }
 

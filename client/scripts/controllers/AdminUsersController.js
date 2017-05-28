@@ -83,7 +83,9 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      */
     users.deactivateUser = function(user) {
       console.log('here the user to deactivate', user);
-      AdminService.deactivateUser(user);
+      AdminService.deactivateUser(user, function(rows) {
+        users.allUsers = rows;
+      });
     };
 
     /**
