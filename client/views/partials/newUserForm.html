@@ -1,58 +1,32 @@
-<div class="_md-panel-focus-trap" tabindex="0"></div>
-<div class="form-wrapper">
-  <md-card class="card-panel">
-    <div layout="row" layout-align="end center">
-      <md-card-title>
-        <md-card-title-text>
-          <span class="md-headline">Create New User</span>
-        </md-card-title-text>
-      </md-card-title>
-      <md-input-container class="close-button">
-        <md-button class="md-fab md-primary" aria-label="Close Form" ng-click="users.toggleForm(); users.clearFields()">
-          <i class="material-icons" id="addButton">clear</i>
-        </md-button>
-      </md-input-container>
-    </div>
-    <div layout="row" layout-align="center">
-        <md-input-container>
-          <label>First Name</label>
-          <textarea rows="1" cols="20" ng-model="users.user.fname">{{users.user.fname}}</textarea>
-        </md-input-container>
-      </div>
-      <div layout="row" layout-align="center">
-        <md-input-container>
-          <label>Last Name</label>
-          <textarea rows="1" cols="20" ng-model="users.user.lname">{{users.user.lname}}</textarea>
-        </md-input-container>
-      </div>
-      <div layout="row" layout-align="center">
-        <md-input-container>
-          <label>E-Mail</label>
-          <textarea rows="1" cols="20" ng-model="users.user.email">{{users.user.email}}</textarea>
-        </md-input-container>
-    </div>
-    <div layout="row" layout-align="space-around center">
-      <div layout="column">
-        <md-input-container>
-          <label>Role</label>
-          <md-select ng-model="users.user.role">
-            <md-option ng-repeat="_role in users.roleArray" value="{{_role}}">{{_role}}</md-option>
-          </md-select>
-        </md-input-container>
-      </div>
-      <div layout="column">
-        <md-input-container>
-          <label>Session</label>
-          <md-select ng-model="users.user.session_id">
-            <md-option ng-repeat="session in users.sessionArray" value="{{session}}">{{session}}</md-option>
-          </md-select>
-        </md-input-container>
-      </div>
-    </div>
-    <div layout="row">
-      <md-button class="md-fab md-primary" aria-label="Submit New User" ng-click="users.sendUser(users.user); forms.closeDialog()">
-        <i class="material-icons" id="addButton">done</i>
+<md-card>
+  <md-card-header>
+    <md-card-avatar>
+      <img class="md-user-avatar" src="avatar.png">
+    </md-card-avatar>
+    <md-card-header-text>
+      <span class="md-title">Title</span>
+      <span class="md-subhead">Sub header</span>
+    </md-card-header-text>
+  </md-card-header>
+  <img ng-src="card-image.png" class="md-card-image" alt="image caption">
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">Card headline</span>
+      <span class="md-subhead">Card subheader</span>
+    </md-card-title-text>
+  </md-card-title>
+  <md-card-actions layout="row" layout-align="start center">
+    <md-button>Action 1</md-button>
+    <md-button>Action 2</md-button>
+    <md-card-icon-actions>
+      <md-button class="md-icon-button" aria-label="icon">
+        <md-icon md-svg-icon="icon"></md-icon>
       </md-button>
-    </div>
-  </div>
-  <div class="_md-panel-focus-trap" tabindex="0"></div>
+    </md-card-icon-actions>
+  </md-card-actions>
+  <md-card-content>
+    <p>
+     Card content
+    </p>
+  </md-card-content>
+</md-card>
