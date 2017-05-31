@@ -2,18 +2,18 @@
   "_args": [
     [
       {
-        "raw": "angular-animate@1.6.4",
+        "raw": "angular-animate",
         "scope": null,
         "escapedName": "angular-animate",
         "name": "angular-animate",
-        "rawSpec": "1.6.4",
-        "spec": "1.6.4",
-        "type": "version"
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
       },
-      "/Users/ypaulsussman/Dropbox/Prime Digital Academy/03 Build/achieve-mpls-app"
+      "/Users/kevindahlberg/Dropbox/Prime/achieve-mpls-app"
     ]
   ],
-  "_from": "angular-animate@1.6.4",
+  "_from": "angular-animate@latest",
   "_id": "angular-animate@1.6.4",
   "_inCache": true,
   "_location": "/angular-animate",
@@ -29,22 +29,23 @@
   "_npmVersion": "3.10.10",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "angular-animate@1.6.4",
+    "raw": "angular-animate",
     "scope": null,
     "escapedName": "angular-animate",
     "name": "angular-animate",
-    "rawSpec": "1.6.4",
-    "spec": "1.6.4",
-    "type": "version"
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/angular-animate/-/angular-animate-1.6.4.tgz",
   "_shasum": "d3eb906d39834f2dfbdd982e6b8d7a3b4d9001d2",
   "_shrinkwrap": null,
-  "_spec": "angular-animate@1.6.4",
-  "_where": "/Users/ypaulsussman/Dropbox/Prime Digital Academy/03 Build/achieve-mpls-app",
+  "_spec": "angular-animate",
+  "_where": "/Users/kevindahlberg/Dropbox/Prime/achieve-mpls-app",
   "author": {
     "name": "Angular Core Team",
     "email": "angular-core+npm@google.com"
