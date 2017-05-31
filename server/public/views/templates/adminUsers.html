@@ -46,9 +46,14 @@
           <tbody md-body>
             <tr md-row md-auto-select="options.autoSelect"
               ng-repeat="user in users.allUsers
+<<<<<<< HEAD
+              | orderBy: users.query.order
+              | limitTo: users.query.limit : (users.query.page - 1) * users.query.limit">
+=======
                         | orderBy: users.query.order
                         | limitTo: users.query.limit : (users.query.page - 1) * users.query.limit">
 
+>>>>>>> develop
               <td md-cell>
                 <md-button flex="45" aria-label="warn" class="md-raised md-primary admin-button" ng-click="users.activeUser(user)">
                   Register

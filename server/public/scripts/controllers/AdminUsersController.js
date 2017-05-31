@@ -5,11 +5,25 @@
  * @return AllUser objects
  */
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> develop
 myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDialog', '$mdPanel',
   function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
     console.log('Admin Users sourced: ');
     var users = this;
+<<<<<<< HEAD
+    /**
+     * @global object that limits table's display length and orders by first name
+     */
+    users.query = {
+      order: 'fname',
+      limit: 25,
+      page: 1
+    };
+=======
+>>>>>>> develop
 
     AdminService.getSessionYears();
     AdminService.getAllUsers();
@@ -22,6 +36,8 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     users.routeToEvents = AdminService.routeToEvents;
 
     users.allUsers = AdminService.allUsers;
+<<<<<<< HEAD
+=======
 
     /**
      * @global object that limits table's display length and orders by first name
@@ -34,6 +50,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
 
 
 
+>>>>>>> develop
     /**
     * @desc clears all ng-model fields
     */
@@ -52,9 +69,13 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      * If the form is being edited it sends the form on a different route.
      */
     var editingUser = false;
+<<<<<<< HEAD
+    /**
+=======
 
     /**
 
+>>>>>>> develop
      * Admin Users Controller
      * @desc controls the Admin Users View
      * @param AdminService
@@ -62,10 +83,16 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      */
     AdminService.getAllUsers(function(results) {
       users.allUsers = results;
+<<<<<<< HEAD
+      console.log('results', results);
+=======
+>>>>>>> develop
       console.log("users.allUsers", users.allUsers);
     });
 
     /**
+<<<<<<< HEAD
+=======
      * logPagination Controller
      * @desc pass this func to DOM Users View
      * @param
@@ -76,6 +103,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     };
 
     /**
+>>>>>>> develop
 
      * @desc displays a popup when 'delete' button is clicked, then
      * deletes specific user if popup is confirmed
@@ -83,7 +111,13 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      */
     users.deactivateUser = function(user) {
       console.log('here the user to deactivate', user);
+<<<<<<< HEAD
+      AdminService.deactivateUser(user, function(rows) {
+        users.allUsers = rows;
+      });
+=======
       AdminService.deactivateUser(user);
+>>>>>>> develop
     };
 
     /**
