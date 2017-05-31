@@ -1,0 +1,54 @@
+  <md-toolbar  class="md-padding header md-warn" flex="100">
+    <div class="background-logo" layout="row" layout-align="space-between center">
+    <div layout="column">
+    <img src="./views/images/achievempls-logo-white.png" flex="20">
+    </div>
+    <div layout="column">
+    <md-nav-bar
+      hide show-gt-sm flex="60"
+      md-selected-nav-item="currentNavItem"
+      nav-bar-aria-label="navigation links"
+      class = "md-warn"
+      >
+      <md-nav-item  md-nav-href="#home" name="home">
+        View Tickets
+      </md-nav-item>
+      <md-nav-item md-nav-href="#adminUsers" name="users">
+        Manage Users
+      </md-nav-item>
+      <md-nav-item md-nav-href="#forms" name="forms">
+        Ticket Templates
+      </md-nav-item>
+      <md-nav-item md-nav-href="#sessions" name="sessions">
+        Manage Sessions
+      </md-nav-item>
+      <md-nav-item md-nav-href="#logout" name="logout">
+        Logout
+      </md-nav-item>
+    </md-nav-bar>
+  </div>
+  <div layout="column">
+  <md-menu hide-gt-sm>
+    <md-button aria-label="menu" class="md-icon-button large" ng-click="$mdMenu.open($event)" style="color:white">
+      <i class="material-icons" id="addButton">menu</i>
+    </md-button>
+    <md-menu-content width="2" ng-click="$mdMenu.close()">
+      <md-menu-item>
+        <md-button md-nav-href="#adminUsers"> <span md-menu-align-target>View Tickets</span></md-button>
+      </md-menu-item>
+      <md-menu-item>
+        <md-button ng-click="showRun.logout()"> <span md-menu-align-target>Manage Users</span></md-button>
+      </md-menu-item>
+      <md-menu-item>
+        <md-button ng-click="showRun.logout()"> <span md-menu-align-target>Ticket Templates</span></md-button>
+      </md-menu-item>
+      <md-menu-item>
+        <md-button ng-click="showRun.logout()"> <span md-menu-align-target>Manage Sessions</span></md-button>
+      </md-menu-item>
+      <md-menu-item>
+        <md-button ng-click="showRun.logout()"> <span md-menu-align-target>Logout</span></md-button>
+      </md-menu-item>
+  </md-menu>
+</div>
+  </div>
+</md-toolbar>

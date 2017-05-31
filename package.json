@@ -30,7 +30,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/app.js"
+    "start": "node server/app.js",
+    "postinstall": "grunt copy"
   },
   "repository": {
     "type": "git",
