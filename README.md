@@ -10,3 +10,17 @@ AcheiveMpls
 ##Test Email##
 * gradcoaches@gmail.com
 * @chievempls
+
+
+## Demo
+<p align="center">
+  <img src="walkthrough/part1.gif" alt="first walkthrough gif"/>
+</p>
+
+<p align="center">
+  <img src="walkthrough/part2.gif" alt="second walkthrough gif"/>
+</p>
+
+<p align="center">
+  <img src="walkthrough/part3.gif" alt="third walkthrough gif"/>
+</p>
