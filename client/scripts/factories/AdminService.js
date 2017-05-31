@@ -33,7 +33,6 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
         return ('0' + dec.toString(16)).substr(-2);
       }
 
-
       function generateId(len) {
         var arr = new Uint8Array((len || 40) / 2);
         window.crypto.getRandomValues(arr);
@@ -46,6 +45,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
        * @return AllUsers object
        */
       function getAllUsers(callback) {
+        console.log('callback', callback);
         $http.get('/users').then(function(response) {
           allUsers.users = response.data;
           if (callback) {
@@ -82,9 +82,9 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
        * @desc sets user session to 'null'
        * @param id object sent AdminFormsController
        */
-      function deactivateUser(user) {
+      function deactivateUser(user, callback) {
         $http.put('/users/deactivateUser', user).then(function(response) {
-          getAllUsers();
+          getAllUsers(callback);
         });
       }
 
