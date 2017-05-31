@@ -1,0 +1,81 @@
+<!-- <form novalidate ng-submit="invite.emailForm(invite.mailObject)">
+  <label>Invite: </label>
+  <input type="text" placeholder="name">
+  <label>Email: </label>
+  <input type="text" ng-model="invite.mailObject.toEmail"><br>
+  <label>Subject: </label>
+  <input type="text" ng-model="invite.mailObject.subject"><br>
+  <label>Message: </label>
+  <input type="text" ng-model="invite.mailObject.message"><br>
+  <label>Include Packing List  </label><input id="checkbox" type="checkbox">
+   <br>
+  <button>Invite Mule</button>
+</form> -->
+
+<div class="_md-panel-focus-trap" tabindex="0"></div>
+<div class="form-wrapper">
+  <div layout="row" layout-align="end center">
+  <md-input-container class="close-button">
+  <md-button class="md-fab md-fab-top-right md-primary" aria-label="Close Form" ng-click="users.toggleForm(); users.clearFields()">
+    <i class="material-icons" id="addButton">clear</i>
+  </md-button>
+  </md-input-container>
+  </div>
+  <div class="form-row" layout="row" layout-align="center center" class="admin_table">
+      <md-card md-whiteframe="8" flex="90">
+        <div class="form-row" layout="row" layout-align="space-around none" class="admin_table">
+          <md-input-container>
+          <label>First Name</label>
+           <textarea rows="1" cols="20" ng-model="users.user.fname">{{users.user.fname}}</textarea>
+         </md-input-container>
+      </div>
+      <div class="form-row" layout="row" layout-align="space-around none" class="admin_table">
+      <md-input-container>
+          <label>Last Name</label>
+          <textarea rows="1" cols="20" ng-model="users.user.lname">{{users.user.lname}}</textarea>
+        </md-input-container>
+      </div>
+    <div class="form-row" layout="row" layout-align="space-around none" class="admin_table">
+      <md-input-container>
+        <label>E-Mail</label>
+        <textarea rows="1" cols="20" ng-model="users.user.email">{{users.user.email}}</textarea>
+      </md-input-container>
+    </div>
+    <div class="form-row" layout="row" layout-align="space-around none" class="admin_table">
+      <div layout = "column">
+      <md-input-container>
+        <label>Grade</label>
+        <md-select ng-model="users.user.grade">
+          <md-option ng-repeat="grade in users.gradeArray" value="{{grade}}">{{grade}}</md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <div layout = "column">
+      <md-input-container>
+        <label>Session</label>
+        <md-select ng-model="users.user.session">
+          <md-option ng-repeat="session in users.sessionArray" value="{{session}}">{{session}}</md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+  </div>
+  <div layout = "column">
+  <md-input-container>
+    <label>Role</label>
+    <md-select ng-model="users.user.role">
+      <md-option ng-repeat="role in users.roleArray" value="{{role}}">{{role}}</md-option>
+    </md-select>
+  </md-input-container>
+</div>
+    <div layout = "row">
+      <md-button class="md-fab md-primary" aria-label="Submit New User" ng-click="users.addUser(user)">
+        <i class="material-icons" id="addButton">done</i>
+      </md-button>
+      <md-button class="md-fab md-primary" aria-label="Email New User" ng-click="">
+        <i class="material-icons">email</i>
+      </md-button>
+
+    </div>
+  </div>
+</div>
+<div class="_md-panel-focus-trap" tabindex="0"></div>

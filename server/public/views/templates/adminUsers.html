@@ -1,0 +1,91 @@
+
+<div class= "main">
+<ng-include src="'./views/partials/nav.html'"></ng-include>
+<div layout="column">
+  <!-- raised add user button -->
+    <div layout="row" layout-xs="column" layout-align="space-between center" layout-align-xs="center">
+      <h1>Users</h1>
+      <div flex-xs flex-gt-xs="30">
+        <md-card class="card">
+          <div layout="row" layout-align="space-between center">
+            <div layout="column">
+              <md-card-title>
+                <md-card-title-text>
+                  <span class="md-headline">Add New User </span>
+                </md-card-title>
+              </md-card-title-text>
+            </div>
+            <div layout="column">
+              <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add User" ng-click="users.clearFields(); users.toggleForm(); users.populateSessionArray()">
+                <i class="material-icons" id="addButton">add</i>
+              </md-button>
+            </div>
+          </div>
+        </md-card>
+      </div>
+    </div>
+  <!-- end raised add user button -->
+
+  <!-- start users table code -->
+  <div layout="row" layout-align="center center" class="adminUsers_table">
+    <md-card md-whiteframe="8" flex="90">
+      <md-table-container>
+        <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
+          <thead md-head md-order="users.query.order">
+            <tr md-row>
+
+              <th md-column class=""><span>Registration</span></th>
+              <th md-column class=""><span>Edit</span></th>
+              <th md-column md-order-by="fname" class=""><span>First Name</span></th>
+              <th md-column md-order-by="lname" md-desc class=""><span>Last Name</span></th>
+              <th md-column md-order-by="email" md-desc class=""><span>Email Address</span></th>
+              <th md-column md-order-by="role" md-desc class=""><span>Role</span></th>
+              <th md-column md-order-by="session" md-desc class=""><span>Session</span></th>
+            </tr>
+          </thead>
+          <tbody md-body>
+            <tr md-row md-auto-select="options.autoSelect"
+              ng-repeat="user in users.allUsers
+                        | orderBy: users.query.order
+                        | limitTo: users.query.limit : (users.query.page - 1) * users.query.limit">
+
+              <td md-cell>
+                <md-button flex="45" aria-label="warn" class="md-raised md-primary admin-button" ng-click="users.activeUser(user)">
+                  Register
+                </md-button>
+                <md-button ng-show="user.session_id" flex="45" aria-label="delete" class="md-raised admin-button" ng-click="users.deactivateUser(user)">
+                  Deactivate
+                </md-button>
+              </td>
+              <td md-cell>
+                <md-button flex="45" aria-label="edit" class="md-icon-button" ng-click="users.editUser(user); users.toggleForm()">
+                  <i class="material-icons">create</i>
+                </md-button>
+              </td>
+              <td md-cell class="">{{user.fname}}</td>
+              <td md-cell class="">{{user.lname}}</td>
+              <td md-cell class="">{{user.email}}</td>
+              <td md-cell class="">{{user.role}}</td>
+              <td md-cell class="">{{user.session_id}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </md-table-container>
+      <md-table-pagination md-limit="users.query.limit"
+      md-limit-options="limitOptions"
+      md-page="users.query.page"
+      md-total="{{users.allUsers.length}}"
+      md-page-select="options.pageSelect"
+      md-boundary-links="options.boundaryLinks"
+      md-on-paginate="users.logPagination"></md-table-pagination>
+    </md-card>
+
+  </div>
+  <!-- stop users table code -->
+</div>
+<div id="form-container" ng-show="users.form">
+<div id="users-background-darken"></div>
+<ng-include src="'./views/partials/newUserForm.html'"></ng-include>
+
+</div>
+</div>

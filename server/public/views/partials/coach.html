@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html ng-App="myApp">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width", initial-scale="1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Achieve MPLS App</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/vendors/angular-material/angular-material.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="/vendors/angular-material-data-table/md-data-table.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+
+    <!-- <link rel="stylesheet" href="vendors/angular-material/modules/js/datepicker/datepicker.css"> -->
+
+    <!-- angular -->
+    <script type="text/javascript" src="vendors/angular/angular.min.js"></script>
+    <script type="text/javascript" src="vendors/angular-route/angular-route.min.js"></script>
+    <script type="text/javascript" src="vendors/angular-animate/angular-animate.min.js"></script>
+    <script type="text/javascript" src="vendors/angular-aria/angular-aria.min.js"></script>
+    <script type="text/javascript" src="vendors/angular-messages/angular-messages.min.js"></script>
+    <script type="text/javascript" src="vendors/angular-material/angular-material.min.js"></script>
+    <script type="text/javascript" src="/vendors/angular-material-data-table/md-data-table.min.js"></script>
+    <script type="text/javascript" src="vendors/moment/moment.js"></script>
+    <script type="text/javascript" src="vendors/angular-moment/angular-moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.8/angular-filter.min.js"></script>
+
+    <!-- configuration files -->
+    <script type="text/javascript" src="scripts/utilities/constants.js"></script>
+    <script type="text/javascript" src="scripts/client.js"></script>
+
+    <!-- factories -->
+    <script type="text/javascript" src="scripts/factories/AdminService.js"></script>
+
+    <!-- CoachService is used in AuthService so it needs to load first -->
+    <script type="text/javascript" src="scripts/factories/CoachService.js"></script>
+    <script type="text/javascript" src="scripts/factories/AuthService.js"></script>
+
+    <!-- controllers -->
+    <script type="text/javascript" src="scripts/controllers/UserAuthController.js"></script>
+    <script type="text/javascript" src="scripts/controllers/AdminHomeController.js"></script>
+    <script type="text/javascript" src="scripts/controllers/AdminFormsController.js"></script>
+    <script type="text/javascript" src="scripts/controllers/AdminUsersController.js"></script>
+    <script type="text/javascript" src="scripts/controllers/AdminSessionsController.js"></script>
+    <script type="text/javascript" src="scripts/controllers/AdminEventsController.js"></script>
+    <script type="text/javascript" src="scripts/controllers/coachController.js"></script>
+
+        <md-card ng-hide="coach.tickets.open==='no open, incomplete tickets!'">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">Meeting #{{coach.tickets.open[0].meeting_count}}</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-input-container ng-show="coach.tickets.open[0].q1_prompt">
+            <label>{{coach.tickets.open[0].q1_prompt}}</label>
+            <input ng-model="coach.ticketToComplete[0]">
+          </md-input-container>
+          <md-input-container ng-show="coach.tickets.open[0].q2_prompt">
+            <label>{{coach.tickets.open[0].q2_prompt}}</label>
+            <input ng-model="coach.ticketToComplete[1]">
+          </md-input-container>
+          <md-input-container ng-show="coach.tickets.open[0].q3_prompt">
+            <label>{{coach.tickets.open[0].q3_prompt}}</label>
+            <input ng-model="coach.ticketToComplete[2]">
+          </md-input-container>
+          <md-input-container ng-show="coach.tickets.open[0].q4_prompt">
+            <label>{{coach.tickets.open[0].q4_prompt}}</label>
+            <input ng-model="coach.ticketToComplete[3]">
+          </md-input-container>
+          <md-input-container ng-show="coach.tickets.open[0].q5_prompt">
+            <label>{{coach.tickets.open[0].q5_prompt}}</label>
+            <input ng-model="coach.ticketToComplete[4]">
+          </md-input-container>
+          <md-input-container>
+            <md-button class="md-fab md-primary" aria-label="Submit New Event" ng-click="coach.submitAnswers(coach.ticketToComplete)">
+              <i class="material-icons" id="addButton">done</i>
+            </md-button>
+          </md-input-container>
+        </md-card>
+
+        <md-card ng-show="coach.tickets.open==='no open, incomplete tickets!'">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">All feedback complete! </span>
+            </md-card-title-text>
+          </md-card-title>
+        </md-card>
+
+  </head>
+
+</html>
