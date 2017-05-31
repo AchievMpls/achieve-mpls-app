@@ -2,18 +2,18 @@
   "_args": [
     [
       {
-        "raw": "angular-messages@^1.6.4",
+        "raw": "angular-messages@1.6.4",
         "scope": null,
         "escapedName": "angular-messages",
         "name": "angular-messages",
-        "rawSpec": "^1.6.4",
-        "spec": ">=1.6.4 <2.0.0",
-        "type": "range"
+        "rawSpec": "1.6.4",
+        "spec": "1.6.4",
+        "type": "version"
       },
-      "/Users/kevindahlberg/Dropbox/Prime/achieve-mpls-app"
+      "/Users/emilyh/Documents/Prime/TeamProject/achieve-mpls-app"
     ]
   ],
-  "_from": "angular-messages@>=1.6.4 <2.0.0",
+  "_from": "angular-messages@1.6.4",
   "_id": "angular-messages@1.6.4",
   "_inCache": true,
   "_location": "/angular-messages",
@@ -29,13 +29,13 @@
   "_npmVersion": "3.10.10",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "angular-messages@^1.6.4",
+    "raw": "angular-messages@1.6.4",
     "scope": null,
     "escapedName": "angular-messages",
     "name": "angular-messages",
-    "rawSpec": "^1.6.4",
-    "spec": ">=1.6.4 <2.0.0",
-    "type": "range"
+    "rawSpec": "1.6.4",
+    "spec": "1.6.4",
+    "type": "version"
   },
   "_requiredBy": [
     "/"
@@ -43,8 +43,8 @@
   "_resolved": "https://registry.npmjs.org/angular-messages/-/angular-messages-1.6.4.tgz",
   "_shasum": "9ec9c1393293b14de54161d2f849776489e980fe",
   "_shrinkwrap": null,
-  "_spec": "angular-messages@^1.6.4",
-  "_where": "/Users/kevindahlberg/Dropbox/Prime/achieve-mpls-app",
+  "_spec": "angular-messages@1.6.4",
+  "_where": "/Users/emilyh/Documents/Prime/TeamProject/achieve-mpls-app",
   "author": {
     "name": "Angular Core Team",
     "email": "angular-core+npm@google.com"

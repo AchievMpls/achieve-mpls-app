@@ -2,18 +2,18 @@
   "_args": [
     [
       {
-        "raw": "angular-material@^1.1.4",
+        "raw": "angular-material@1.1.4",
         "scope": null,
         "escapedName": "angular-material",
         "name": "angular-material",
-        "rawSpec": "^1.1.4",
-        "spec": ">=1.1.4 <2.0.0",
-        "type": "range"
+        "rawSpec": "1.1.4",
+        "spec": "1.1.4",
+        "type": "version"
       },
-      "/Users/kevindahlberg/Dropbox/Prime/achieve-mpls-app"
+      "/Users/emilyh/Documents/Prime/TeamProject/achieve-mpls-app"
     ]
   ],
-  "_from": "angular-material@>=1.1.4 <2.0.0",
+  "_from": "angular-material@1.1.4",
   "_id": "angular-material@1.1.4",
   "_inCache": true,
   "_location": "/angular-material",
@@ -29,13 +29,13 @@
   "_npmVersion": "3.10.10",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "angular-material@^1.1.4",
+    "raw": "angular-material@1.1.4",
     "scope": null,
     "escapedName": "angular-material",
     "name": "angular-material",
-    "rawSpec": "^1.1.4",
-    "spec": ">=1.1.4 <2.0.0",
-    "type": "range"
+    "rawSpec": "1.1.4",
+    "spec": "1.1.4",
+    "type": "version"
   },
   "_requiredBy": [
     "/"
@@ -43,8 +43,8 @@
   "_resolved": "https://registry.npmjs.org/angular-material/-/angular-material-1.1.4.tgz",
   "_shasum": "27de35646f54ccd320080af0c708e1b438af87f6",
   "_shrinkwrap": null,
-  "_spec": "angular-material@^1.1.4",
-  "_where": "/Users/kevindahlberg/Dropbox/Prime/achieve-mpls-app",
+  "_spec": "angular-material@1.1.4",
+  "_where": "/Users/emilyh/Documents/Prime/TeamProject/achieve-mpls-app",
   "bugs": {
     "url": "https://github.com/angular/material/issues"
   },
