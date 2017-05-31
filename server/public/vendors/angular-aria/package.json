@@ -2,18 +2,18 @@
   "_args": [
     [
       {
-        "raw": "angular-aria",
+        "raw": "angular-aria@1.6.4",
         "scope": null,
         "escapedName": "angular-aria",
         "name": "angular-aria",
-        "rawSpec": "",
-        "spec": "latest",
-        "type": "tag"
+        "rawSpec": "1.6.4",
+        "spec": "1.6.4",
+        "type": "version"
       },
-      "/Users/kevindahlberg/Dropbox/Prime/achieve-mpls-app"
+      "/Users/emilyh/Documents/Prime/TeamProject/achieve-mpls-app"
     ]
   ],
-  "_from": "angular-aria@latest",
+  "_from": "angular-aria@1.6.4",
   "_id": "angular-aria@1.6.4",
   "_inCache": true,
   "_location": "/angular-aria",
@@ -29,23 +29,22 @@
   "_npmVersion": "3.10.10",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "angular-aria",
+    "raw": "angular-aria@1.6.4",
     "scope": null,
     "escapedName": "angular-aria",
     "name": "angular-aria",
-    "rawSpec": "",
-    "spec": "latest",
-    "type": "tag"
+    "rawSpec": "1.6.4",
+    "spec": "1.6.4",
+    "type": "version"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/angular-aria/-/angular-aria-1.6.4.tgz",
   "_shasum": "c8683666ace196668f68e7220811bdcfc9e106e4",
   "_shrinkwrap": null,
-  "_spec": "angular-aria",
-  "_where": "/Users/kevindahlberg/Dropbox/Prime/achieve-mpls-app",
+  "_spec": "angular-aria@1.6.4",
+  "_where": "/Users/emilyh/Documents/Prime/TeamProject/achieve-mpls-app",
   "author": {
     "name": "Angular Core Team",
     "email": "angular-core+npm@google.com"
