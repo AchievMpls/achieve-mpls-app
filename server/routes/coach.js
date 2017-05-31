@@ -12,6 +12,7 @@ router.get('/tickets/:userSession/:userID', function(req, res) {
   var session_id = req.params.userSession;
   var user_id = req.params.userID;
   var today = new Date();
+if (req.isAuthenticated()) {
   pool.connect(function(errorConnectingToDb, db, done) {
     if (errorConnectingToDb) {
       res.sendStatus(500);
@@ -69,6 +70,9 @@ router.get('/tickets/:userSession/:userID', function(req, res) {
         });
     }
   });
+} else {
+     res.sendStatus(401);
+ }
 }); //end router.get
 
 /**
@@ -96,21 +100,26 @@ router.post('/completedTicket', function(req, res) {
   for (var i = 0; i < req.body.answers.length; i++) {
     answers[i] = req.body.answers[i];
   }
-  pool.connect(function(errorConnectingToDb, db, done) {
-    if (errorConnectingToDb) {
-      res.sendStatus(500);
-    } else {
-      db.query('INSERT INTO "form_responses" ("user_id", "event_id", "date_form_completed", "q1_answer", "q2_answer", "q3_answer", "q4_answer", "q5_answer") VALUES ($1,$2,$3,$4,$5,$6,$7,$8);', [user_id, event_id, dateToday, answers[0], answers[1], answers[2], answers[3], answers[4]],
-        function(queryError, result) {
-          done();
-          if (queryError) {
-            res.sendStatus(500);
-          } else {
-            res.sendStatus(201);
-          }
-        });
-    }
-  });
+
+  if (req.isAuthenticated()) {
+    pool.connect(function(errorConnectingToDb, db, done) {
+      if (errorConnectingToDb) {
+        res.sendStatus(500);
+      } else {
+        db.query('INSERT INTO "form_responses" ("user_id", "event_id", "date_form_completed", "q1_answer", "q2_answer", "q3_answer", "q4_answer", "q5_answer") VALUES ($1,$2,$3,$4,$5,$6,$7,$8);', [user_id, event_id, dateToday, answers[0], answers[1], answers[2], answers[3], answers[4]],
+          function(queryError, result) {
+            done();
+            if (queryError) {
+              res.sendStatus(500);
+            } else {
+              res.sendStatus(201);
+            }
+          });
+      }
+    });
+  } else {
+       res.sendStatus(401);
+   }
 }); //end router.post
 
 

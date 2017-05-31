@@ -1,5 +1,8 @@
+
+<div class= "main">
+<ng-include src="'./views/partials/nav.html'"></ng-include>
+<div layout="row" layout-align="space-between center" ng-keypress="forms.formHide($event)">
 <h1>Sessions</h1>
-<div layout="row" layout-align="end center" ng-keypress="forms.formHide($event)">
   <div flex-xs flex-gt-xs="30">
 <md-card class="card">
   <div layout="row" layout-align="space-between center">
@@ -11,7 +14,7 @@
 </md-card-title-text>
 </div>
 <div layout="column">
-<md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add New Form" ng-click="sessions.clearFields(); sessions.toggleForm()">
+<md-button class="md-fab md-primary" aria-label="Add New Form" ng-click="sessions.clearFields(); sessions.toggleForm()">
   <i class="material-icons" id="addButton">add</i>
 </md-button>
 </div>
@@ -21,15 +24,13 @@
 </div>
 <div layout="row" layout-align="space-between none" flex="50">
   <md-input-container class="md-block" flex-gt-sm>
-    <md-button class="md-raised">New School Year</md-button>
-    <!-- @Kevin: the button above has no current use; it's just a placeholder for-->
-    <!-- the 'toggle panel' function -->
+    <md-button class="md-raised" ng-click="newYear = !newYear">New School Year</md-button>
   </md-input-container>
-  <md-input-container>
+  <md-input-container ng-show="newYear">
     <label>New Year</label>
     <input type="number" ng-value="sessions.nextYear" ng-model="sessions.nextYear">
   </md-input-container>
-  <md-input-container class="md-block" flex-gt-sm>
+  <md-input-container class="md-block" ng-show="newYear" flex-gt-sm>
     <md-button class="md-raised" ng-click="sessions.addYear()">Create Year</md-button>
   </md-input-container>
 </div>
@@ -64,7 +65,11 @@
 
         <tbody md-body>
 
-          <tr md-row md-auto-select="options.autoSelect" ng-repeat="session in sessions.specificYear.sessions | orderBy: sessions.query.order | limitTo: sessions.query.limit : (sessions.query.page -1) * sessions.query.limit" ng-if="run.date.dateRange === showRun.user.currentDateRange">
+          <tr md-row md-auto-select="options.autoSelect"
+          ng-repeat="session in sessions.specificYear.sessions
+                    | orderBy: sessions.query.order
+                    | limitTo: sessions.query.limit : (sessions.query.page -1) * sessions.query.limit"
+                    ng-if="run.date.dateRange === showRun.user.currentDateRange">
             <td md-cell>
               <md-button flex="45" aria-label="delete" class="md-icon-button" ng-click="sessions.confirmDelete(session)">
                 <i class="material-icons">delete</i>
@@ -90,12 +95,18 @@
         </tbody>
       </table>
     </md-table-container>
-    <md-table-pagination md-limit="sessions.query.limit" md-limit-options="limitOptions" md-page="sessions.query.page" md-total="{{forms.allForms.returnedForms.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+    <md-table-pagination md-limit="sessions.query.limit"
+    md-limit-options="limitOptions"
+    md-page="sessions.query.page"
+    md-total="{{sessions.specificYear.sessions.length}}"
+    md-page-select="options.pageSelect"
+    md-boundary-links="options.boundaryLinks"
+    md-on-paginate="sessions.logPagination"
+    ></md-table-pagination>
   </md-card>
 </div>
-
-</div>
 <div id="form-container" ng-show="forms.form">
+<div id="sessions-background-darken"></div>
 <ng-include src="'./views/partials/newSessionForm.html'"></ng-include>
 </div>
 </div>

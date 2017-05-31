@@ -19,38 +19,60 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
 
   $mdThemingProvider.definePalette('backgrounds', {
     //white
+    //default button color
     '50': 'FFFFFF',
-    '100': 'FFFFFF',
-    '400': 'FFFFFF',
-    '500': 'FFFFFF',
-    '600': 'FFFFFF',
-    '700': 'FFFFFF',
+
+    //set as default, controls background
+    '100': 'ebf1f5',
+
+
+    //Selector of Dropdowns
+    '200': 'EBF1F5',
+
+    //Dark Gray
+    //color of selector in md-datepicker
+    '300': 'EBF1F5',
+
+    //no apperent function
+    //Gray
+    '400': 'ffffff',
+    '500': 'EBF1F5',
+    '600': 'EBF1F5',
+    '700': '656565',
+
     //controls text color in buttons
+    //dark gray
     '800': '656565',
     '900': '656565',
 
-    'A100': 'ffffff',
-    'A200': '000000',
-    'A400': '000000',
-    'A700': '000000',
-    //Gray
-    '200': 'EBF1F5',
-    //Dark Gray
-    '300': '656565',
+    //background of dropdowns
+    'A100': 'FFFFFF',
+
+    //text color of md-datepicker
+    'A200': '656565',
+
+    //no apperent function
+    'A400': 'EBF1F5',
+    'A700': 'EBF1F5',
+
   })
   .definePalette('primaryColors', {
     //Cool Blue
-      '50' : '5FC9F0',
+    '50' : '5FC9F0',
     '100': '5FC9F0',
-    //Warm Yellow
-    '200' : 'FFCE00',
-    '300' : '5FC9F0',
-    '400': 'EBF1F5',
-    '500': 'EBF1F5',
-    '600': 'EBF1F5',
-    '700': 'EBF1F5',
-    '800': 'EBF1F5',
-    '900': 'EBF1F5',
+    '200': '5fC9F0',
+    '300' : '5fC9F0',
+    '400' : '5FC9F0',
+
+    //Cool Green
+    '500': '3DB862',
+
+    //Primary Hover, text of dropdowns
+    '600': '3DB862',
+
+    '700': 'AB182F',
+    '800': 'AB182F',
+    '900': 'AB182F',
     'A100': '656565',
     'A200': '656565',
     'A400': '656565',
@@ -58,14 +80,14 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
     'contrastDefaultColor': 'light',    // whether, by default, text (contrast)
                                     // on this palette should be dark or light
 
-    'contrastDarkColors': ['50', '100', //hues which contrast should be 'dark' by default
+    'contrastDarkColors': ['50', '500', //hues which contrast should be 'dark' by default
     '200', '300', '400', 'A100'],
     'contrastLightColors': undefined    // could also specify this if default was 'dark'
   })
   .definePalette('secondaryColors', {
-    //Cool Green
-    '50' : '3DB862',
-    '100' : '3DB862',
+    //Warm Yellow
+    '50' : 'FFCE00',
+    '100' : 'FFCE00',
     //Warm Orange
     '200' : 'F37629',
     '300' : '5FC9F0',
@@ -84,7 +106,8 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
   .theme('default')
   .primaryPalette('primaryColors', {
     'default' : '100',
-    'hue-1' : '200'
+    //color of the item in the dropdown the instant another item is selected
+    'hue-1' : '500'
   })
   .accentPalette('secondaryColors', {
     'default' : '100',
@@ -95,16 +118,16 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
     //white
     'default': '100',
     //Gray
-    'hue-1': '200',
+    'hue-1': '400',
     //dark gray
-    'hue-3': '300',
+    'hue-3': '700',
   });
 
 
   $routeProvider
 
     .when('/login', {
-      templateUrl: '/views/templates/login.html',
+      templateUrl: '/views/login.html',
       controller: 'UserAuthController as login',
       resolve: {
         clearance : ['AuthService', function(AuthService){
@@ -113,11 +136,11 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
       }
     })
     .when('/createPassword/:code',{
-      templateUrl: '/views/templates/createPassword.html',
+      templateUrl: '/views/createPassword.html',
       controller: 'UserAuthController as code',
     })
     .when('/register',{
-      templateUrl: 'views/templates/register.html',
+      templateUrl: 'views/register.html',
       controller: 'UserAuthController as admin',
     })
     .when('/home', {
@@ -166,7 +189,7 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
       }
     })
     .when('/coach', {
-      templateUrl: '/views/templates/coach.html',
+      templateUrl: '/views/coach.html',
       controller: 'coachController as coach',
       resolve: {
         coachClearance : ['AuthService', function(AuthService){

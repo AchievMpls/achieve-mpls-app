@@ -135,7 +135,7 @@ function(AdminService, $mdDialog, $filter) {
       return;
     }
     var sessionToSend = {
-      eventsToAdd : 0,
+      eventsToAdd : session.eventsToAdd,
       grade : session.grade,
       facilitator : session.facilitator,
       day : session.day,
@@ -172,6 +172,7 @@ function(AdminService, $mdDialog, $filter) {
     });
   };
 
+
   sessions.addYear = function() {
     sessionToSend = {
       year : sessions.nextYear,
@@ -202,6 +203,19 @@ function(AdminService, $mdDialog, $filter) {
       itemToClose.setAttribute("aria-hidden", true);
       sessions.clearFields();
     }
+  };
+
+  /**
+  * @function On click
+  * @desc closes popup when clicked outside
+  * @param click
+  * @return hides the popup form
+  */
+  document.getElementById('sessions-background-darken').onclick = function() {
+    var itemToClose = document.getElementById('form-container');
+    itemToClose.classList.add('ng-hide');
+    itemToClose.setAttribute('aria-hidden', true);
+    sessions.clearFields();
   };
 
   /**

@@ -3,9 +3,11 @@
  * @desc Manages all of the functions related to Authorization
  * @param $http, $location
  * @return the user is logged in
- */
-myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService', '$filter',
-  function($http, $location, $mdDialog, CoachService, $filter) {
+*/
+
+myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService', 'AdminService', '$filter',
+  function($http, $location, $mdDialog, CoachService, AdminService, $filter) {
+
     var auth = this;
     auth.getTickets = CoachService.getTickets;
     var userObject = {};
@@ -38,13 +40,11 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
      */
 var clearance = function(){
   $http.get('/users/clearance').then(function(response) {
-    console.log('hit clearance: ', response.data.email, response.data.role);
       if(response.data.email && (response.data.role === 'admin')) {
           // user has a current session on the server
           userObject.role = response.data.role;
           userObject.email = response.data.email;
           userObject.id = response.data.id;
-          console.log('User Data: ', userObject);
       } else {
         // Store the activation code for later use
         // code.tempCode = $route.current.params.code;
@@ -81,6 +81,7 @@ var coachClearance = function() {
      * @param user Object from input fields in submit button createPassword.html
      * @return success redirect to coach page
      */
+
     function addUserPwd(user) {
       $http.post('/register/addPwd', user).then(function(response) {
         $location.path('/login');
@@ -142,13 +143,23 @@ var coachClearance = function() {
               auth.getTickets(response.data);
               $location.path("/coach");
             } else {
+              console.log("get here if login isn't successsssss");
               // Store the activation code for later use
               // code.tempCode = $route.current.params.code;
               // console.log('Activation code: ', $route.current.params.code);
-
               // user has no session, bounce them back to the login page
+              $mdDialog.show(
+                $mdDialog.alert()
+                .clickOutsideToClose(true)
+                .title('Login Issue!')
+                .textContent('Your email or passwork incorrect')
+                .ariaLabel('Alert Dialog')
+                .ok('OK!')
+              );
               $location.path("/login");
             }
+
+
         } else {
           console.log('failure: ', response);
         }

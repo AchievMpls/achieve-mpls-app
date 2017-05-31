@@ -17,6 +17,7 @@ function(AdminService){
   home.getYearsTickets = AdminService.getYearsTickets;
   home.specificYear = AdminService.specificYear;
 
+  home.getYearsSessions = AdminService.getYearsSessions;
 
   home.filterTickets = function() {
     //transforms data from the "coach ratings" checkboxes from an object to an array of arrays
@@ -45,5 +46,97 @@ function(AdminService){
     page: 1
   };
 
+  home.currentTicket = {};
+
+  home.blankTicket = {
+    fname : '',
+    lname : '',
+    email : '',
+    session_id : '',
+    year : '',
+    session_count : '',
+    grade : '',
+    facilitator : '',
+    day : '',
+    start_time : '',
+    school : '',
+    event_id : '',
+    date_form_completed : '',
+    q1_answer : '',
+    q2_answer : '',
+    q3_answer : '',
+    q4_answer : '',
+    q5_answer : ''
+  };
+
+  home.populateTicket = function (ticket){
+    home.clearFields();
+    home.currentTicket = {
+      fname : ticket.fname,
+      lname : ticket.lname,
+      email : ticket.email,
+      session_id : ticket.session_id,
+      year : ticket.year,
+      session_count : ticket.session_count,
+      grade : ticket.grade,
+      facilitator : ticket.facilitator,
+      day : ticket.day,
+      start_time : ticket.start_time,
+      school : ticket.school,
+      event_id : ticket.event_id,
+      date_form_completed : ticket.date_form_completed,
+      q1_answer : ticket.q1_answer,
+      q2_answer : ticket.q2_answer,
+      q3_answer : ticket.q3_answer,
+      q4_answer : ticket.q4_answer,
+      q5_answer : ticket.q5_answer,
+    };
+    console.log(home.currentTicket);
+  };
+
+  home.clearFields = function () {
+    angular.copy(home.newSession, home.currentTicket);
+  };
+
+  /**
+  * @function On Key Press
+  * @desc when the focus is on the window and the escape key is pressed, the form
+  * is closed.
+  * @param event
+  * @return the @class ng-hide and aria-hidden are added to the form-container.
+  * the @function clearFields is called to clear the fields on the form.
+  */
+  window.onkeydown = function(event) {
+    var itemToClose = document.getElementById('form-container');
+    if (event.keyCode === 27) {
+      itemToClose.classList.add("ng-hide");
+      itemToClose.setAttribute("aria-hidden", true);
+      home.clearFields();
+    }
+  };
+
+  /**
+  * @function On click
+  * @desc closes popup when clicked outside
+  * @param click
+  * @return hides the popup form
+  */
+  document.getElementById('home-background-darken').onclick = function() {
+    var itemToClose = document.getElementById('form-container');
+    itemToClose.classList.add('ng-hide');
+    itemToClose.setAttribute('aria-hidden', true);
+    home.clearFields();
+  };
+
+  /**
+  * @function Toggle form
+  * @desc toggles the form from visible to hidden.
+  * @param used on the ng-click of both the add form and edit form.
+  * @return toggles the class ng-hide on form-container.
+  */
+  home.toggleForm = function() {
+    var itemToOpen = document.getElementById('form-container');
+    itemToOpen.classList.toggle("ng-hide");
+  };
 
 }]);
