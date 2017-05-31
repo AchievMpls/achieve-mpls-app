@@ -10,7 +10,7 @@
         "spec": ">=1.1.4 <2.0.0",
         "type": "range"
       },
-      "/Users/kevindahlberg/Dropbox/Prime/achieve-mpls-app"
+      "/Users/teigenleonard/Prime/achieve_mpls"
     ]
   ],
   "_from": "angular-material@>=1.1.4 <2.0.0",
@@ -44,7 +44,7 @@
   "_shasum": "27de35646f54ccd320080af0c708e1b438af87f6",
   "_shrinkwrap": null,
   "_spec": "angular-material@^1.1.4",
-  "_where": "/Users/kevindahlberg/Dropbox/Prime/achieve-mpls-app",
+  "_where": "/Users/teigenleonard/Prime/achieve_mpls",
   "bugs": {
     "url": "https://github.com/angular/material/issues"
   },

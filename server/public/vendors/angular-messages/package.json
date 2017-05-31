@@ -10,7 +10,7 @@
         "spec": ">=1.6.4 <2.0.0",
         "type": "range"
       },
-      "/Users/kevindahlberg/Dropbox/Prime/achieve-mpls-app"
+      "/Users/teigenleonard/Prime/achieve_mpls"
     ]
   ],
   "_from": "angular-messages@>=1.6.4 <2.0.0",
@@ -44,7 +44,7 @@
   "_shasum": "9ec9c1393293b14de54161d2f849776489e980fe",
   "_shrinkwrap": null,
   "_spec": "angular-messages@^1.6.4",
-  "_where": "/Users/kevindahlberg/Dropbox/Prime/achieve-mpls-app",
+  "_where": "/Users/teigenleonard/Prime/achieve_mpls",
   "author": {
     "name": "Angular Core Team",
     "email": "angular-core+npm@google.com"
