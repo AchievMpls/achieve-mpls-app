@@ -3,7 +3,8 @@
     <div layout="row" layout-align="end center">
       <md-card-title>
         <md-card-title-text>
-          <span class="md-headline">Create New Session</span>
+          <span class="md-headline" ng-if="sessions.editingSession">Edit Session</span>
+          <span class="md-headline" ng-if="!sessions.editingSession">Create New Session</span>
         </md-card-title-text>
       </md-card-title>
       <md-input-container class="close-button">
@@ -66,7 +67,7 @@
         <input ng-model="sessions.currentSession.school">
       </md-input-container>
     </div>
-    <div layout="column">
+    <div ng-hide= "sessions.editingSession" layout="column">
       <md-input-container>
         <label>Events to Add</label>
         <input ng-model="sessions.currentSession.eventsToAdd">
