@@ -31,7 +31,7 @@
     <input type="number" ng-value="sessions.nextYear" ng-model="sessions.nextYear">
   </md-input-container>
   <md-input-container class="md-block" ng-show="newYear" flex-gt-sm>
-    <md-button class="md-raised" ng-click="sessions.addYear()">Create Year</md-button>
+    <md-button class="md-raised" ng-model="sessions.sessionYear" ng-click="sessions.addYear(); sessions.reloadRoute()" >Create Year</md-button>
   </md-input-container>
 </div>
 <div layout="row" layout-align="space-between none" flex="50">
@@ -69,7 +69,7 @@
           ng-repeat="session in sessions.specificYear.sessions
                     | orderBy: sessions.query.order
                     | limitTo: sessions.query.limit : (sessions.query.page -1) * sessions.query.limit"
-                    ng-if="run.date.dateRange === showRun.user.currentDateRange">
+                    >
             <td md-cell>
               <md-button flex="45" aria-label="delete" class="md-icon-button" ng-click="sessions.confirmDelete(session)">
                 <i class="material-icons">delete</i>

@@ -125,7 +125,7 @@ console.log('forms controller sourced');
     .cancel('No');
     $mdDialog.show(confirm).then(function() {
       AdminService.deleteForm(form.id, function(rows) {
-        forms.pageForms = rows;
+        forms.allForms = rows;
       });
     });
   };
