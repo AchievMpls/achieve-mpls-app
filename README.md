@@ -1,12 +1,10 @@
 
 AcheiveMpls
 
-##Coach View##
-* View and submit the form
-##AdminView##
-* After Admin logged in successfully
-* The admin could able to view/edit/delete the coach
 
-##Test Email##
-* gradcoaches@gmail.com
-* @chievempls
+<!--Do we want to include?  -->
+In order to generate and send emails from within the app, the following environmental variables are required:
+
+ACHIEVE_EMAIL (email from which confirmation emails will be sent)
+ACHIEVE_PASSWORD (password for the email account above)
+<!--Do we want to include?  -->
