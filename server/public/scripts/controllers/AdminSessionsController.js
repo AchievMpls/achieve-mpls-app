@@ -5,8 +5,8 @@
 * @return
 */
 
-myApp.controller('AdminSessionsController', ['AdminService', '$mdDialog', '$filter',
-function(AdminService, $mdDialog, $filter) {
+myApp.controller('AdminSessionsController', ['AdminService', '$mdDialog', '$filter', '$route',
+function(AdminService, $mdDialog, $filter, $route) {
   var sessions = this;
   var chosenYear = '';
   console.log('AdminSessionsController sourced');
@@ -70,10 +70,6 @@ function(AdminService, $mdDialog, $filter) {
       }
     }
   }
-
-
-
-  console.log(sessions.currentSession.timeDropdown);
 
   sessions.editingSession = false;
 
@@ -187,6 +183,10 @@ function(AdminService, $mdDialog, $filter) {
 
     AdminService.addNewSession(sessionToSend);
   };
+
+  sessions.reloadRoute = function() {
+   $route.reload();
+};
 
   /**
   * @function On Key Press
