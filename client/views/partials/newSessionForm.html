@@ -3,11 +3,12 @@
     <div layout="row" layout-align="end center">
       <md-card-title>
         <md-card-title-text>
-          <span class="md-headline">Create New Session</span>
+          <span class="md-headline" ng-if="sessions.editingSession">Edit Session</span>
+          <span class="md-headline" ng-if="!sessions.editingSession">Create New Session</span>
         </md-card-title-text>
       </md-card-title>
       <md-input-container class="close-button">
-        <md-button class="md-fab md-primary" aria-label="Close Form" ng-click="sessions.toggleForm(); sessions.clearFields()">
+        <md-button class="md-fab md-primary" aria-label="Close Form" ng-click="sessions.toggleForm(); sessions.clearFields(); sessions.falseSession()">
           <i class="material-icons" id="addButton">clear</i>
         </md-button>
       </md-input-container>
@@ -66,7 +67,7 @@
         <input ng-model="sessions.currentSession.school">
       </md-input-container>
     </div>
-    <div layout="column">
+    <div ng-hide= "sessions.editingSession" layout="column">
       <md-input-container>
         <label>Events to Add</label>
         <input ng-model="sessions.currentSession.eventsToAdd">

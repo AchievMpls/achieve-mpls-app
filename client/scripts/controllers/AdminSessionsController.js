@@ -5,8 +5,8 @@
 * @return
 */
 
-myApp.controller('AdminSessionsController', ['AdminService', '$mdDialog', '$filter',
-function(AdminService, $mdDialog, $filter) {
+myApp.controller('AdminSessionsController', ['AdminService', '$mdDialog', '$filter', '$route',
+function(AdminService, $mdDialog, $filter, $route) {
   var sessions = this;
   var chosenYear = '';
   console.log('AdminSessionsController sourced');
@@ -70,10 +70,6 @@ function(AdminService, $mdDialog, $filter) {
       }
     }
   }
-
-
-
-  console.log(sessions.currentSession.timeDropdown);
 
   sessions.editingSession = false;
 
@@ -188,6 +184,10 @@ function(AdminService, $mdDialog, $filter) {
     AdminService.addNewSession(sessionToSend);
   };
 
+  sessions.reloadRoute = function() {
+   $route.reload();
+};
+
   /**
   * @function On Key Press
   * @desc when the focus is on the window and the escape key is pressed, the form
@@ -227,6 +227,10 @@ function(AdminService, $mdDialog, $filter) {
   sessions.toggleForm = function() {
     var itemToOpen = document.getElementById('form-container');
     itemToOpen.classList.toggle("ng-hide");
+  };
+
+  sessions.falseSession = function (){
+    sessions.editingSession = false;
   };
 
 }//end controller function

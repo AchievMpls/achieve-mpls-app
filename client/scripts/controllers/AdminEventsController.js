@@ -14,7 +14,7 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
     events.allForms = AdminService.allForms;
     console.log('the data for all of the forms is ', events.allForms.returnedForms);
 
-    var editingEvent = false;
+    events.editingEvent = false;
 
     events.event = {
       meeting_count : '',
@@ -56,7 +56,7 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
     */
     events.editEvent = function(event) {
       events.clearFields();
-      editingEvent = true;
+      events.editingEvent = true;
       events.event = {
         meeting_count : event.meeting_count,
         form : event.form_id,
@@ -83,7 +83,7 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
         return;
       }
       if (editingEvent) {
-        editingEvent = false;
+        events.editingEvent = false;
         AdminService.updateEvent(eventToSend);
       }else {
         AdminService.addNewEvent(eventToSend);
@@ -146,6 +146,10 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
     events.toggleForm = function () {
       var itemToOpen = document.getElementById('form-container');
       itemToOpen.classList.toggle("ng-hide");
+    };
+
+    events.falseEvent = function () {
+      events.editingEvent = false;
     };
   }//end controller function
 ]);

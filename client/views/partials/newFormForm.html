@@ -4,11 +4,12 @@
       <div layout="row" layout-align="end center">
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline">Create New Form</span>
+            <span class="md-headline" ng-if="forms.editingForm">Edit Form</span>
+            <span class="md-headline" ng-if="!forms.editingForm">Create New Form</span>
           </md-card-title-text>
             </md-card-title>
           <md-input-container class="close-button">
-            <md-button class="md-fab  md-primary" aria-label="Close Form" ng-click="forms.toggleForm();">
+            <md-button class="md-fab  md-primary" aria-label="Close Form" ng-click="forms.toggleForm(); forms.falseForm();">
               <i class="material-icons" id="addButton">clear</i>
             </md-button>
           </md-input-container>

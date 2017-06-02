@@ -5,11 +5,18 @@
  * @return AllUser objects
  */
 
-
 myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDialog', '$mdPanel',
   function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
     console.log('Admin Users sourced: ');
     var users = this;
+    /**
+     * @global object that limits table's display length and orders by first name
+     */
+    users.query = {
+      order: 'fname',
+      limit: 25,
+      page: 1
+    };
 
     AdminService.getSessionYears();
     AdminService.getAllUsers();
@@ -22,18 +29,6 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     users.routeToEvents = AdminService.routeToEvents;
 
     users.allUsers = AdminService.allUsers;
-
-    /**
-     * @global object that limits table's display length and orders by first name
-     */
-    users.query = {
-      order: 'fname',
-      limit: 25,
-      page: 1
-    };
-
-
-
     /**
     * @desc clears all ng-model fields
     */
@@ -51,10 +46,8 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      * @global tells the program whether we are editing the form or not.
      * If the form is being edited it sends the form on a different route.
      */
-    var editingUser = false;
-
+    users.editingUser = false;
     /**
-
      * Admin Users Controller
      * @desc controls the Admin Users View
      * @param AdminService
@@ -62,18 +55,9 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      */
     AdminService.getAllUsers(function(results) {
       users.allUsers = results;
+      console.log('results', results);
       console.log("users.allUsers", users.allUsers);
     });
-
-    /**
-     * logPagination Controller
-     * @desc pass this func to DOM Users View
-     * @param
-     *
-     */
-    users.logPagination = function() {
-      console.log('log pagination', arguments);
-    };
 
     /**
 
@@ -83,7 +67,9 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      */
     users.deactivateUser = function(user) {
       console.log('here the user to deactivate', user);
-      AdminService.deactivateUser(user);
+      AdminService.deactivateUser(user, function(rows) {
+        users.allUsers = rows;
+      });
     };
 
     /**
@@ -97,9 +83,9 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
       } else {
         users.toggleForm();
         if (user.id !== undefined) {
-
           console.log('update', user.id);
           AdminService.updateUser(user, function(rows) {
+            users.editingUser = false;
             users.allUsers = rows;
           });
         } else {
@@ -178,7 +164,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     users.editUser = function(user) {
       console.log(user);
       users.clearFields();
-      editingForm = true;
+      users.editingUser = true;
       users.user = {
         fname: user.fname,
         lname: user.lname,
@@ -238,6 +224,10 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     users.toggleForm = function() {
       var itemToOpen = document.getElementById('form-container');
       itemToOpen.classList.toggle("ng-hide");
+    };
+
+    users.falseUser = function (){
+      users.editingUser = false;
     };
 
   }
