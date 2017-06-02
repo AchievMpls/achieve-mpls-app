@@ -229,5 +229,9 @@ function(AdminService, $mdDialog, $filter, $route) {
     itemToOpen.classList.toggle("ng-hide");
   };
 
+  sessions.falseSession = function (){
+    sessions.editingSession = false;
+  };
+
 }//end controller function
 ]);

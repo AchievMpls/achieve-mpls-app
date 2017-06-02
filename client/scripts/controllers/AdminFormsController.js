@@ -30,7 +30,7 @@ console.log('forms controller sourced');
   * @global tells the program whether we are editing the form or not.
   * If the form is being edited it sends the form on a different route.
   */
-  var editingForm = false;
+  forms.editingForm = false;
   /**
    * @desc Admin gets the all the forms
    * @param
@@ -57,7 +57,7 @@ console.log('forms controller sourced');
   */
   forms.editForm = function(form) {
     forms.clearFields();
-    editingForm = true;
+    forms.editingForm = true;
     forms.prompts = {
       form_name : form.form_name,
       promptsArray : [form.q1_prompt, form.q2_prompt, form.q3_prompt, form.q4_prompt, form.q5_prompt],
@@ -84,8 +84,8 @@ console.log('forms controller sourced');
         formToSend.prompts.push(form.promptsArray[i]);
       }
     }
-    if (editingForm) {
-      editingForm = false;
+    if (forms.editingForm) {
+      forms.editingForm = false;
       AdminService.updateForm(formToSend, function(rows) {
         forms.allForms = rows;
       });
@@ -171,9 +171,11 @@ console.log('forms controller sourced');
   forms.toggleForm = function () {
     var itemToOpen = document.getElementById('form-container');
     itemToOpen.classList.toggle("ng-hide");
-    console.log("got")
   };
 
+  forms.falseForm = function (){
+    forms.editingForm = false;
+  };
 
 
 }

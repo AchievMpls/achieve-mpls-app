@@ -46,7 +46,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      * @global tells the program whether we are editing the form or not.
      * If the form is being edited it sends the form on a different route.
      */
-    var editingUser = false;
+    users.editingUser = false;
     /**
      * Admin Users Controller
      * @desc controls the Admin Users View
@@ -83,9 +83,9 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
       } else {
         users.toggleForm();
         if (user.id !== undefined) {
-
           console.log('update', user.id);
           AdminService.updateUser(user, function(rows) {
+            users.editingUser = false;
             users.allUsers = rows;
           });
         } else {
@@ -164,7 +164,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     users.editUser = function(user) {
       console.log(user);
       users.clearFields();
-      editingForm = true;
+      users.editingUser = true;
       users.user = {
         fname: user.fname,
         lname: user.lname,
@@ -224,6 +224,10 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     users.toggleForm = function() {
       var itemToOpen = document.getElementById('form-container');
       itemToOpen.classList.toggle("ng-hide");
+    };
+
+    users.falseUser = function (){
+      users.editingUser = false;
     };
 
   }

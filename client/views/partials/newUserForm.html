@@ -4,11 +4,11 @@
     <div layout="row" layout-align="end center">
       <md-card-title>
         <md-card-title-text>
-          <span class="md-headline">Create New User</span>
-        </md-card-title-text>
+          <span class="md-headline" ng-if="users.editingUser">Edit User</span>
+          <span class="md-headline" ng-if="!users.editingUser">Create New User</span>
       </md-card-title>
       <md-input-container class="close-button">
-        <md-button class="md-fab md-primary" aria-label="Close Form" ng-click="users.toggleForm(); users.clearFields()">
+        <md-button class="md-fab md-primary" aria-label="Close Form" ng-click="users.toggleForm(); users.clearFields(); users.falseUser()">
           <i class="material-icons" id="addButton">clear</i>
         </md-button>
       </md-input-container>
