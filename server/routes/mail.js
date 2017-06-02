@@ -7,6 +7,7 @@ var chance = new Chance();
 var pool = require( '../modules/db' );
 
 var transporter = nodeMailer.createTransport({
+  //@TODO should be replaced with new email and variables going live
     service: 'gmail',
     auth: {
         user: 'gradcoaches@gmail.com',
@@ -60,11 +61,5 @@ router.post('/', function(req, res, next) {
       });
       res.send(200);
 });
-
-// router.put('/activate/:code', function(req, res) {
-//   var code = req.params.code;
-//   // req.body.password // <- user will be sending password & e-mail
-//
-// });
 
 module.exports = router;
