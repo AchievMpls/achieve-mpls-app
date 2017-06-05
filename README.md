@@ -5,33 +5,67 @@ The Coach Experience Application for achieve mpls is a full stack application th
 
 ---
 
-<!--Do we want to include?  -->
-In order to generate and send emails from within the app, the following environmental variables are required:
+In order to generate and send emails from within the app, the following variables will need to have replacements that are proprietary to the organization:
 
-ACHIEVE_EMAIL (email from which confirmation emails will be sent)
-ACHIEVE_PASSWORD (password for the email account above)
-<!--Do we want to include?  -->
+## in mail.js
+lines 11-14:
+var transporter = nodeMailer.createTransport({
+    service: 'MAILSERVICE',
+    auth: {
+        user: 'EMAILADDRESS',
+        pass: 'PASSWORD'
+    }
+});
 
-##Coach View##
-* View and submit the form
-##AdminView##
-* After Admin logged in successfully
-* The admin could able to view/edit/delete the coach
-
-##Test Email##
-* gradcoaches@gmail.com
-* @chievempls
+and
+lines 49-54:
+var mailOptions = {
+   from: '"achieve mpls" EMAILADDRESS',
+   to: mailer.email,
+   subject: 'Welcome to Achieve Mpls!',
+   text: 'Thank you for volunteering for AchieveMpls, ' + mailer.fname + '! To activate your account, please click here: ' + 'HOSTING PLATFORM'
+};
 
 
 ## Demo
+### Sessions and Forms
 <p align="center">
   <img src="walkthrough/part1.gif" alt="first walkthrough gif"/>
 </p>
 
+### Events and Users
 <p align="center">
   <img src="walkthrough/part2.gif" alt="second walkthrough gif"/>
 </p>
 
+### Submit and Access Feedback
 <p align="center">
   <img src="walkthrough/part3.gif" alt="third walkthrough gif"/>
 </p>
+
+## Built With:
+Javascript
+Node
+Node Mailer
+Express
+Grunt
+Angular
+Angular Routes
+Angular Materials
+PostgresSQL
+Postico
+Heroku
+
+
+## Version:
+1.0.0
+
+## Authors:
+Kevin Dahlberg, Emily Hoang, Teigen Leonard and Y Paul Sussman
+
+
+## Acknowledgments:
+Our instructors at Prime Digital Academy: Scott Bromander, Chris Black and Luke Schlangen
+
+## Inspiration:
+Amy Shapiro and the staff at achieve mpls!
