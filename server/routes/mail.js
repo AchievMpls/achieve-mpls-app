@@ -51,7 +51,6 @@ router.post('/', function(req, res, next) {
           subject: 'Welcome to Achieve Mpls!',
           text: 'Thank you for volunteering for AchieveMpls, ' + mailer.fname + '! To activate your account, please click here: ' +
           'http://localhost:5000/#/createPassword/' + user.code + ' Thank you and we look forward to working with you.'
-      //     html: '<b>' + mailer.message + '</b>' // html body
       };
       transporter.sendMail(mailOptions, function(error, info){
           if (error) {
