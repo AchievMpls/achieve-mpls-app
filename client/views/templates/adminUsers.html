@@ -24,6 +24,16 @@
         </md-card>
       </div>
     </div>
+    <div layout="row" layout-align="space-between none" flex="50">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>School Year</label>
+        <md-select flex="50" ng-model="users.sessionYear.currentYear" ng-change="users.getYearsSessions(users.sessionYear.currentYear)">
+          <md-option ng-repeat="year in users.sessionYear.uniques" ng-value="{{year.year}}">
+            {{year.year}}-{{(year.year)+1}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
   <!-- end raised add user button -->
 
   <!-- start users table code -->

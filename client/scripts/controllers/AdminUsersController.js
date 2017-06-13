@@ -39,6 +39,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         email: '',
         role: '',
         session_id: '',
+        year: ''
       };
     };
 
@@ -171,6 +172,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         email: user.email,
         role: user.role,
         session_id: user.session_id,
+        year: user.year,
         id: user.id
       };
 
