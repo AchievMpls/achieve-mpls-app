@@ -7,7 +7,7 @@ var chance = new Chance();
 var pool = require( '../modules/db' );
 
 var transporter = nodeMailer.createTransport({
-  //@TODO should be replaced with new email and variables going live
+  //@TODO dummy e-mail for development purposes, should be replaced with new email and variables going live
     service: 'gmail',
     auth: {
         user: 'gradcoaches@gmail.com',

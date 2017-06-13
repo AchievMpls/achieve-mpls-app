@@ -16,6 +16,16 @@
     <div layout="row" layout-align="space-around none">
       <div layout="column">
         <md-input-container>
+          <label>Year</label>
+          <md-select ng-model="sessions.currentSession.year">
+            <md-option ng-repeat="year in sessions.sessionYear.uniques" value={{year.year}}>
+              {{year.year}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div layout="column">
+        <md-input-container>
           <label>Session Number</label>
           <input ng-model="sessions.currentSession.session_count">
         </md-input-container>

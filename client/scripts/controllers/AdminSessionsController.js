@@ -137,7 +137,7 @@ function(AdminService, $mdDialog, $filter, $route) {
       day : session.day,
       start_time : session.hours + ':' + session.minutes,
       school : session.school,
-      year : sessions.sessionYear.currentYear,
+      year : session.year,
       session_count : session.session_count,
       id : session.id
     };
