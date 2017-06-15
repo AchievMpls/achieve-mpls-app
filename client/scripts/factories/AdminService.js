@@ -92,9 +92,9 @@ function($http, $location, $mdDialog) {
     // }
     //  else {
       users.forEach(function(user){
-        // if (user.year == year) {
+        if (user.year == year) {
           userArray.push(user);
-        // }
+        }
       });
     // }
   }
