@@ -13,6 +13,9 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     var allUsers = {
       users: []
     };
+
+    var userArray = [];
+
     var allForms = {
       returnedForms: []
   };
@@ -21,7 +24,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     var currentSessionForEvents;
     var specificSession = {};
     getYearsSessions(moment().format('YYYY'));
-
+    getSessionYears();
     //----------CRUD USERs ------------
     /**
 
@@ -48,10 +51,27 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
         console.log('get all users called');
         $http.get('/users').then(function(response) {
           allUsers.users = response.data;
+          filterUserArray(response.data, sessionYear.currentYear);
           if (callback) {
             callback(allUsers.users);
           }
         });
+      }
+
+      /**
+      * @desc splits array of users between years
+      * @param array of users
+      * @return new {array} that includes
+      */
+      function filterUserArray(users, year) {
+        console.log('users in array ', users);
+        console.log('year in array ', year);
+        users.forEach(function(user){
+          if (user.year===year) {
+            userArray.push(user);
+          }
+        });
+        console.log('filter user array, ', userArray);
       }
 
       /**
@@ -356,6 +376,8 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       updateSession: updateSession,
       getYearsTickets: getYearsTickets,
       getFilteredTickets: getFilteredTickets,
+      userArray : userArray,
+      filterUserArray : filterUserArray
     };
 
   }
