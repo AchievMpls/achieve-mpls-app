@@ -18,7 +18,10 @@ function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
     page: 1
   };
 
-
+  /**
+  * @desc {object} sessionYear
+  * @param {number} uniques and {number} currentYear
+  */
   users.sessionYear = AdminService.sessionYear;
 
   /**
@@ -26,6 +29,13 @@ function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
   * @param {number} year the year whose sessions are to be returned
   */
   users.getYearsSessions = AdminService.getYearsSessions;
+
+  /**
+  * @desc {object} that contains the current year and the unique years with deactivated and all users
+  * @return populated by the populateYearDropdown function and used in the Admin User View
+  * also called within @function getSessionYears
+  */
+  users.yearDropdown = AdminService.yearDropdown;
 
   users.specificYear = AdminService.specificYear;
 

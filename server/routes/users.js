@@ -102,7 +102,7 @@ router.put('/updateUser', function(req, res) {
   console.log('updating, we have: ', req.body);
   var id = req.body.id;
   var session_count = parseInt(req.body.session_count);
-  var year = parseInt(req.body.year)
+  var year = parseInt(req.body.year);
   if (isNaN(session_count)) {
     session_count = null;
   }
