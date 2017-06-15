@@ -27,20 +27,21 @@
     <div layout="row" layout-align="space-between none" flex="50">
       <md-input-container class="md-block" flex-gt-sm>
         <label>School Year</label>
-        <md-select flex="50" ng-model="users.sessionYear.currentYear" ng-change="users.getYearsSessions(users.sessionYear.currentYear)">
+        <md-select flex="50" ng-model="users.sessionYear.currentYear" ng-change="users.filterUserArray(users.allUsers, users.sessionYear.currentYear)">
           <md-option ng-repeat="year in users.sessionYear.uniques" ng-value="{{year.year}}">
             {{year.year}}-{{(year.year)+1}}
           </md-option>
         </md-select>
       </md-input-container>
     </div>
+    {{users.userArray}}
   <!-- end raised add user button -->
   <!-- start users table code -->
   <div layout="row" layout-align="center center" class="adminUsers_table">
     <md-card md-whiteframe="8" flex="90">
       <md-table-container>
         <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
-          <thead md-head md-order="users.query.order">
+          <thead md-head md-order="userArray.query.order">
             <tr md-row>
 
               <th md-column class=""><span>Registration</span></th>
@@ -54,9 +55,9 @@
           </thead>
           <tbody md-body>
             <tr md-row md-auto-select="options.autoSelect"
-              ng-repeat="user in users.allUsers
-              | orderBy: users.query.order
-              | limitTo: users.query.limit : (users.query.page - 1) * users.query.limit">
+              ng-repeat="user in users.userArray
+              | orderBy: userArray.query.order
+              | limitTo: userArray.query.limit : (users.query.page - 1) * users.query.limit">
               <td md-cell>
                 <md-button flex="45" aria-label="warn" class="md-raised md-primary admin-button" ng-click="users.activeUser(user)">
                   Register

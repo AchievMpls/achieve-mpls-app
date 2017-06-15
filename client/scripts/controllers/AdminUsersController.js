@@ -32,6 +32,14 @@ function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
   users.routeToEvents = AdminService.routeToEvents;
 
   users.allUsers = AdminService.allUsers;
+  /**
+  * @desc splits array of users between years
+  * @param array of users and year
+  * @return new {array} that includes
+  */
+  users.filterUserArray = AdminService.filterUserArray;
+
+  users.userArray = AdminService.userArray;
 
   /**
   * @desc clears all ng-model fields

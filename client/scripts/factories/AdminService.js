@@ -60,18 +60,18 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
 
       /**
       * @desc splits array of users between years
-      * @param array of users
+      * @param array of users and year
       * @return new {array} that includes
       */
       function filterUserArray(users, year) {
-        console.log('users in array ', users);
-        console.log('year in array ', year);
+        if (userArray.length > 0){
+          userArray.length = 0;
+        }
         users.forEach(function(user){
-          if (user.year===year) {
+          if (user.year === year) {
             userArray.push(user);
           }
         });
-        console.log('filter user array, ', userArray);
       }
 
       /**
