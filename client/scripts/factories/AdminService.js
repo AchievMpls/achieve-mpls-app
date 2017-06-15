@@ -45,13 +45,12 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
        * @return AllUsers object
        */
       function getAllUsers(callback) {
-        console.log('callback', callback);
+        console.log('get all users called');
         $http.get('/users').then(function(response) {
           allUsers.users = response.data;
           if (callback) {
             callback(allUsers.users);
           }
-          console.log("getAllUsers", allUsers);
         });
       }
 

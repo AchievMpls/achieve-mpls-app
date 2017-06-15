@@ -19,7 +19,6 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     };
 
     AdminService.getSessionYears();
-    AdminService.getAllUsers();
     AdminService.getYearsSessions(moment().format('YYYY'));
     users.sessionYear = AdminService.sessionYear;
 
@@ -38,7 +37,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         lname: '',
         email: '',
         role: '',
-        session_id: '',
+        session_count: '',
         year: ''
       };
     };
@@ -56,8 +55,6 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      */
     AdminService.getAllUsers(function(results) {
       users.allUsers = results;
-      console.log('results', results);
-      console.log("users.allUsers", users.allUsers);
     });
 
     /**
@@ -171,7 +168,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         lname: user.lname,
         email: user.email,
         role: user.role,
-        session_id: user.session_id,
+        session_count: user.session_count,
         year: user.year,
         id: user.id
       };
