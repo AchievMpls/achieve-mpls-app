@@ -74,8 +74,8 @@ CREATE TABLE "users" (
   "email" varchar(80) not null,
   "password" varchar(120) not null,
   "role" varchar(40) not null DEFAULT 'coach' CHECK ("role" = 'coach' OR "role" = 'admin'),
-  "session_id" integer REFERENCES "sessions",
-  "year" integer REFERENCES "sessions",
+  "session_count" varchar(3) not null,
+  "year" varchar(4) not null,
   "chance_token" varchar(120),
   "chance_expiration" date,
   CONSTRAINT only_one_per_list UNIQUE ("email")
