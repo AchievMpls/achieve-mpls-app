@@ -101,19 +101,19 @@ router.post('/postUser', function(req, res) {
 router.put('/updateUser', function(req, res) {
   console.log('updating, we have: ', req.body);
   var id = req.body.id;
-  var session_id = parseInt(req.body.session_id);
-  if (isNaN(session_id)) {
-    session_id = null;
+  var session_count = parseInt(req.body.session_count);
+  var year = parseInt(req.body.year)
+  if (isNaN(session_count)) {
+    session_count = null;
   }
-  console.log('now session is: ', session_id);
   var body = req.body;
   if (req.isAuthenticated()) {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
       } else {
-        db.query('UPDATE "users" SET "fname"=$1, "lname"=$2, "email"=$3, "role"=$4, "session_id"=$5, "year"=$6 WHERE "id" = $7;',
-        [body.fname, body.lname, body.email, body.role, session_id, body.year, id],
+        db.query('UPDATE "users" SET "fname"=$1, "lname"=$2, "email"=$3, "role"=$4, "session_count"=$5, "year"=$6 WHERE "id" = $7;',
+        [body.fname, body.lname, body.email, body.role, session_count, year, id],
           function(queryError, result) {
             done();
             if (queryError) {
