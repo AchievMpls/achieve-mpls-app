@@ -28,9 +28,10 @@
       {{users.yearDropdown.currentYear}}
       <md-input-container class="md-block" flex-gt-sm>
         <label>School Year</label>
-        <md-select flex="50" ng-model="users.yearDropdown.currentYear" ng-change="users.filterUserArray(users.allUsers, users.yearDropdown.currentYear)">
-          <md-option ng-repeat="year in users.yearDropdown.years" ng-value="{{year}}">
-            {{year}}
+        <md-select flex="50" ng-model="users.sessionYear.currentYear"
+          ng-change="users.filterUserArray(users.allUsers, users.sessionYear.currentYear); users.getYearsSessions(users.sessionYear.currentYear)">
+          <md-option ng-repeat="year in users.sessionYear.uniques" ng-value="{{year.year}}">
+            {{year.year}}
           </md-option>
         </md-select>
       </md-input-container>
@@ -62,7 +63,7 @@
                 <md-button flex="45" aria-label="warn" class="md-raised md-primary admin-button" ng-click="users.activeUser(user)">
                   Register
                 </md-button>
-                <md-button ng-show="user.session_id" flex="45" aria-label="delete" class="md-raised admin-button" ng-click="users.deactivateUser(user)">
+                <md-button ng-show="user.session_count" flex="45" aria-label="delete" class="md-raised admin-button" ng-click="users.deactivateUser(user)">
                   Deactivate
                 </md-button>
               </td>
@@ -83,7 +84,7 @@
       <md-table-pagination md-limit="users.query.limit"
       md-limit-options="limitOptions"
       md-page="users.query.page"
-      md-total="{{users.allUsers.length}}"
+      md-total="{{users.userArray.length}}"
       md-page-select="options.pageSelect"
       md-boundary-links="options.boundaryLinks"
       md-on-paginate="users.logPagination"></md-table-pagination>

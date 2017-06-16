@@ -163,6 +163,9 @@ function(AdminService, AuthService, $mdDialog, $mdPanel, mdPanelRef) {
   * @return sessionArray populated with numbers based on number of sessions
   */
   users.populateSessionArray = function () {
+    if (users.sessionArray.length > 0){
+      users.sessionArray.length = 0;
+    }
     var array = users.specificYear.sessions;
     console.log(array);
     for (var i = 1; i <= array.length; i++){

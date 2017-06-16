@@ -19,19 +19,16 @@ function($http, $location, $mdDialog) {
   var allForms = {
     returnedForms: []
   };
-  var sessionYear = {};
-  var specificYear = {};
-  var currentSessionForEvents;
-  var specificSession = {};
 
   /**
   * @desc {object} that contains the current year and the unique years with deactivated and all users
   * @return populated by the populateYearDropdown function and used in the Admin User View
   */
-  var yearDropdown = {
-    currentYear : '',
-    years : []
-  };
+  var sessionYear = {};
+
+  var specificYear = {};
+  var currentSessionForEvents;
+  var specificSession = {};
 
   getYearsSessions(moment().format('YYYY'));
   getSessionYears();
@@ -63,6 +60,7 @@ function($http, $location, $mdDialog) {
       allUsers.users = response.data;
       filterUserArray(response.data, sessionYear.currentYear);
       if (callback) {
+        console.log('in the get all users callback');
         callback(allUsers.users);
       }
     });
@@ -78,45 +76,15 @@ function($http, $location, $mdDialog) {
     if (userArray.length > 0){
       userArray.length = 0;
     }
-    // if (year === 'Deactivated'){
-    //   users.forEach(function(user){
-    //     if (user.role !== 'admin' && user.session_count === 'null'){
-    //       userArray.push(user);
-    //     }
-    //   });
-    // }
-    // else if (year === 'All Users'){
-    //   users.forEach(function(user){
-    //     userArray.push(user);
-    //   });
-    // }
-    //  else {
       users.forEach(function(user){
+        if(user.role === 'admin'){
+          userArray.push(user);
+        }
         if (user.year == year) {
           userArray.push(user);
         }
       });
     // }
-  }
-
-  /**
-  * Prepare Year Dropdown
-  * @desc adds deactivated and all users to the year dropdown
-  * @param array of objects with unique years in it
-  * @return new array with the uniques and deactivad and all users
-  */
-
-  function populateYearDropdown (yearArray) {
-    if (yearDropdown.years.length > 0){
-      yearDropdown.years.length = 0;
-    }
-    yearArray.uniques.forEach(function(year){
-      yearDropdown.years.push(year.year.toString());
-    });
-    // yearDropdown.years.push('Deactivated');
-    // yearDropdown.years.push('All Users');
-    yearDropdown.currentYear = yearArray.currentYear;
-    console.log('the new dropdown looks like, ', yearDropdown);
   }
 
   /**
@@ -208,7 +176,6 @@ function($http, $location, $mdDialog) {
       console.log('get session years triggered with ', response.data);
       sessionYear.uniques = response.data;
       sessionYear.currentYear = moment().format('YYYY');
-      populateYearDropdown (sessionYear);
     });
   }
 
@@ -423,8 +390,7 @@ function($http, $location, $mdDialog) {
     getYearsTickets: getYearsTickets,
     getFilteredTickets: getFilteredTickets,
     userArray : userArray,
-    filterUserArray : filterUserArray,
-    yearDropdown : yearDropdown
+    filterUserArray : filterUserArray
   };
 
 }
