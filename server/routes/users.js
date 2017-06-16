@@ -57,7 +57,7 @@ router.put('/deactivateUser', function(req, res) {
         console.log('error connecting: ', errorConnectingToDb);
         res.sendStatus(500);
       } else {
-        db.query('UPDATE "users" SET "session_id"=$1 WHERE "id" = $2;',
+        db.query('UPDATE "users" SET "session_count"=$1 WHERE "id" = $2;',
         [null, id],
           function(queryError, result) {
             done();

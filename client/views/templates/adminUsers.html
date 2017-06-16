@@ -24,11 +24,10 @@
         </md-card>
       </div>
     </div>
-    <div layout="row" layout-align="space-between none" flex="50">
-      {{users.yearDropdown.currentYear}}
+    <div layout="row" layout-align="space-between none" flex="30">
       <md-input-container class="md-block" flex-gt-sm>
         <label>School Year</label>
-        <md-select flex="50" ng-model="users.sessionYear.currentYear"
+        <md-select flex="30" ng-model="users.sessionYear.currentYear"
           ng-change="users.filterUserArray(users.allUsers, users.sessionYear.currentYear); users.getYearsSessions(users.sessionYear.currentYear)">
           <md-option ng-repeat="year in users.sessionYear.uniques" ng-value="{{year.year}}">
             {{year.year}}

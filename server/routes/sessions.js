@@ -139,6 +139,7 @@ router.put('/update', function(req, res) {
 });//end router.put
 
 router.delete('/delete/:id', function(req, res) {
+  console.log('in session delete route ', req.params)
   var sessionID = req.params.id;
   if (req.isAuthenticated()) {
     pool.connect(function(errorConnectingToDb, db, done) {
@@ -155,7 +156,7 @@ router.delete('/delete/:id', function(req, res) {
             res.sendStatus(500);
           } else {
             //resets the session ID of all users currently associated with that session
-            db.query('UPDATE "users" SET "session_id"=null WHERE "session_id" = $1;',
+            db.query('UPDATE "users" SET "session_count"=null WHERE "session_count" = $1;',
             [sessionID],
             function(queryError, result) {
               if (queryError) {

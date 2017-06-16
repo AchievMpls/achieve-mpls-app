@@ -82,7 +82,7 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
         AdminService.meetingConflictPopup();
         return;
       }
-      if (editingEvent) {
+      if (events.editingEvent) {
         events.editingEvent = false;
         AdminService.updateEvent(eventToSend);
       }else {
