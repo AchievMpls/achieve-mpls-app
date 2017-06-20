@@ -22,7 +22,7 @@ console.log('forms controller sourced');
   */
   forms.prompts = {
     form_name : '',
-    promptsArray : [],
+    promptsArray : ['On a scale of 1-10 how would you rate your event today?', 'Question 2'],
     id : '',
   };
 
@@ -47,7 +47,7 @@ console.log('forms controller sourced');
   forms.clearFields = function () {
     forms.prompts = {
       form_name : '',
-      promptsArray : [],
+      promptsArray : ['On a scale of 1-10 how would you rate your event today?', 'Question 2'],
       id : '',
     };
   };

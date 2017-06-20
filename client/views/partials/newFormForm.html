@@ -1,6 +1,7 @@
 <div class="_md-panel-focus-trap" tabindex="0"></div>
 <div class="form-wrapper">
     <md-card class="card-panel">
+  {{forms.prompts.promptsArray}}
       <div layout="row" layout-align="end center">
         <md-card-title>
           <md-card-title-text>
@@ -20,34 +21,10 @@
           <textarea rows="1" cols="50" ng-model="forms.prompts.form_name">{{forms.prompts.form_name}}</textarea>
         </md-input-container>
       </div>
-      <div layout="row" layout-align="center">
+      <div ng-repeat="question in forms.prompts.promptsArray" layout="row" layout-align="center">
         <md-input-container>
-          <label>Question 01</label>
-          <textarea rows="2" cols="50" ng-model="forms.prompts.promptsArray[0]">{{forms.prompts.promptsArray[0]}}</textarea>
-        </md-input-container>
-      </div>
-      <div layout="row" layout-align="center">
-        <md-input-container>
-          <label>Question 02</label>
-          <textarea rows="2" cols="50" ng-model="forms.prompts.promptsArray[1]">{{forms.prompts.promptsArray[1]}}</textarea>
-        </md-input-container>
-      </div>
-      <div layout="row" layout-align="center">
-        <md-input-container>
-          <label>Question 03</label>
-          <textarea rows="2" cols="50" ng-model="forms.prompts.promptsArray[2]">{{forms.prompts.promptsArray[2]}}</textarea>
-        </md-input-container>
-      </div>
-      <div layout="row" layout-align="center">
-        <md-input-container>
-          <label>Question 04</label>
-          <textarea rows="2" cols="50" ng-model="forms.prompts.promptsArray[3]">{{forms.prompts.promptsArray[3]}}</textarea>
-        </md-input-container>
-      </div>
-      <div layout="row" layout-align="center">
-        <md-input-container>
-          <label>Question 05</label>
-          <textarea rows="2" cols="50" ng-model="forms.prompts.promptsArray[4]">{{forms.prompts.promptsArray[4]}}</textarea>
+          <label>Question</label>
+          <textarea rows="2" cols="50">{{question}}</textarea>
         </md-input-container>
       </div>
         <div layout = "row">
