@@ -102,7 +102,7 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
           forms.allForms = rows;
         });
       } else {
-        AdminService.addNewForm(formToSend, function(rows) {
+        AdminService.addNewForm(form, function(rows) {
           forms.allForms = rows;
         });
       }
