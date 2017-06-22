@@ -22,7 +22,7 @@ function(AdminService){
   home.filterTickets = function() {
     //transforms data from the "coach ratings" checkboxes from an object to an array of arrays
     var ratingsArray = Object.keys(home.filterParams.ratings).map(function(data){
-        return [data,home.filterParams.ratings[data]];
+        return [data, home.filterParams.ratings[data]];
     });
     //pushes any numbers whose checkboxes had been checked into a new array
     home.filterParams.ratingsTruthyArray = [];

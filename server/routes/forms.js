@@ -7,15 +7,23 @@ router.get('/', function(req, res) {
   if (req.isAuthenticated()) {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
-        res.sendStatus(500);
+        res.sendStatus(501);
       } else {
-        db.query('SELECT * from "forms" ORDER BY "id" DESC;',
+        db.query('SELECT * from "forms" JOIN "questions" on "forms"."form_name" = "questions"."form_name" ORDER BY "questions"."id" ASC',
           function(queryError, result) {
             done();
             if (queryError) {
               res.sendStatus(500);
             } else {
-              res.send(result.rows);
+              var dataToSend = [];
+              result.rows.forEach(function(form){
+                if (dataToSend.includes(form.form_name)){
+                } else {
+                  dataToSend.push(form_name);
+                }
+              }
+
+              res.send(dataToSend);
             }
           });
       }
@@ -33,28 +41,20 @@ router.post('/add', function(req, res) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
       } else {
-    questions.forEach(function(question) {
-      db.query('INSERT INTO "questions" ("form_name", "question") VALUES ($1,$2);', [form_name, question],
-        function(queryError, result) {
-          done();
-          if (queryError) {
-            res.sendStatus(500);
-          } else {
-            res.sendStatus(201);
-          }
+        db.query('INSERT INTO "forms" ("form_name") VALUES ($1);', [form_name]);
+        questions.forEach(function(question) {
+          db.query('INSERT INTO "questions" ("form_name", "question") VALUES ($1,$2);', [form_name, question],
+            function(queryError, result) {
+              done();
+              if (queryError) {
+                res.sendStatus(500);
+              } else {
+                res.sendStatus(201);
+              }
+            });
         });
+      }
     });
-    db.query('INSERT INTO "forms" ("form_name") VALUES ($1);', [form_name],
-      function(queryError, result) {
-        done();
-        if (queryError) {
-          res.sendStatus(500);
-        } else {
-          res.sendStatus(201);
-        }
-      });
-    }
-  });
   } else {
     res.sendStatus(401);
   }

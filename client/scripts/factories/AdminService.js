@@ -126,14 +126,11 @@ function($http, $location, $mdDialog) {
   * @param
   * @return AllForms object
   */
-  function getAllForms(callback) {
-    $http.get('/forms').then(function(response) {
-      allForms.returnedForms = response.data;
-      if (callback) {
-        callback(allForms.returnedForms);
-      }
-    });
-  }
+  function getAllForms() {
+    $http.get('/forms').then(function(response){
+      console.log(response.data);
+  });
+}
   /**
   * @desc adds new form to db
   * @param {object} formToSend the exit-ticket form to be created
