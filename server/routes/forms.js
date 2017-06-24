@@ -12,17 +12,40 @@ router.get('/', function(req, res) {
         db.query('SELECT * from "forms" JOIN "questions" on "forms"."form_name" = "questions"."form_name" ORDER BY "questions"."id" ASC',
           function(queryError, result) {
             done();
+            var dataToSend = [];
             if (queryError) {
               res.sendStatus(500);
             } else {
-              var dataToSend = [];
-              result.rows.forEach(function(form){
-                if (dataToSend.includes(form.form_name)){
+              console.log('result of join is ', result.rows);
+              var resultArray = result.rows;
+              var form = {
+                form_name: '',
+                questions: []
+              };
+              resultArray.forEach(function(newForm){
+                console.log(dataToSend.length);
+                if (dataToSend.length === 0){
+                  console.log(newForm);
+                  form.form_name = newForm.form_name;
+                  (form.questions).push(newForm.question);
+                  dataToSend.push(form);
                 } else {
-                  dataToSend.push(form_name);
-                }
+                for(var i = 0; i < dataToSend.length; i++){
+                  var data = dataToSend[i];
+                  console.log('data is ', data);
+                  console.log('data to send in for loop is ', dataToSend);
+                  if (data.form_name === newForm.form_name){
+                    (data.questions).push(newForm.question);
+                  } else {
+                    form.form_name = newForm.form_name;
+                    console.log(form);
+                    dataToSend.push(form);
+                    console.log('data to send is ', dataToSend);
+                  }
               }
-
+            }
+            });
+              console.log('form sending is ', dataToSend);
               res.send(dataToSend);
             }
           });
