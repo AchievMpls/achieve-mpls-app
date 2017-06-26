@@ -31,7 +31,7 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
      */
     forms.editingForm = false;
     /**
-     * @desc Admin gets the all the forms
+     * @desc Admin gets all the forms
      * @param
      * @return all forms object
      */

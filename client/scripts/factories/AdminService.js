@@ -16,9 +16,7 @@ function($http, $location, $mdDialog) {
 
   var userArray = [];
 
-  var allForms = {
-    returnedForms: []
-  };
+  var allForms;
 
   /**
   * @desc {object} that contains the current year and the unique years with deactivated and all users
@@ -114,9 +112,9 @@ function($http, $location, $mdDialog) {
   * @desc sets user session to 'null'
   * @param id object sent AdminFormsController
   */
-  function deactivateUser(user, callback) {
+  function deactivateUser(user) {
     $http.put('/users/deactivateUser', user).then(function(response) {
-      getAllUsers(callback);
+      getAllUsers();
     });
   }
 
@@ -128,16 +126,16 @@ function($http, $location, $mdDialog) {
   */
   function getAllForms() {
     $http.get('/forms').then(function(response){
-      console.log(response.data);
+      allForms = response.data;
   });
 }
   /**
   * @desc adds new form to db
   * @param {object} formToSend the exit-ticket form to be created
   */
-  function addNewForm(formToSend, callback) {
+  function addNewForm(formToSend) {
     $http.post('/forms/add', formToSend).then(function(response) {
-      getAllForms(callback);
+      getAllForms();
       formToSend.form_name = '';
       formToSend.prompts = [];
     });

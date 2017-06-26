@@ -3,6 +3,7 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
 <div layout="row" layout-align="space-between center" ng-keypress="forms.formHide($event)">
   <h1>Feedback Form Templates</h1>
+  {{forms.allForms}}
     <md-card class="card" flex="30">
       <div layout="row" layout-align="space-between center">
         <div layout="column">
@@ -29,11 +30,6 @@
           <tr md-row>
             <th md-column class=""><span>Delete/Edit</span></th>
             <th md-column md-order-by="form_name" class=""><span>Form Name</span></th>
-            <th md-column md-numeric md-order-by="q1_prompt" md-desc class=""><span>Question 01</span></th>
-            <th md-column md-numeric md-order-by="q2_prompt" md-desc class=""><span>Question 02</span></th>
-            <th md-column md-numeric md-order-by="q3_prompt" md-desc class=""><span>Question 03</span></th>
-            <th md-column md-numeric md-order-by="q4_prompt" md-desc class=""><span>Question 04</span></th>
-            <th md-column md-numeric md-order-by="q5_prompt" md-desc class=""><span>Question 05</span></th>
           </tr>
         </thead>
         <tbody md-body>
@@ -42,8 +38,6 @@
           ng-repeat="form in forms.allForms
           | orderBy: forms.query.order
           | limitTo: forms.query.limit: (forms.query.page - 1) * forms.query.limit">
-
-
             <td md-cell>
               <md-button flex="10" aria-label="delete" ng-click="forms.confirmDelete(form)">
               <i class="material-icons" >delete</i>
