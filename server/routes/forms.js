@@ -18,33 +18,26 @@ router.get('/', function(req, res) {
             } else {
               console.log('result of join is ', result.rows);
               var resultArray = result.rows;
-              var form = {
-                form_name: '',
-                questions: []
-              };
-              resultArray.forEach(function(newForm){
-                console.log(dataToSend.length);
-                if (dataToSend.length === 0){
-                  console.log(newForm);
-                  form.form_name = newForm.form_name;
-                  (form.questions).push(newForm.question);
-                  dataToSend.push(form);
+              var objectNameArray = [];
+              resultArray.forEach(function(form) {
+                if (objectNameArray.includes(form.form_name)) {
+                  console.log('nothing to see here');
                 } else {
-                for(var i = 0; i < dataToSend.length; i++){
-                  var data = dataToSend[i];
-                  console.log('data is ', data);
-                  console.log('data to send in for loop is ', dataToSend);
-                  if (data.form_name === newForm.form_name){
-                    (data.questions).push(newForm.question);
-                  } else {
-                    form.form_name = newForm.form_name;
-                    console.log(form);
-                    dataToSend.push(form);
-                    console.log('data to send is ', dataToSend);
+                  objectNameArray.push(form.form_name);
+                }
+              });
+              objectNameArray.forEach(function(form) {
+                var newForm = {
+                  form_name: form,
+                  questions: []
+                };
+                resultArray.forEach(function(formQuestions) {
+                  if (newForm.form_name === formQuestions.form_name) {
+                    (newForm.questions).push(formQuestions.question);
                   }
-              }
-            }
-            });
+                });
+                dataToSend.push(newForm);
+              });
               console.log('form sending is ', dataToSend);
               res.send(dataToSend);
             }
