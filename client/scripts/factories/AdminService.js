@@ -16,7 +16,7 @@ function($http, $location, $mdDialog) {
 
   var userArray = [];
 
-  var allForms;
+  var allForms = [];
 
   /**
   * @desc {object} that contains the current year and the unique years with deactivated and all users
@@ -30,6 +30,8 @@ function($http, $location, $mdDialog) {
 
   getYearsSessions(moment().format('YYYY'));
   getSessionYears();
+  getAllForms();
+  
   //----------CRUD USERs ------------
   /**
 
@@ -126,7 +128,9 @@ function($http, $location, $mdDialog) {
   */
   function getAllForms() {
     $http.get('/forms').then(function(response){
-      allForms = response.data;
+      response.data.forEach(function(form){
+        allForms.push(form);
+      });
   });
 }
   /**

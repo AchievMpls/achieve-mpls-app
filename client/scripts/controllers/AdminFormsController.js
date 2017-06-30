@@ -31,14 +31,17 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
      */
     forms.editingForm = false;
     /**
+    * @global allForms
+    */
+    forms.allForms = AdminService.allForms;
+
+    /**
      * @desc Admin gets all the forms
      * @param
      * @return all forms object
      */
-    AdminService.getAllForms(function(rows) {
-      forms.allForms = rows;
-      console.log("all forms controllers: ", forms.allForms);
-    });
+    // AdminService.getAllForms();
+
     /**
      * @desc clears all ng-model fields
      */
@@ -72,7 +75,7 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
       forms.editingForm = true;
       forms.prompts = {
         form_name: form.form_name,
-        promptsArray: [form.q1_prompt, form.q2_prompt, form.q3_prompt, form.q4_prompt, form.q5_prompt],
+        promptsArray: form.questions,
         id: form.id
       };
     };

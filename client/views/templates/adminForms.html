@@ -3,7 +3,6 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
 <div layout="row" layout-align="space-between center" ng-keypress="forms.formHide($event)">
   <h1>Feedback Form Templates</h1>
-  {{forms.allForms}}
     <md-card class="card" flex="30">
       <div layout="row" layout-align="space-between center">
         <div layout="column">
@@ -49,11 +48,6 @@
               </md-button>
             </td>
             <td md-cell class="">{{form.form_name}}</td>
-            <td md-cell class="">{{form.q1_prompt}}</td>
-            <td md-cell class="">{{form.q2_prompt}}</td>
-            <td md-cell class="">{{form.q3_prompt}}</td>
-            <td md-cell class="">{{form.q4_prompt}}</td>
-            <td md-cell class="">{{form.q5_prompt}}</td>
           </tr>
         </tbody>
       </table>
