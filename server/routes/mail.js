@@ -24,11 +24,9 @@ router.post('/', function(req, res, next) {
         email : req.body.email,
         chance_expiration: req.body.chance_expiration
         };
-      console.log('user: ', user);
       if (req.isAuthenticated()) {
         pool.connect(function(errConnectingToDb, db, done) {
          if (errConnectingToDb) {
-           console.log('Error Connecting: ', err);
            next(err);
          }
          db.query('UPDATE "users" SET "chance_token" = ($1), "chance_expiration" = ($2) WHERE "id" = ($3) AND "email" = ($4);',
@@ -36,7 +34,6 @@ router.post('/', function(req, res, next) {
            function(queryError, result) {
              done();
              if (queryError) {
-               console.log('Error making query. : ', queryError);
                res.sendStatus(500);
              } else {
              }
@@ -54,9 +51,8 @@ router.post('/', function(req, res, next) {
       };
       transporter.sendMail(mailOptions, function(error, info){
           if (error) {
-              return console.log(error);
+            res.sendStatus(500);
           }
-          console.log('Message sent: ', info.messageId, info.response);
       });
       res.send(200);
 });

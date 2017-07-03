@@ -51,7 +51,6 @@ router.get('/:year', function(req, res) {
 
 
 router.post('/add', function(req, res) {
-  console.log('log in post path ', req.body);
   var year = req.body.year;
   var eventsToAdd = req.body.eventsToAdd;
   var session_count = req.body.session_count;
@@ -139,7 +138,6 @@ router.put('/update', function(req, res) {
 });//end router.put
 
 router.delete('/delete/:id', function(req, res) {
-  console.log('in session delete route ', req.params)
   var sessionID = req.params.id;
   if (req.isAuthenticated()) {
     pool.connect(function(errorConnectingToDb, db, done) {

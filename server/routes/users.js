@@ -33,28 +33,23 @@ if (req.isAuthenticated()) {
 });//end router.get
 
 router.get('/clearance', function(req, res) {
-  console.log('hit get /clearance route');
   // check if logged in
   if(req.isAuthenticated()) {
     // send back user object from database
-    console.log('logged in');
     //prepare an object = { }
     res.send(req.user);
   } else {
     // failure best handled on the server. do redirect here.
-    console.log('not logged in');
     // should probably be res.sendStatus(403) and handled client-side, esp if this is an AJAX request (which is likely with AngularJS)
     res.send(false);
   }
 });
 
 router.put('/deactivateUser', function(req, res) {
-  console.log('on server, id is: ', req.body.id);
   var id = req.body.id;
   if (req.isAuthenticated()) {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
-        console.log('error connecting: ', errorConnectingToDb);
         res.sendStatus(500);
       } else {
         db.query('UPDATE "users" SET "session_count"=$1 WHERE "id" = $2;',
@@ -62,7 +57,6 @@ router.put('/deactivateUser', function(req, res) {
           function(queryError, result) {
             done();
             if (queryError) {
-              console.log('error querying: ', queryError);
               res.sendStatus(500);
             } else {
               res.sendStatus(201);
@@ -76,7 +70,6 @@ router.put('/deactivateUser', function(req, res) {
 });//end router.put
 
 router.post('/postUser', function(req, res) {
-  console.log('post user req body ', req.body);
   var session_count = parseInt(req.body.session_count);
   var year = parseInt(req.body.year);
   pool.connect(function(errorConnectingToDb, db, done) {
@@ -89,7 +82,6 @@ router.post('/postUser', function(req, res) {
         done();
         if (queryError) {
           res.sendStatus(500);
-          console.log('could not post to DB');
         } else {
           res.sendStatus(201);
         }
@@ -99,7 +91,6 @@ router.post('/postUser', function(req, res) {
 });//end router.post
 
 router.put('/updateUser', function(req, res) {
-  console.log('updating, we have: ', req.body);
   var id = req.body.id;
   var session_count = parseInt(req.body.session_count);
   var year = parseInt(req.body.year);
@@ -117,7 +108,6 @@ router.put('/updateUser', function(req, res) {
           function(queryError, result) {
             done();
             if (queryError) {
-              console.log('hit error query for updateUser', queryError);
               res.sendStatus(500);
             } else {
               res.sendStatus(201);

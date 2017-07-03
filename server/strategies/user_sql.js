@@ -2,23 +2,19 @@ var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
 var encryptLib = require('../modules/encryption');
 var pg = require('pg');
-console.log("TEST");
 var pool = require('../modules/db');
 
 var connectCount = 0;
-console.log('clients connected: ', connectCount);
 
 
 var acquireCount = 0;
 pool.on('acquire', function (client) {
   acquireCount++;
-  console.log('client acquired: ', acquireCount);
 });
 
 
 pool.on('connect', function () {
   connectCount++;
-  console.log('client connected: ', connectCount);
 });
 
 passport.serializeUser(function(user, done) {
@@ -26,11 +22,9 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  console.log('called deserializeUser - pg');
-  
+
   pool.connect(function (err, client, release) {
     if(err) {
-      console.log('connection err ', err);
       release();
       done(err);
     }
@@ -41,7 +35,6 @@ passport.deserializeUser(function(id, done) {
 
       // Handle Errors
       if(err) {
-        console.log('query err ', err);
         done(err);
         release();
       }
@@ -54,7 +47,6 @@ passport.deserializeUser(function(id, done) {
           return done(null, false, {message: 'Incorrect credentials.'});
       } else {
         // user found
-        console.log('User row ', user);
         done(null, user);
       }
 
@@ -67,40 +59,30 @@ passport.use('local', new localStrategy({
     passReqToCallback: true,
     usernameField: 'email'
     }, function(req, email, password, done) {
-      console.log('ATTEMPTING LOGIN');
 	    pool.connect(function (err, client, release) {
-	    	console.log('called local - pg');
 
         // assumes the email will be unique, thus returning 1 or 0 results
         client.query("SELECT * FROM users WHERE email = $1", [email],
           function(err, result) {
             var user = {};
 
-            console.log('here');
-
             // Handle Errors
             if (err) {
-              console.log('connection err ', err);
               done(null, user);
             }
 
             release();
-            console.log(connectCount);
 
             if(result.rows[0] != undefined) {
               user = result.rows[0];
-              console.log('User obj', user);
               // Hash and compare
               if(encryptLib.comparePassword(password, user.password)) {
                 // all good!
-                console.log('passwords match');
                 done(null, user);
               } else {
-                console.log('password does not match');
                 done(null, false, {message: 'Incorrect credentials.'});
               }
             } else {
-              console.log('no user');
               done(null, false);
             }
 

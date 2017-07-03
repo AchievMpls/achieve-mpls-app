@@ -38,22 +38,18 @@ if (req.isAuthenticated()) {
                   function(queryError, result) {
                     done();
                     if (queryError) {
-                      console.log('error selecting from events: ', queryError);
                       res.sendStatus(500);
                     } else {
                       var openEvents = result.rows;
                       findUniqueTickets(completedTickets, openEvents);
                       if (incompleteTicketArray.length===0) {
-                        console.log("no tickets!");
                         res.send("no open, incomplete tickets!");
                       } else {
-                        console.log("here is incomplete ticket array: ", incompleteTicketArray);
                         db.query('SELECT * FROM "forms" JOIN "events" ON "forms"."id" ="events"."form_id" WHERE "events"."id"=$1;',
                           [incompleteTicketArray[0].id],
                           function(queryError, result) {
                             done();
                             if (queryError) {
-                              console.log('error selecting soonest incomplete event : ', queryError);
                               res.sendStatus(500);
                             } else {
                               incompleteTicketArray.length = 0;

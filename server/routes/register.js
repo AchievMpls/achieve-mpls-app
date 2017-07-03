@@ -12,20 +12,17 @@ var pool = require('../modules/db');
 var acquireCount = 0;
 pool.on('acquire', function (client) {
   acquireCount++;
-  console.log('client acquired: ', acquireCount);
 });
 
 var connectCount = 0;
 pool.on('connect', function () {
   connectCount++;
-  console.log('client connected: ', connectCount);
 });
 
 //get the record that has the today date ISN'T passed the expired date
 router.get('/', function(req, res, next) {
   pool.connect(function(err, client, done) {
     if (err) {
-      console.log("Error connecting: ", err);
       next(err);
     } else {
       client.query('SELECT * FROM "users" WHERE "chance_expiration" >= $1 AND "chance_token" = $2;',
@@ -49,11 +46,9 @@ router.post('/', function(req, res, next) {
     username: req.body.email,
     password: encryptLib.encryptPassword(req.body.password)
   };
-  console.log('new user:', saveUser);
   if (req.isAuthenticated()) {
     pool.connect(function(err, client, done) {
       if(err) {
-        console.log("Error connecting: ", err);
         next(err);
       }
       // TODO: ALL REQUIRED FIELDS
@@ -63,10 +58,8 @@ router.post('/', function(req, res, next) {
             client.end();
 
             if(err) {
-              console.log("Error inserting data: ", err);
               next(err);
             } else {
-              console.log('register success');
               res.redirect('/');
             }
           });
@@ -85,7 +78,6 @@ router.post('/admin', function(req, res, next) {
   };
   pool.connect(function(err, client, done) {
     if(err) {
-      console.log("Error connecting: ", err);
       next(err);
     }
     client.query("INSERT INTO users (fname, lname, email, password, role) VALUES ($1, $2, $3, $4, $5) RETURNING id",
@@ -94,10 +86,8 @@ router.post('/admin', function(req, res, next) {
           client.end();
 
           if(err) {
-            console.log("Error inserting data: ", err);
             next(err);
           } else {
-            console.log('Success');
             res.sendStatus(200);
           }
         });
@@ -112,7 +102,6 @@ router.post('/admin', function(req, res, next) {
     };
     pool.connect(function(err, client, done) {
       if(err) {
-        console.log("Error connecting: ", err);
         next(err);
       }
       client.query('UPDATE "users" SET "password" = $1, "chance_expiration" = NULL, "chance_token" = NULL WHERE "id" = $2;',
@@ -121,7 +110,6 @@ router.post('/admin', function(req, res, next) {
             client.end();
 
             if(err) {
-              console.log("Error inserting data: ", err);
               next(err);
             }
           });

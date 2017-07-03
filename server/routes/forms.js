@@ -9,14 +9,14 @@ router.get('/', function(req, res) {
       if (errorConnectingToDb) {
         res.sendStatus(501);
       } else {
-        db.query('SELECT * from "forms" JOIN "questions" on "forms"."form_name" = "questions"."form_name" ORDER BY "questions"."id" ASC',
+        db.query('SELECT * from "forms" JOIN "questions" on "forms"."form_name" = "questions"."form_name" ORDER BY "questions"."id" ASC;',
           function(queryError, result) {
+            console.log('result of join is ', result.rows);
             done();
             var dataToSend = [];
             if (queryError) {
               res.sendStatus(500);
             } else {
-              console.log('result of join is ', result.rows);
               var resultArray = result.rows;
               var objectNameArray = [];
               resultArray.forEach(function(form) {
