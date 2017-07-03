@@ -9,9 +9,9 @@ router.get('/', function(req, res) {
       if (errorConnectingToDb) {
         res.sendStatus(501);
       } else {
-        db.query('SELECT * from "forms" JOIN "questions" on "forms"."form_name" = "questions"."form_name" ORDER BY "questions"."id" ASC;',
+        db.query('SELECT "forms".*, row_to_json("questions".*) as "questions" FROM "forms" INNER JOIN "questions" ON ("forms"."form_name"="questions"."form_name");',
           function(queryError, result) {
-            console.log('result of join is ', result.rows);
+            console.log('result of join is ', result);
             done();
             var dataToSend = [];
             if (queryError) {
