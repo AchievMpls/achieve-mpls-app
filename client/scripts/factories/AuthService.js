@@ -5,8 +5,8 @@
  * @return the user is logged in
 */
 
-myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService', 'AdminService', '$filter',
-  function($http, $location, $mdDialog, CoachService, AdminService, $filter) {
+myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService', '$filter',
+  function($http, $location, $mdDialog, CoachService, $filter) {
 
     var auth = this;
     auth.getTickets = CoachService.getTickets;

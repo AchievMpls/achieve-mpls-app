@@ -16,6 +16,9 @@ function($http, $location, $mdDialog) {
 
   var userArray = [];
 
+  /**
+  * @desc {array} that contains all of the available forms
+  */
   var allForms = [];
 
   /**

@@ -5,8 +5,8 @@
 * @return User is logged in
 */
 
-myApp.controller('UserAuthController', ['AdminService', 'AuthService', '$mdDialog', '$routeParams', '$http', '$location', '$filter',
-function(AdminService, AuthService, $mdDialog, $routeParams, $http, $location, $filter){
+myApp.controller('UserAuthController', ['AuthService', '$mdDialog', '$routeParams', '$http', '$location', '$filter',
+function(AuthService, $mdDialog, $routeParams, $http, $location, $filter){
 
 
   // Route params with code
