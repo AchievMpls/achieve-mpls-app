@@ -21,7 +21,7 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
      */
     forms.prompts = {
       form_name: '',
-      promptsArray: ['On a scale of 1-10 how would you rate your event today?'],
+      promptsArray: [{question_id: '', question: 'On a scale of 1-10 how would you rate your event today?'}],
       id: '',
     };
 
@@ -48,7 +48,7 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
     forms.clearFields = function() {
       forms.prompts = {
         form_name: '',
-        promptsArray: ['On a scale of 1-10 how would you rate your event today?'],
+        promptsArray: [{question_id: '', question: 'On a scale of 1-10 how would you rate your event today?'}],
         id: '',
       };
     };
@@ -60,7 +60,7 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
     * @return pushes new question into promptsArray
     */
     forms.addQuestion = function () {
-      var newQuestion = '';
+      var newQuestion = {question_id: '', question: ''};
       forms.prompts.promptsArray.push(newQuestion);
     };
 

@@ -9,9 +9,8 @@ router.get('/', function(req, res) {
       if (errorConnectingToDb) {
         res.sendStatus(501);
       } else {
-        db.query('SELECT "forms".*, row_to_json("questions".*) as "questions" FROM "forms" INNER JOIN "questions" ON ("forms"."form_name"="questions"."form_name");',
+        db.query('SELECT "forms".*, row_to_json("questions".*) as "questions" FROM "forms" INNER JOIN "questions" ON ("forms"."form_name"="questions"."form_name") ORDER BY "questions"."id" ASC;',
           function(queryError, result) {
-            console.log('result of join is ', result);
             done();
             var dataToSend = [];
             if (queryError) {
@@ -20,25 +19,30 @@ router.get('/', function(req, res) {
               var resultArray = result.rows;
               var objectNameArray = [];
               resultArray.forEach(function(form) {
-                if (objectNameArray.includes(form.form_name)) {
-                  console.log('nothing to see here');
+                if (objectNameArray.includes(form.form_name)){
                 } else {
                   objectNameArray.push(form.form_name);
                 }
               });
+
               objectNameArray.forEach(function(form) {
                 var newForm = {
+                  form_id: '',
                   form_name: form,
                   questions: []
                 };
                 resultArray.forEach(function(formQuestions) {
-                  if (newForm.form_name === formQuestions.form_name) {
-                    (newForm.questions).push(formQuestions.question);
+                  if (newForm.form_name === formQuestions.questions.form_name) {
+                    newForm.form_id = formQuestions.id;
+                    var _question = {
+                      question_id: formQuestions.questions.id,
+                      question: formQuestions.questions.question
+                    };
+                    (newForm.questions).push(_question);
                   }
                 });
                 dataToSend.push(newForm);
               });
-              console.log('form sending is ', dataToSend);
               res.send(dataToSend);
             }
           });

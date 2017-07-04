@@ -20,10 +20,10 @@
           <textarea rows="1" cols="50" ng-model="forms.prompts.form_name">{{forms.prompts.form_name}}</textarea>
         </md-input-container>
       </div>
-      <div ng-repeat="question in forms.prompts.promptsArray track by $index" layout="row" layout-align="center">
+      <div ng-repeat="prompt in forms.prompts.promptsArray track by $index" layout="row" layout-align="center">
         <md-input-container>
           <label>Question {{$index+1}}</label>
-          <textarea rows="2" cols="50" ng-model="forms.prompts.promptsArray[$index]">{{question}}</textarea>
+          <textarea rows="2" cols="50" ng-model="forms.prompts.promptsArray[$index].question">{{question}}</textarea>
         </md-input-container>
       </div>
       <div layout = "row" layout-align="end center">
