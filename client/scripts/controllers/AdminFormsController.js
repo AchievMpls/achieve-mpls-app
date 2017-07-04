@@ -22,7 +22,7 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
     forms.prompts = {
       form_name: '',
       promptsArray: [{question_id: '', question: 'On a scale of 1-10 how would you rate your event today?'}],
-      id: '',
+      form_id: '',
     };
 
     /**
@@ -49,7 +49,7 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
       forms.prompts = {
         form_name: '',
         promptsArray: [{question_id: '', question: 'On a scale of 1-10 how would you rate your event today?'}],
-        id: '',
+        form_id: '',
       };
     };
 
@@ -76,7 +76,7 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
       forms.prompts = {
         form_name: form.form_name,
         promptsArray: form.questions,
-        id: form.id
+        form_id: form.form_id
       };
     };
 
@@ -93,7 +93,7 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
         formToSend = {
           form_name: form.form_name,
           prompts: [],
-          id: form.id
+          form_id: form.form_id
         };
         for (var i = 0; i < form.promptsArray.length; i++) {
           formToSend.prompts.push(form.promptsArray[i]);

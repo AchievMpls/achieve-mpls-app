@@ -31,7 +31,7 @@ function($http, $location, $mdDialog) {
   getYearsSessions(moment().format('YYYY'));
   getSessionYears();
   getAllForms();
-  
+
   //----------CRUD USERs ------------
   /**
 
@@ -128,7 +128,9 @@ function($http, $location, $mdDialog) {
   */
   function getAllForms() {
     $http.get('/forms').then(function(response){
+      allForms.length = 0;
       response.data.forEach(function(form){
+        console.log(form);
         allForms.push(form);
       });
   });

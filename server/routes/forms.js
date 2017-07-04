@@ -19,8 +19,7 @@ router.get('/', function(req, res) {
               var resultArray = result.rows;
               var objectNameArray = [];
               resultArray.forEach(function(form) {
-                if (objectNameArray.includes(form.form_name)){
-                } else {
+                if (objectNameArray.includes(form.form_name)) {} else {
                   objectNameArray.push(form.form_name);
                 }
               });
@@ -82,26 +81,31 @@ router.post('/add', function(req, res) {
 
 
 router.put('/update', function(req, res) {
-  var id = req.body.id;
+  console.log('request body ', req.body);
+  var id = req.body.form_id;
   var form_name = req.body.form_name;
-  var prompts = [null, null, null, null, null];
-  for (var i = 0; i < req.body.prompts.length; i++) {
-    prompts[i] = req.body.prompts[i];
-  }
+  var questions = req.body.prompts;
   if (req.isAuthenticated()) {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
       } else {
-        db.query('UPDATE "forms" SET "form_name"=$1, "q1_prompt"=$2, "q2_prompt"=$3, "q3_prompt"=$4, "q4_prompt"=$5, "q5_prompt"=$6 WHERE "id" = $7;', [form_name, prompts[0], prompts[1], prompts[2], prompts[3], prompts[4], id],
-          function(queryError, result) {
-            done();
-            if (queryError) {
-              res.sendStatus(500);
-            } else {
-              res.sendStatus(201);
-            }
-          });
+        db.query('UPDATE "forms" SET "form_name"=$1 WHERE "id" = $2;', [form_name, id]);
+        questions.forEach(function(_question) {
+          if (_question.question_id){
+          db.query('UPDATE "questions" SET "question"=$1, "form_name"=$2 WHERE "id" = $3;', [_question.question, form_name, _question.question_id]);
+          } else {
+            db.query('INSERT INTO "questions" ("form_name", "question") VALUES ($1,$2);', [form_name, _question.question],
+            function(queryError, result) {
+              done();
+              if (queryError) {
+                res.sendStatus(500);
+              } else {
+                res.sendStatus(201);
+              }
+            });
+          }
+        });
       }
     });
   } else {
