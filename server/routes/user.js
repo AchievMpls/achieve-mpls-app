@@ -11,7 +11,7 @@ router.get('/', function(req, res) {
     var userInfo = {
       username : req.user.email,
       role : req.user.role,
-      session_id : req.user.session_id,
+      session_count : req.user.session_count,
       user_id : req.user.id
     };
     res.send(userInfo);

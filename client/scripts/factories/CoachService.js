@@ -18,9 +18,7 @@ function($http, $location, $mdDialog) {
   * into the ticketArray.
   */
   function getTickets(user) {
-    console.log('here the user: ', user);
-    $http.get('/coach/tickets/' + user.session_id +'/'+user.user_id).then(function(response) {
-      console.log("here the response: ", response);
+    $http.get('/coach/tickets/' + user.session_count +'/'+user.user_id).then(function(response) {
       tickets.open = response.data;
     });
   }
