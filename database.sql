@@ -17,6 +17,7 @@ CREATE TABLE "users" (
   "email" varchar(80) not null,
   "password" varchar(120) not null,
   "role" varchar(40) not null DEFAULT 'coach' CHECK ("role" = 'coach' OR "role" = 'admin'),
+  "session_id" integer REFERENCES "sessions",
   "session_count" varchar(3),
   "year" varchar(4),
   "chance_token" varchar(120),
@@ -32,6 +33,7 @@ CREATE TABLE "forms" (
 
 CREATE TABLE "questions" (
   "id" serial primary key,
+  "form_id" integer REFERENCES "forms",
   "form_name" varchar (80) not null,
   "question" varchar (500)
 );

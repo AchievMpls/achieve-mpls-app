@@ -9,67 +9,116 @@ var incompleteTicketArray = [];
  * @return the tickets associated with that username should be sent back.
  */
 router.get('/tickets/:userSession/:userID', function(req, res) {
+  console.log('params are ', req.params);
   var session_id = req.params.userSession;
   var user_id = req.params.userID;
   var today = new Date();
+  var ticketsToSend = [];
 if (req.isAuthenticated()) {
   pool.connect(function(errorConnectingToDb, db, done) {
     if (errorConnectingToDb) {
+      console.log("error 1");
       res.sendStatus(500);
     } else {
-      db.query('SELECT * FROM "form_responses" WHERE "user_id"= $1;',
-        [user_id],
+      db.query('SELECT * FROM "events" WHERE "session_id"= $1 AND "date_form_open" < $2 AND "date_form_close" > $2 ORDER BY "date_form_close" ASC;',
+        [session_id, today],
         function(queryError, result) {
-          done();
-          if (queryError) {
-            console.log('error selecting from form_responses: ', queryError);
+          if(queryError, result) {
+            console.log('error 2');
             res.sendStatus(500);
           } else {
-            var completedTickets = [];
-            for (var i = 0; i < result.rows.length; i++) {
-              completedTickets.push(result.rows[i].event_id);
-            }
-            pool.connect(function(errorConnectingToDb, db, done) {
-              if (errorConnectingToDb) {
-                res.sendStatus(500);
+            var openEvents = result.rows;
+            db.query('SELECT * FROM "form_responses" WHERE "user_id"= $1;',
+            [user_id],
+            function(queryError, result) {
+              if (queryError) {
+                console.log('error 3');
+                sendStatus(500);
               } else {
-                db.query('SELECT * FROM "events" WHERE "session_id"= $1 AND "date_form_open" < $2 AND "date_form_close" > $2 ORDER BY "date_form_close" ASC;',
-                  [session_id, today],
-                  function(queryError, result) {
-                    done();
-                    if (queryError) {
-                      res.sendStatus(500);
-                    } else {
-                      var openEvents = result.rows;
-                      findUniqueTickets(completedTickets, openEvents);
-                      if (incompleteTicketArray.length===0) {
-                        res.send("no open, incomplete tickets!");
-                      } else {
-                        db.query('SELECT * FROM "forms" JOIN "events" ON "forms"."id" ="events"."form_id" WHERE "events"."id"=$1;',
-                          [incompleteTicketArray[0].id],
-                          function(queryError, result) {
-                            done();
-                            if (queryError) {
-                              res.sendStatus(500);
-                            } else {
-                              incompleteTicketArray.length = 0;
-                              res.send(result.rows);
-                              return incompleteTicketArray;
-                            }
-                          });
-                      }
-                    }
-                  });
+                var completedTickets = [];
+                result.rows.forEach(function(_result){
+                  completedTickets.push(_result.event_id);
+                });
+                findUniqueTickets(completedTickets, openEvents);
+                incompleteTicketArray.forEach(function(ticket){
+                db.query('SELECT * FROM "forms" JOIN "events" ON "forms"."id" ="events"."form_id" WHERE "events"."id"=$1;',
+                [ticket.id],
+                function(queryError, result) {
+                  if (queryError) {
+                    console.log('error 4');
+                    sendStatus(500);
+                  } else {
+                    ticketsToSend.push(result.rows);
+                    console.log('tickets to send are ', ticketsToSend);
+                    res.send(ticketsToSend);
+                  }
+                });
+              });
               }
             });
           }
         });
-    }
-  });
-} else {
-     res.sendStatus(401);
- }
-}); //end router.get
+      }
+    });
+  } else {
+       res.sendStatus(401);
+   }
+});
+
+
+//       db.query('SELECT * FROM "form_responses" WHERE "user_id"= $1;',
+//         [user_id],
+//         function(queryError, result) {
+//           done();
+//           if (queryError) {
+//             console.log('error selecting from form_responses: ', queryError);
+//             res.sendStatus(500);
+//           } else {
+//             var completedTickets = [];
+//             for (var i = 0; i < result.rows.length; i++) {
+//               completedTickets.push(result.rows[i].event_id);
+//             }
+//             pool.connect(function(errorConnectingToDb, db, done) {
+//               if (errorConnectingToDb) {
+//                 res.sendStatus(500);
+//               } else {
+//                 db.query('SELECT * FROM "events" WHERE "session_id"= $1 AND "date_form_open" < $2 AND "date_form_close" > $2 ORDER BY "date_form_close" ASC;',
+//                   [session_id, today],
+//                   function(queryError, result) {
+//                     done();
+//                     if (queryError) {
+//                       res.sendStatus(500);
+//                     } else {
+//                       var openEvents = result.rows;
+//                       findUniqueTickets(completedTickets, openEvents);
+//                       if (incompleteTicketArray.length===0) {
+//                         res.send("no open, incomplete tickets!");
+//                       } else {
+//                         db.query('SELECT * FROM "forms" JOIN "events" ON "forms"."id" ="events"."form_id" WHERE "events"."id"=$1;',
+//                           [incompleteTicketArray[0].id],
+//                           function(queryError, result) {
+//                             done();
+//                             if (queryError) {
+//                               res.sendStatus(500);
+//                             } else {
+//                               incompleteTicketArray.length = 0;
+//                               res.send(result.rows);
+//                               return incompleteTicketArray;
+//                             }
+//                           });
+//                       }
+//                     }
+//                   });
+//               }
+//             });
+//           }
+//         });
+//     }
+//   });
+// } else {
+//      res.sendStatus(401);
+//  }
+// }); //end router.get
 
 /**
  * @function find unique tickets

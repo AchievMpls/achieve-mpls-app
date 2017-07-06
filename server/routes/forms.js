@@ -53,25 +53,36 @@ router.get('/', function(req, res) {
 }); //end router.get
 
 router.post('/add', function(req, res) {
+  console.log('result of post ', req.body);
   var form_name = req.body.form_name;
   var questions = req.body.promptsArray;
+  var form_id = '';
   if (req.isAuthenticated()) {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
       } else {
         db.query('INSERT INTO "forms" ("form_name") VALUES ($1);', [form_name]);
-        questions.forEach(function(question) {
-          db.query('INSERT INTO "questions" ("form_name", "question") VALUES ($1,$2);', [form_name, question],
-            function(queryError, result) {
-              done();
-              if (queryError) {
-                res.sendStatus(500);
-              } else {
-                res.sendStatus(201);
-              }
-            });
-        });
+        db.query('SELECT "id" FROM "forms" WHERE "form_name" = $1;', [form_name],
+          function(queryError, result) {
+            console.log('result from select is ', result);
+            if (queryError) {
+              res.sendStatus(500);
+            } else {
+              form_id = result.rows[0].id;
+              questions.forEach(function(_question) {
+                db.query('INSERT INTO "questions" ("form_id", "form_name", "question") VALUES ($1,$2,$3);', [form_id, form_name, _question.question],
+                  function(queryError, result) {
+                    done();
+                    if (queryError) {
+                      res.sendStatus(500);
+                    } else {
+                      res.sendStatus(201);
+                    }
+                  });
+              });
+            }
+          });
       }
     });
   } else {
@@ -92,18 +103,18 @@ router.put('/update', function(req, res) {
       } else {
         db.query('UPDATE "forms" SET "form_name"=$1 WHERE "id" = $2;', [form_name, id]);
         questions.forEach(function(_question) {
-          if (_question.question_id){
-          db.query('UPDATE "questions" SET "question"=$1, "form_name"=$2 WHERE "id" = $3;', [_question.question, form_name, _question.question_id]);
+          if (_question.question_id) {
+            db.query('UPDATE "questions" SET "question"=$1, "form_name"=$2 WHERE "id" = $3;', [_question.question, form_name, _question.question_id]);
           } else {
             db.query('INSERT INTO "questions" ("form_name", "question") VALUES ($1,$2);', [form_name, _question.question],
-            function(queryError, result) {
-              done();
-              if (queryError) {
-                res.sendStatus(500);
-              } else {
-                res.sendStatus(201);
-              }
-            });
+              function(queryError, result) {
+                done();
+                if (queryError) {
+                  res.sendStatus(500);
+                } else {
+                  res.sendStatus(201);
+                }
+              });
           }
         });
       }
