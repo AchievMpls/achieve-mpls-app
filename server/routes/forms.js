@@ -95,6 +95,7 @@ router.put('/update', function(req, res) {
   console.log('request body ', req.body);
   var id = req.body.form_id;
   var form_name = req.body.form_name;
+  var form_id = req.body.form_id;
   var questions = req.body.prompts;
   if (req.isAuthenticated()) {
     pool.connect(function(errorConnectingToDb, db, done) {
@@ -106,7 +107,7 @@ router.put('/update', function(req, res) {
           if (_question.question_id) {
             db.query('UPDATE "questions" SET "question"=$1, "form_name"=$2 WHERE "id" = $3;', [_question.question, form_name, _question.question_id]);
           } else {
-            db.query('INSERT INTO "questions" ("form_name", "question") VALUES ($1,$2);', [form_name, _question.question],
+            db.query('INSERT INTO "questions" ("form_name", "question", "form_id") VALUES ($1,$2,$3);', [form_name, _question.question, form_id],
               function(queryError, result) {
                 done();
                 if (queryError) {

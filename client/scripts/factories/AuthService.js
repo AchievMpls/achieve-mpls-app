@@ -56,6 +56,13 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
     var coachClearance = function() {
       $http.get('/users/clearance').then(function(response) {
         if (response.data.email && (response.data.role === 'coach')) {
+          console.log('in coach clearance route ', response.data);
+          coach = {
+            session_count: response.data.session_count,
+            user_id: response.data.id
+          };
+          console.log('coach is ', coach);
+          auth.getTickets(coach);
         } else {
           $location.path("/login");
         }
@@ -124,7 +131,6 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
               session_id: response.data.session_count,
               user_id: response.data.user_id
             };
-            auth.getTickets(response.data);
             $location.path("/coach");
           } else {
             $mdDialog.show(
