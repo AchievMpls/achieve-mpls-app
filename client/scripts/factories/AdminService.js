@@ -143,7 +143,7 @@ function($http, $location, $mdDialog) {
   * @param {object} formToSend the exit-ticket form to be created
   */
   function addNewForm(formToSend) {
-    $http.post('/forms/add', formToSend).then(function(response) {
+    $http.post('/forms/add', formToSend).then(function() {
       getAllForms();
       formToSend.form_name = '';
       formToSend.prompts = [];

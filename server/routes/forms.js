@@ -65,7 +65,6 @@ router.post('/add', function(req, res) {
         db.query('INSERT INTO "forms" ("form_name") VALUES ($1);', [form_name]);
         db.query('SELECT "id" FROM "forms" WHERE "form_name" = $1;', [form_name],
           function(queryError, result) {
-            console.log('result from select is ', result);
             if (queryError) {
               res.sendStatus(500);
             } else {
@@ -77,10 +76,11 @@ router.post('/add', function(req, res) {
                     if (queryError) {
                       res.sendStatus(500);
                     } else {
-                      res.sendStatus(201);
+                      return;
                     }
                   });
               });
+              res.sendStatus(200);
             }
           });
       }

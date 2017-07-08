@@ -8,7 +8,7 @@
 myApp.factory('CoachService', ['$http', '$location', '$mdDialog',
 function($http, $location, $mdDialog) {
 
-  var tickets = [];
+  var tickets = {};
 
   /**
   * @function Get Tickets
@@ -19,11 +19,8 @@ function($http, $location, $mdDialog) {
   */
   function getTickets(user) {
     $http.get('/coach/tickets/' + user.session_count +'/'+user.user_id).then(function(response) {
-      console.log(response);
-      response.data.forEach(function(res){
-        console.log(res);
-        tickets.push(res);
-      });
+      angular.copy(response.data[0], tickets);
+      console.log('tickets is ', response);
     });
   }
 

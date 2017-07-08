@@ -13,51 +13,48 @@ router.get('/tickets/:userSession/:userID', function(req, res) {
   var user_id = req.params.userID;
   var today = new Date();
   var ticketsToSend = [];
-if (req.isAuthenticated()) {
-  pool.connect(function(errorConnectingToDb, db, done) {
-    if (errorConnectingToDb) {
-      res.sendStatus(500);
-    } else {
-      db.query('SELECT * FROM "events" WHERE "session_id"= $1 AND "date_form_open" <= $2 AND "date_form_close" > $2 ORDER BY "date_form_close" ASC;',
-        [session_id, today],
-        function(queryError, result) {
-          if(queryError) {
-            res.sendStatus(500);
-          } else {
-            var openEvents = result.rows;
-            db.query('SELECT * FROM "form_responses" WHERE "user_id"= $1;',
-            [user_id],
-            function(queryError, result) {
-              if (queryError) {
-                res.sendStatus(500);
-              } else {
-                var completedTickets = [];
-                result.rows.forEach(function(_result){
-                  completedTickets.push(_result.event_id);
-                });
-                findUniqueTickets(completedTickets, openEvents);
-                incompleteTicketArray.forEach(function(ticket){
-                db.query('SELECT "forms".*, row_to_json("questions".*) as "questions" FROM "forms" INNER JOIN "questions" ON ("forms"."id"="questions"."form_id") WHERE "forms"."id"=$1 ORDER BY "questions"."id" ASC;',
-                [ticket.form_id],
+  if (req.isAuthenticated()) {
+    pool.connect(function(errorConnectingToDb, db, done) {
+      if (errorConnectingToDb) {
+        res.sendStatus(500);
+      } else {
+        db.query('SELECT * FROM "events" WHERE "session_id"= $1 AND "date_form_open" <= $2 AND "date_form_close" > $2 ORDER BY "date_form_close" ASC;', [session_id, today],
+          function(queryError, result) {
+            if (queryError) {
+              res.sendStatus(500);
+            } else {
+              var openEvents = result.rows;
+              db.query('SELECT * FROM "form_responses" WHERE "user_id"= $1;', [user_id],
                 function(queryError, result) {
                   if (queryError) {
-                    done();
                     res.sendStatus(500);
                   } else {
-                    ticketsToSend.push(result.rows);
-                    res.send(ticketsToSend);
+                    var completedTickets = [];
+                    result.rows.forEach(function(_result) {
+                      completedTickets.push(_result.event_id);
+                    });
+                    findUniqueTickets(completedTickets, openEvents);
+                    db.query('SELECT "forms".*, row_to_json("questions".*) as "questions" FROM "forms" WHERE "forms"."id"=$1 INNER JOIN "questions" ON ("forms"."id"="questions"."form_id") ORDER BY "questions"."id" ASC;',
+                            //  'SELECT "forms".*, row_to_json("questions".*) as "questions" FROM "forms" INNER JOIN "questions" ON ("forms"."form_name"="questions"."form_name") ORDER BY "questions"."id" ASC;'
+                     [incompleteTicketArray[0].form_id],
+                        function(queryError, result) {
+                          console.log('result of query is ', result);
+                          if (queryError) {
+                            done();
+                            res.sendStatus(500);
+                          } else {
+                            res.send(result.rows);
+                          }
+                        });
                   }
                 });
-              });
-              }
-            });
-          }
-        });
+            }
+          });
       }
     });
   } else {
-       res.sendStatus(401);
-   }
+    res.sendStatus(401);
+  }
 });
 
 /**
@@ -103,8 +100,8 @@ router.post('/completedTicket', function(req, res) {
       }
     });
   } else {
-       res.sendStatus(401);
-   }
+    res.sendStatus(401);
+  }
 }); //end router.post
 
 
