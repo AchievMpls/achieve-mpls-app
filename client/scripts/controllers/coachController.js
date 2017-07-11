@@ -27,27 +27,17 @@ myApp.controller('coachController', ['CoachService', 'AuthService', '$mdDialog',
      * @return ideally, submit to DB.  Also closes the form on submit.
      */
     coach.submitAnswers = function(answers) {
-      console.log('here currentCoach: ', currentCoach);
+      console.log('here currentCoach: ', answers);
       var objectToSend = {
-        session_id: currentCoach.session_id,
-        user_id: currentCoach.user_id,
-        event_id: coach.tickets.open[0].id,
-        answers: answers
+        session_id: answers.session_id,
+        user_id: answers.user,
+        event_id: answers.event_id,
+        form_name: answers.form_name,
+        form_id: answers.form_id,
+        questions: answers.questions
       };
-      if (isNaN(parseInt(objectToSend.answers[0], 10))) {
-        console.log('dis triggered');
-        $mdDialog.show(
-          $mdDialog.alert()
-          .clickOutsideToClose(true)
-          .title('Incomplete form!')
-          .textContent('For Question 01, please include a numeric response between 1 and 10.')
-          .ariaLabel('Alert Dialog')
-          .ok('OK!')
-        );
-      } else {
+      console.log('objectToSend ', objectToSend);
         CoachService.ticketToSend(objectToSend);
-        coach.ticketToComplete = [];
-      }
     };
 
   }

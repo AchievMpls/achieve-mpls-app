@@ -34,45 +34,51 @@ router.get('/tickets/:userSession/:userID', function(req, res) {
                       completedTickets.push(_result.event_id);
                     });
                     findUniqueTickets(completedTickets, openEvents);
-                    console.log('incompleteTicketArray ', incompleteTicketArray[0].form_id);
-                    db.query('SELECT "forms".*, row_to_json("questions".*) as "questions" FROM "forms" INNER JOIN "questions" ON ("forms"."id"="questions"."form_id") WHERE "forms"."id"=$1 ORDER BY "questions"."id" ASC;',
-                     [incompleteTicketArray[0].form_id],
-                        function(queryError, result) {
-                          console.log('result of query is ', result);
-                          if (queryError) {
-                            done();
-                            res.sendStatus(500);
-                          } else {
-                            var resultArray = result.rows;
-                            var objectNameArray = [];
-                            var dataToSend = [];
-                            resultArray.forEach(function(form) {
-                              if (objectNameArray.includes(form.form_name)) {} else {
-                                objectNameArray.push(form.form_name);
+                    if (incompleteTicketArray.length === 0){
+                      res.sendStatus(200);
+                    } else {
+                    console.log('incompleteTicketArray ', incompleteTicketArray);
+                    db.query('SELECT "forms".*, row_to_json("questions".*) as "questions" FROM "forms" INNER JOIN "questions" ON ("forms"."id"="questions"."form_id") WHERE "forms"."id"=$1 ORDER BY "questions"."id" ASC;', [incompleteTicketArray[0].form_id],
+                      function(queryError, result) {
+                        if (queryError) {
+                          done();
+                          res.sendStatus(500);
+                        } else {
+                          var resultArray = result.rows;
+                          var objectNameArray = [];
+                          var dataToSend = [];
+                          resultArray.forEach(function(form) {
+                            if (objectNameArray.includes(form.form_name)) {} else {
+                              objectNameArray.push(form.form_name);
+                            }
+                          });
+
+                          objectNameArray.forEach(function(form) {
+                            var newForm = {
+                              user: user_id,
+                              event_id: incompleteTicketArray[0].id,
+                              meeting_count: incompleteTicketArray[0].meeting_count,
+                              session_id: incompleteTicketArray[0].session_id,
+                              form_id: '',
+                              form_name: form,
+                              questions: []
+                            };
+                            resultArray.forEach(function(formQuestions) {
+                              if (newForm.form_name === formQuestions.questions.form_name) {
+                                newForm.form_id = formQuestions.id;
+                                var _question = {
+                                  question_id: formQuestions.questions.id,
+                                  question: formQuestions.questions.question
+                                };
+                                (newForm.questions).push(_question);
                               }
                             });
-
-                            objectNameArray.forEach(function(form) {
-                              var newForm = {
-                                form_id: '',
-                                form_name: form,
-                                questions: []
-                              };
-                              resultArray.forEach(function(formQuestions) {
-                                if (newForm.form_name === formQuestions.questions.form_name) {
-                                  newForm.form_id = formQuestions.id;
-                                  var _question = {
-                                    question_id: formQuestions.questions.id,
-                                    question: formQuestions.questions.question
-                                  };
-                                  (newForm.questions).push(_question);
-                                }
-                              });
-                              dataToSend.push(newForm);
-                            });
-                            res.send(dataToSend);
-                          }
-                        });
+                            dataToSend.push(newForm);
+                          });
+                          res.send(dataToSend);
+                        }
+                      });
+                    }
                   }
                 });
             }
@@ -102,28 +108,35 @@ var findUniqueTickets = function(completed, open) {
 
 
 router.post('/completedTicket', function(req, res) {
+  console.log('post is ', req.body);
   var dateToday = new Date();
-  var user_id = req.body.user_id;
-  var event_id = req.body.event_id;
-  var answers = [null, null, null, null, null];
-  for (var i = 0; i < req.body.answers.length; i++) {
-    answers[i] = req.body.answers[i];
-  }
-
+  var _query = {
+    user_id: req.body.user_id,
+    event_id: req.body.event_id,
+    session_id: req.body.session_id,
+    form_id: req.body.form_id
+  };
+    var questions = req.body.questions;
   if (req.isAuthenticated()) {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
       } else {
-        db.query('INSERT INTO "form_responses" ("user_id", "event_id", "date_form_completed", "q1_answer", "q2_answer", "q3_answer", "q4_answer", "q5_answer") VALUES ($1,$2,$3,$4,$5,$6,$7,$8);', [user_id, event_id, dateToday, answers[0], answers[1], answers[2], answers[3], answers[4]],
-          function(queryError, result) {
-            done();
-            if (queryError) {
-              res.sendStatus(500);
-            } else {
-              res.sendStatus(201);
-            }
-          });
+        questions.forEach(function(_q) {
+          _query.question_id = _q.question_id;
+          _query.question = _q.question;
+          _query.answer = _q.answer;
+          console.log('_query', _query);
+          db.query('INSERT INTO "form_responses" ("user_id", "event_id", "session_id", "question_id", "question", "answer", "date_form_completed", "form_id" ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8);', [_query.user_id, _query.event_id, _query.session_id, _query.question_id, _query.question, _query.answer, _query.dateToday, _query.form_id],
+            function(queryError, result) {
+              done();
+              if (queryError) {
+                res.sendStatus(500);
+              } else {
+                return;
+              }
+            });
+        });
       }
     });
   } else {

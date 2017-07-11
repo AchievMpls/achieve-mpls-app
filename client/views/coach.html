@@ -64,21 +64,20 @@
         </md-menu-item>
     </md-menu>
   </div>
-  {{coach.tickets}}
   <md-card ng-hide="coach.tickets.open==='no open, incomplete tickets!'">
     <md-card-title>
       <md-card-title-text>
-        <span class="md-headline">Meeting #{{coach.tickets.open[0].meeting_count}}</span>
+        <span class="md-headline">Meeting #{{coach.tickets.meeting_count}}</span>
       </md-card-title-text>
     </md-card-title>
     <div ng-repeat="_q in coach.tickets.questions track by $index">
     <md-input-container>
       <label>{{_q.question}}</label>
-      <textarea rows="2" cols="100" ng-model="coach.tickets._q[$index].question"></textarea>
+      <textarea rows="2" cols="100" ng-model="coach.tickets.questions[$index].answer"></textarea>
     </md-input-container>
   </div>
     <md-input-container>
-      <md-button class="md-fab md-primary" aria-label="Submit New Event" ng-click="coach.submitAnswers(coach.ticketToComplete)">
+      <md-button class="md-fab md-primary" aria-label="Submit New Event" ng-click="coach.submitAnswers(coach.tickets)">
         <i class="material-icons" id="addButton">done</i>
       </md-button>
     </md-input-container>
