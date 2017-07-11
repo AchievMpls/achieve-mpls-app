@@ -73,8 +73,8 @@
     </md-card-title>
     <div ng-repeat="_q in coach.tickets.questions track by $index">
     <md-input-container>
-      <label>Question {{$index+1}}</label>
-      <input ng-model="coach.tickets._q[$index].question">
+      <label>{{_q.question}}</label>
+      <textarea rows="2" cols="100" ng-model="coach.tickets._q[$index].question"></textarea>
     </md-input-container>
   </div>
     <md-input-container>

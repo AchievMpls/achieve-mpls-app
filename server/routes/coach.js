@@ -34,8 +34,8 @@ router.get('/tickets/:userSession/:userID', function(req, res) {
                       completedTickets.push(_result.event_id);
                     });
                     findUniqueTickets(completedTickets, openEvents);
-                    db.query('SELECT "forms".*, row_to_json("questions".*) as "questions" FROM "forms" WHERE "forms"."id"=$1 INNER JOIN "questions" ON ("forms"."id"="questions"."form_id") ORDER BY "questions"."id" ASC;',
-                            //  'SELECT "forms".*, row_to_json("questions".*) as "questions" FROM "forms" INNER JOIN "questions" ON ("forms"."form_name"="questions"."form_name") ORDER BY "questions"."id" ASC;'
+                    console.log('incompleteTicketArray ', incompleteTicketArray[0].form_id);
+                    db.query('SELECT "forms".*, row_to_json("questions".*) as "questions" FROM "forms" INNER JOIN "questions" ON ("forms"."id"="questions"."form_id") WHERE "forms"."id"=$1 ORDER BY "questions"."id" ASC;',
                      [incompleteTicketArray[0].form_id],
                         function(queryError, result) {
                           console.log('result of query is ', result);
@@ -43,7 +43,34 @@ router.get('/tickets/:userSession/:userID', function(req, res) {
                             done();
                             res.sendStatus(500);
                           } else {
-                            res.send(result.rows);
+                            var resultArray = result.rows;
+                            var objectNameArray = [];
+                            var dataToSend = [];
+                            resultArray.forEach(function(form) {
+                              if (objectNameArray.includes(form.form_name)) {} else {
+                                objectNameArray.push(form.form_name);
+                              }
+                            });
+
+                            objectNameArray.forEach(function(form) {
+                              var newForm = {
+                                form_id: '',
+                                form_name: form,
+                                questions: []
+                              };
+                              resultArray.forEach(function(formQuestions) {
+                                if (newForm.form_name === formQuestions.questions.form_name) {
+                                  newForm.form_id = formQuestions.id;
+                                  var _question = {
+                                    question_id: formQuestions.questions.id,
+                                    question: formQuestions.questions.question
+                                  };
+                                  (newForm.questions).push(_question);
+                                }
+                              });
+                              dataToSend.push(newForm);
+                            });
+                            res.send(dataToSend);
                           }
                         });
                   }
