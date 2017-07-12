@@ -60,7 +60,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         lname: '',
         email: '',
         role: '',
-        session_count: '',
+        session: {},
         year: ''
       };
     };
@@ -99,20 +99,29 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      * @param {object} item - The entry to be added (specified in AdminController.)
      */
     users.sendUser = function(user) {
+      eval('var _session='+user.session);
+      var userToSend = {
+        fname: user.fname,
+        lname: user.lname,
+        email: user.email,
+        role: user.role,
+        session_count: _session.session_count,
+        session_id: _session.session_id,
+        year: user.year,
+        password: user.password
+      };
       if (!user.fname || !user.lname) {
         completeFields();
         return;
       } else {
         users.toggleForm();
         if (user.id !== undefined) {
-          console.log('update', user.id);
-          AdminService.updateUser(user, function(rows) {
+          AdminService.updateUser(userToSend, function(rows) {
             users.editingUser = false;
             users.allUsers = rows;
           });
         } else {
-          console.log('add', user);
-          AdminService.addNewUser(user, function(rows) {
+          AdminService.addNewUser(userToSend, function(rows) {
             users.allUsers = rows;
           });
 
@@ -167,10 +176,16 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         users.sessionArray.length = 0;
       }
       var array = users.specificYear.sessions;
-      console.log(array);
-      for (var i = 1; i <= array.length; i++) {
-        users.sessionArray.push(i);
+      console.log('session array before ', array);
+      for (var i = 0; i < array.length; i++) {
+        console.log('in session for loop ', array[i]);
+        var _session = {
+          session_count: array[i].session_count,
+          session_id: array[i].id
+        };
+        users.sessionArray.push(_session);
       }
+      console.log('session array after ', users.sessionArray);
     };
 
     //the rest of this is code to get $mdPanel to work.
@@ -192,6 +207,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         email: user.email,
         role: user.role,
         session_count: user.session_count,
+        session_id: user.session_id,
         year: user.year,
         id: user.id
       };
