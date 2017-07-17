@@ -10,13 +10,54 @@ router.get('/:year', function(req, res) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
       } else {
-        db.query('SELECT array_to_json(array_agg(row_to_json(obj))) FROM (SELECT "users"."fname","users"."lname","users"."session_id","users"."session_count","users"."year","form_responses"."question","form_responses"."answer", "sessions"."grade" FROM "users" JOIN "form_responses" ON "form_responses"."user_id"="users"."id" JOIN "sessions" ON "sessions"."id"="users"."session_id" WHERE "users"."year"=$1) obj;', [year],
+        db.query('SELECT DISTINCT "user_id", "event_id" FROM "form_responses" JOIN "users" ON "form_responses"."user_id"="users"."id" WHERE "users"."year"=$1;', [year],
           function(queryError, result) {
             done();
             if (queryError) {
               res.sendStatus(500);
             } else {
-              console.log('result of tickets get is ', result);
+              var resultArray = result.rows;
+              var objectNameArray = [];
+              resultArray.forEach(function(_res) {
+                db.query('SELECT row_to_json(obj) FROM (SELECT "question","answer" FROM "form_responses" WHERE "user_id"=$1 AND "event_id"=$2) obj;', [_res.user_id, _res.event_id],
+              function(error, _result) {
+                done();
+                if (error){
+                  res.sendStatus(500);
+                } else {
+                    console.log('result of crazy select is ', _result.rows);
+                }
+              });
+            });
+              console.log('result is ', result.rows);
+
+              // objectNameArray.forEach(function(formRes) {
+              //   var newFormRes = {
+              //     user_id: formRes,
+              //     fname: '',
+              //     lname: '',
+              //     session_id: '',
+              //     session_count: ''.
+              //     year: '',
+          //         questions: []
+          //       };
+          //       resultArray.forEach(function(formQuestions) {
+          //         if (newForm.form_name === formQuestions.questions.form_name) {
+          //           newForm.form_id = formQuestions.id;
+          //           var _question = {
+          //             question_id: formQuestions.questions.id,
+          //             question: formQuestions.questions.question
+          //           };
+          //           (newForm.questions).push(_question);
+          //         }
+          //       });
+          //       dataToSend.push(newForm);
+          //     });
+          //     res.send(dataToSend);
+          //   }
+          // });
+              // console.log('result of tickets get is ', result.rows[0].array_to_json);
+
             }
           });
       }
