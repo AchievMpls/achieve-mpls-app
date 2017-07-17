@@ -11,67 +11,20 @@ router.get('/:year', function(req, res) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
       } else {
-        db.query('SELECT DISTINCT "user_id", "event_id" FROM "form_responses" JOIN "users" ON "form_responses"."user_id"="users"."id" WHERE "users"."year"=$1;', [year],
+        db.query('SELECT "form_responses"."user_id", "form_responses"."event_id", "users"."fname", "users"."lname", "users"."session_id", "users"."session_count", "users"."year", array_to_json(array_agg(row_to_json((SELECT d FROM (SELECT "question", "answer") d)))) AS "response" FROM "form_responses" JOIN "users" ON "form_responses"."user_id"="users"."id" JOIN "sessions" ON "sessions"."id"="users"."session_id" WHERE "users"."year"=$1 GROUP BY "form_responses"."user_id", "form_responses"."event_id", "users"."fname", "users"."lname", "users"."session_id", "users"."session_count", "users"."year";', [year],
           function(queryError, result) {
             done();
             if (queryError) {
               res.sendStatus(500);
             } else {
-              var resultArray = result.rows;
-              resultArray.forEach(function(_res) {
-                db.query('SELECT row_to_json(obj) as "reponse" FROM (SELECT "question","answer" FROM "form_responses" WHERE "user_id"=$1 AND "event_id"=$2) obj;', [_res.user_id, _res.event_id],
-              function(error, _result) {
-                done();
-                if (error){
-                  res.sendStatus(500);
-                } else {
-                    // var responses = [];
-                    var _resArray = _result.rows;
-                    // _resArray.forEach(function(res){
-                    //   responses.push(res);
-                    // });
-                    var obj = {
-                      user_id: _res.user_id,
-                      event_id: _res.event_id,
-                      q_responses: _resArray
-                    };
-                    arrayToSend.push(obj);
-                }
-              });
-            });
-            res.send(arrayToSend);
-              // objectNameArray.forEach(function(formRes) {
-              //   var newFormRes = {
-              //     user_id: formRes,
-              //     fname: '',
-              //     lname: '',
-              //     session_id: '',
-              //     session_count: ''.
-              //     year: '',
-          //         questions: []
-          //       };
-          //       resultArray.forEach(function(formQuestions) {
-          //         if (newForm.form_name === formQuestions.questions.form_name) {
-          //           newForm.form_id = formQuestions.id;
-          //           var _question = {
-          //             question_id: formQuestions.questions.id,
-          //             question: formQuestions.questions.question
-          //           };
-          //           (newForm.questions).push(_question);
-          //         }
-          //       });
-          //       dataToSend.push(newForm);
-          //     });
-          //     res.send(dataToSend);
-          //   }
-          // });
-              // console.log('result of tickets get is ', result.rows[0].array_to_json);
+              console.log('result of the crazy query is ', result.rows);
+              res.send(result.rows);
             }
           });
       }
     });
   } else {
-  res.sendStatus(401);
+    res.sendStatus(401);
   }
 }); //end router.get
 
@@ -96,8 +49,8 @@ router.post('/filteredtickets/', function(req, res) {
   }
 
   //constructs array of parameter references to be used in SQL query
-  for (var i = 1; i <= (paramArray.length-q1BlingArrayLimit); i++) {
-    blingParamCountArray.push('$' + (i+q1BlingArrayOffset));
+  for (var i = 1; i <= (paramArray.length - q1BlingArrayLimit); i++) {
+    blingParamCountArray.push('$' + (i + q1BlingArrayOffset));
   }
   if (req.isAuthenticated()) {
     pool.connect(function(errorConnectingToDb, db, done) {
@@ -108,10 +61,9 @@ router.post('/filteredtickets/', function(req, res) {
         var query;
         if (session_id && !user_id) {
           query = 'SELECT * from "users" JOIN "sessions" ON "sessions"."id" = "users"."session_id" JOIN "form_responses" ON "form_responses"."user_id"="users"."id" WHERE "session_count"=$1 AND "q1_answer" IN (' + blingParamCountArray.join(',') + ');';
-        }
-        else if (user_id && !session_id) {
+        } else if (user_id && !session_id) {
           query = 'SELECT * from "users" JOIN "sessions" ON "sessions"."id" = "users"."session_id" JOIN "form_responses" ON "form_responses"."user_id"="users"."id" WHERE "user_id"=$1 AND "q1_answer" IN (' + blingParamCountArray.join(',') + ');';
-        }else if (user_id && session_id) {
+        } else if (user_id && session_id) {
           query = 'SELECT * from "users" JOIN "sessions" ON "sessions"."id" = "users"."session_id" JOIN "form_responses" ON "form_responses"."user_id"="users"."id" WHERE "session_count"=$1 AND "user_id"=$2 AND "q1_answer" IN (' + blingParamCountArray.join(',') + ');';
         } else {
           query = 'SELECT * from "users" JOIN "sessions" ON "sessions"."id" = "users"."session_id" JOIN "form_responses" ON "form_responses"."user_id" ="users"."id" WHERE "q1_answer" IN (' + blingParamCountArray.join(',') + ');';
