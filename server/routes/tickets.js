@@ -5,6 +5,7 @@ var pool = require('../modules/db');
 
 router.get('/:year', function(req, res) {
   var year = parseInt(req.params.year);
+  var arrayToSend = [];
   if (req.isAuthenticated()) {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
@@ -17,20 +18,28 @@ router.get('/:year', function(req, res) {
               res.sendStatus(500);
             } else {
               var resultArray = result.rows;
-              var objectNameArray = [];
               resultArray.forEach(function(_res) {
-                db.query('SELECT row_to_json(obj) FROM (SELECT "question","answer" FROM "form_responses" WHERE "user_id"=$1 AND "event_id"=$2) obj;', [_res.user_id, _res.event_id],
+                db.query('SELECT row_to_json(obj) as "reponse" FROM (SELECT "question","answer" FROM "form_responses" WHERE "user_id"=$1 AND "event_id"=$2) obj;', [_res.user_id, _res.event_id],
               function(error, _result) {
                 done();
                 if (error){
                   res.sendStatus(500);
                 } else {
-                    console.log('result of crazy select is ', _result.rows);
+                    // var responses = [];
+                    var _resArray = _result.rows;
+                    // _resArray.forEach(function(res){
+                    //   responses.push(res);
+                    // });
+                    var obj = {
+                      user_id: _res.user_id,
+                      event_id: _res.event_id,
+                      q_responses: _resArray
+                    };
+                    arrayToSend.push(obj);
                 }
               });
             });
-              console.log('result is ', result.rows);
-
+            res.send(arrayToSend);
               // objectNameArray.forEach(function(formRes) {
               //   var newFormRes = {
               //     user_id: formRes,
@@ -57,7 +66,6 @@ router.get('/:year', function(req, res) {
           //   }
           // });
               // console.log('result of tickets get is ', result.rows[0].array_to_json);
-
             }
           });
       }
