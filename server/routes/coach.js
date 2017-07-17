@@ -18,75 +18,40 @@ router.get('/tickets/:userSession/:userID', function(req, res) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
       } else {
-        db.query('SELECT * FROM "events" WHERE "session_id"= $1 AND "date_form_open" <= $2 AND "date_form_close" > $2 ORDER BY "date_form_close" ASC;', [session_id, today],
+        db.query('SELECT * FROM "events" WHERE "session_id"= $1 AND "date_form_open" <= $2 AND "date_form_close" > $2 AND "events"."id" NOT IN (SELECT "event_id" FROM "form_responses" WHERE user_id = 2) ORDER BY "date_form_close" ASC LIMIT 1;', [session_id, today],
           function(queryError, result) {
             if (queryError) {
               res.sendStatus(500);
             } else {
-              var openEvents = result.rows;
-              db.query('SELECT * FROM "form_responses" WHERE "user_id"= $1;', [user_id],
-                function(queryError, result) {
-                  if (queryError) {
-                    res.sendStatus(500);
-                  } else {
-                    var completedTickets = [];
-                    result.rows.forEach(function(_result) {
-                      completedTickets.push(_result.event_id);
-                    });
-                    findUniqueTickets(completedTickets, openEvents);
-                    if (incompleteTicketArray.length === 0){
-                      res.sendStatus(200);
+              console.log('open events are ', result.rows);
+              var incompleteTicketArray = result.rows;
+              if (incompleteTicketArray.length === 0) {
+                res.sendStatus(200);
+              } else {
+                console.log('incompleteTicketArray ', incompleteTicketArray);
+                db.query('SELECT "forms"."id","forms"."form_name", array_to_json(array_agg(row_to_json((SELECT d FROM (SELECT "questions"."id", "questions"."question")d)))) AS "questions" FROM "questions" JOIN "forms" ON "forms"."id" = "questions"."form_id" WHERE "forms"."id"=$1 GROUP BY "forms"."id","forms"."form_name" ORDER BY "id";', [incompleteTicketArray[0].form_id],
+                  function(queryError, result) {
+                    if (queryError) {
+                      done();
+                      res.sendStatus(500);
                     } else {
-                    console.log('incompleteTicketArray ', incompleteTicketArray);
-                    db.query('SELECT "forms".*, row_to_json("questions".*) as "questions" FROM "forms" INNER JOIN "questions" ON ("forms"."id"="questions"."form_id") WHERE "forms"."id"=$1 ORDER BY "questions"."id" ASC;', [incompleteTicketArray[0].form_id],
-                      function(queryError, result) {
-                        if (queryError) {
-                          done();
-                          res.sendStatus(500);
-                        } else {
-                          var resultArray = result.rows;
-                          var objectNameArray = [];
-                          var dataToSend = [];
-                          resultArray.forEach(function(form) {
-                            if (objectNameArray.includes(form.form_name)) {} else {
-                              objectNameArray.push(form.form_name);
-                            }
-                          });
-
-                          objectNameArray.forEach(function(form) {
-                            var newForm = {
-                              user: user_id,
-                              event_id: incompleteTicketArray[0].id,
-                              meeting_count: incompleteTicketArray[0].meeting_count,
-                              session_id: incompleteTicketArray[0].session_id,
-                              form_id: '',
-                              form_name: form,
-                              questions: []
-                            };
-                            resultArray.forEach(function(formQuestions) {
-                              if (newForm.form_name === formQuestions.questions.form_name) {
-                                newForm.form_id = formQuestions.id;
-                                var _question = {
-                                  question_id: formQuestions.questions.id,
-                                  question: formQuestions.questions.question
-                                };
-                                (newForm.questions).push(_question);
-                              }
-                            });
-                            dataToSend.push(newForm);
-                          });
-                          res.send(dataToSend);
-                        }
-                      });
+                        var formToSend = {
+                          user: user_id,
+                          event_id: incompleteTicketArray[0].id,
+                          meeting_count: incompleteTicketArray[0].meeting_count,
+                          session_id: incompleteTicketArray[0].session_id,
+                          form_id: incompleteTicketArray[0].form_id,
+                          form_name: result.rows[0].form_name,
+                          questions: result.rows[0].questions
+                        };
+                      res.send(formToSend);
                     }
-                  }
-                });
+                  });
+              }
             }
           });
       }
     });
-  } else {
-    res.sendStatus(401);
   }
 });
 
@@ -116,7 +81,7 @@ router.post('/completedTicket', function(req, res) {
     session_id: req.body.session_id,
     form_id: req.body.form_id
   };
-    var questions = req.body.questions;
+  var questions = req.body.questions;
   if (req.isAuthenticated()) {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
@@ -127,7 +92,7 @@ router.post('/completedTicket', function(req, res) {
           _query.question = _q.question;
           _query.answer = _q.answer;
           console.log('_query', _query);
-          db.query('INSERT INTO "form_responses" ("user_id", "event_id", "session_id", "question_id", "question", "answer", "date_form_completed", "form_id" ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8);', [_query.user_id, _query.event_id, _query.session_id, _query.question_id, _query.question, _query.answer, _query.dateToday, _query.form_id],
+          db.query('INSERT INTO "form_responses" ("user_id", "event_id", "session_id", "question_id", "question", "answer", "date_form_completed", "form_id" ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8);', [_query.user_id, _query.event_id, _query.session_id, _query.question_id, _query.question, _query.answer, dateToday, _query.form_id],
             function(queryError, result) {
               done();
               if (queryError) {

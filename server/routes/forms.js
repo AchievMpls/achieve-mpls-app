@@ -9,39 +9,13 @@ router.get('/', function(req, res) {
       if (errorConnectingToDb) {
         res.sendStatus(501);
       } else {
-        db.query('SELECT "forms".*, row_to_json("questions".*) as "questions" FROM "forms" INNER JOIN "questions" ON ("forms"."form_name"="questions"."form_name") ORDER BY "questions"."id" ASC;',
+        db.query('SELECT "forms"."id","forms"."form_name", array_to_json(array_agg(row_to_json((SELECT d FROM (SELECT "questions"."id", "questions"."question")d)))) AS "questions" FROM "questions" JOIN "forms" ON "forms"."id" = "questions"."form_id" GROUP BY "forms"."id","forms"."form_name" ORDER BY "id";',
           function(queryError, result) {
             done();
-            var dataToSend = [];
             if (queryError) {
               res.sendStatus(500);
             } else {
-              var resultArray = result.rows;
-              var objectNameArray = [];
-              resultArray.forEach(function(form) {
-                if (objectNameArray.includes(form.form_name)) {} else {
-                  objectNameArray.push(form.form_name);
-                }
-              });
-
-              objectNameArray.forEach(function(form) {
-                var newForm = {
-                  form_id: '',
-                  form_name: form,
-                  questions: []
-                };
-                resultArray.forEach(function(formQuestions) {
-                  if (newForm.form_name === formQuestions.questions.form_name) {
-                    newForm.form_id = formQuestions.id;
-                    var _question = {
-                      question_id: formQuestions.questions.id,
-                      question: formQuestions.questions.question
-                    };
-                    (newForm.questions).push(_question);
-                  }
-                });
-                dataToSend.push(newForm);
-              });
+              var dataToSend = result.rows;
               res.send(dataToSend);
             }
           });
