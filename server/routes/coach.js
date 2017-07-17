@@ -88,7 +88,7 @@ router.post('/completedTicket', function(req, res) {
         res.sendStatus(500);
       } else {
         questions.forEach(function(_q) {
-          _query.question_id = _q.question_id;
+          _query.question_id = _q.id;
           _query.question = _q.question;
           _query.answer = _q.answer;
           console.log('_query', _query);

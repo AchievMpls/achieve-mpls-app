@@ -19,7 +19,7 @@ function($http, $location, $mdDialog) {
   */
   function getTickets(user) {
     $http.get('/coach/tickets/' + user.session_count +'/'+user.user_id).then(function(response) {
-      angular.copy(response.data[0], tickets);
+      angular.copy(response.data, tickets);
       console.log('tickets is ', response);
     });
   }
