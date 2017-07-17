@@ -10,13 +10,13 @@ router.get('/:year', function(req, res) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
       } else {
-        db.query('SELECT * from "users" JOIN "sessions" ON "sessions"."id" = "users"."session_id" JOIN "form_responses" ON "form_responses"."user_id" ="users"."id" WHERE "year" = $1;', [year],
+        db.query('SELECT array_to_json(array_agg(row_to_json(obj))) FROM (SELECT "users"."fname","users"."lname","users"."session_id","users"."session_count","users"."year","form_responses"."question","form_responses"."answer", "sessions"."grade" FROM "users" JOIN "form_responses" ON "form_responses"."user_id"="users"."id" JOIN "sessions" ON "sessions"."id"="users"."session_id" WHERE "users"."year"=$1) obj;', [year],
           function(queryError, result) {
             done();
             if (queryError) {
               res.sendStatus(500);
             } else {
-              res.send(result.rows);
+              console.log('result of tickets get is ', result);
             }
           });
       }
