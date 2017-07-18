@@ -12,7 +12,7 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
     events.specificSession = AdminService.specificSession;
     AdminService.getAllForms();
     events.allForms = AdminService.allForms;
-    console.log('the data for all of the forms is ', events.allForms.returnedForms);
+    console.log('the data for all of the forms is ', events.allForms);
 
     events.editingEvent = false;
 
@@ -71,6 +71,7 @@ myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter
     * @desc composes and submits a new/edited item
     */
     events.sendEvent = function(event) {
+      console.log('event before prep ', event);
       var eventToSend = {
         meeting_count : parseInt(event.meeting_count, 10),
         form_id : event.form,

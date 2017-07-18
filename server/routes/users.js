@@ -94,6 +94,7 @@ router.post('/postUser', function(req, res) {
 });//end router.post
 
 router.put('/updateUser', function(req, res) {
+  console.log('update user ', req.body);
   var id = req.body.id;
   var session_count = parseInt(req.body.session_count);
   var year = parseInt(req.body.year);

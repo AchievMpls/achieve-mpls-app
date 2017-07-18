@@ -101,6 +101,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     users.sendUser = function(user) {
       eval('var _session='+user.session);
       var userToSend = {
+        id: user.id,
         fname: user.fname,
         lname: user.lname,
         email: user.email,
@@ -110,6 +111,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         year: user.year,
         password: user.password
       };
+      console.log('user to send is ', userToSend);
       if (!user.fname || !user.lname) {
         completeFields();
         return;

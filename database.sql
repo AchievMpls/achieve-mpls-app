@@ -28,7 +28,8 @@ CREATE TABLE "users" (
 
 CREATE TABLE "forms" (
   "id" serial primary key,
-  "form_name" varchar(80) not null
+  "form_name" varchar(80) not null,
+  "form_active" boolean not null
 );
 
 CREATE TABLE "questions" (
@@ -52,7 +53,9 @@ CREATE TABLE "form_responses" (
   "id" serial primary key,
   "user_id" integer REFERENCES "users",
   "event_id" integer REFERENCES "events",
+  "session_id" integer REFERENCES "sessions",
   "form_id" integer REFERENCES "forms",
+  "question_id" integer REFERENCES "questions",
   "date_form_completed" date,
   "question" varchar (500),
   "answer" varchar (500)

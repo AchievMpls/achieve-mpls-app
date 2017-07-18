@@ -27,8 +27,8 @@ myApp.controller('coachController', ['CoachService', 'AuthService', '$mdDialog',
      * @return ideally, submit to DB.  Also closes the form on submit.
      */
     coach.submitAnswers = function(answers) {
-      console.log('here currentCoach: ', answers);
       var objectToSend = {
+        session_count: answers.session_count,
         session_id: answers.session_id,
         user_id: answers.user,
         event_id: answers.event_id,

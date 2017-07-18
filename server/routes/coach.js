@@ -38,7 +38,7 @@ router.get('/tickets/:userSession/:userID', function(req, res) {
                         var formToSend = {
                           user: user_id,
                           event_id: incompleteTicketArray[0].id,
-                          meeting_count: incompleteTicketArray[0].meeting_count,
+                          session_count: incompleteTicketArray[0].meeting_count,
                           session_id: incompleteTicketArray[0].session_id,
                           form_id: incompleteTicketArray[0].form_id,
                           form_name: result.rows[0].form_name,
@@ -102,6 +102,7 @@ router.post('/completedTicket', function(req, res) {
               }
             });
         });
+        res.sendStatus(200);
       }
     });
   } else {

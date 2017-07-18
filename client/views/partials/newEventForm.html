@@ -25,7 +25,7 @@
       <md-input-container>
         <label>Form</label>
         <md-select ng-model="events.event.form">
-          <md-option ng-repeat="_form in events.allForms" value={{_form.form_id}}>
+          <md-option ng-repeat="_form in events.allForms" value={{_form.id}}>
             {{_form.form_name}}
           </md-option>
         </md-select>

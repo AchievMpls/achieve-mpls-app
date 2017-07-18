@@ -19,7 +19,12 @@ function($http, $location, $mdDialog) {
   */
   function getTickets(user) {
     $http.get('/coach/tickets/' + user.session_count +'/'+user.user_id).then(function(response) {
-      angular.copy(response.data, tickets);
+      if (response.data){
+        angular.copy(response.data, tickets);
+      } else {
+        var emptyObj = {};
+        angular.copy(emptyObj, tickets);
+      }
       console.log('tickets is ', response);
     });
   }
@@ -31,7 +36,9 @@ function($http, $location, $mdDialog) {
   * @return gets the remaining tickets for the user.
   */
   function ticketToSend(completedTicket) {
-    $http.post('/coach/completedTicket', completedTicket).then(function(response) {
+    console.log('before post request ', completedTicket);
+    $http.post('/coach/completedTicket', completedTicket).then(function() {
+      console.log('in completed tickets response');
       getTickets(completedTicket);
     });
   }

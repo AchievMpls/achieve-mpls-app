@@ -73,10 +73,11 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
     forms.editForm = function(form) {
       forms.clearFields();
       forms.editingForm = true;
+      console.log('form in editForm ', form);
       forms.prompts = {
         form_name: form.form_name,
         promptsArray: form.questions,
-        form_id: form.form_id
+        form_id: form.id
       };
     };
 

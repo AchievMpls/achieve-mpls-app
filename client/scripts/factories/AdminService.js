@@ -57,15 +57,11 @@ function($http, $location, $mdDialog) {
   * @param
   * @return AllUsers object
   */
-  function getAllUsers(callback) {
+  function getAllUsers() {
     console.log('get all users called');
     $http.get('/users').then(function(response) {
       allUsers.users = response.data;
       filterUserArray(response.data, sessionYear.currentYear);
-      if (callback) {
-        console.log('in the get all users callback');
-        callback(allUsers.users);
-      }
     });
   }
 
@@ -133,7 +129,6 @@ function($http, $location, $mdDialog) {
     $http.get('/forms').then(function(response){
       allForms.length = 0;
       response.data.forEach(function(form){
-        console.log(form);
         allForms.push(form);
       });
   });
@@ -143,7 +138,7 @@ function($http, $location, $mdDialog) {
   * @param {object} formToSend the exit-ticket form to be created
   */
   function addNewForm(formToSend) {
-    $http.post('/forms/add', formToSend).then(function() {
+    $http.post('/forms/add', formToSend).then(function(response) {
       getAllForms();
       formToSend.form_name = '';
       formToSend.prompts = [];
