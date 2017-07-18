@@ -49,7 +49,7 @@
 
   <md-button class="md-raised md-primary" ng-show="home.specificYear.tickets" ng-click="home.filterTickets()">Apply Filter</md-button>
 </div>
-
+<label> Search <input ng-model="search.$"></label>
 
 <div layout="row" layout-align="center center" class="admin_table">
   <md-card md-whiteframe="8" flex="90">
@@ -69,7 +69,7 @@
           </tr>
         </thead>
         <tbody md-body class="home-table">
-          <tr md-row class="home-table-item" md-auto-select="options.autoSelect" ng-repeat="ticket in home.specificYear.tickets | orderBy: home.query.order | limitTo: home.query.limit : (home.query.page -1) * home.query.limit" ng-click="home.clearFields(); home.toggleForm(); home.populateTicket(ticket)">
+          <tr md-row class="home-table-item" md-auto-select="options.autoSelect" ng-repeat="ticket in home.specificYear.tickets | orderBy: home.query.order | limitTo: home.query.limit : (home.query.page -1) * home.query.limit | filter:search:strict" ng-click="home.clearFields(); home.toggleForm(); home.populateTicket(ticket)">
             <td md-cell class="">{{ticket.session_id}}</td>
             <td md-cell class="">{{ticket.fname}} {{ticket.lname}}</td>
             <td md-cell class="">{{ticket.q1_answer}}</td>
