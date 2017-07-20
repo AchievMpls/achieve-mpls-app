@@ -15,7 +15,7 @@ var config = {
   password: process.env.PGPASSWORD || '', //env var: PGPASSWORD
   port: process.env.PGPORT || 5432, //env var: PGPORT
   max: 50, // max number of clients in the pool
-  idleTimeoutMillis: 30000, // 1.5s // how long a client is allowed to remain idle before being closed
+  idleTimeoutMillis: 30000, // 30s // how long a client is allowed to remain idle before being closed
 };
 
 if (!pool) {

@@ -119,6 +119,17 @@ function($http, $location, $mdDialog) {
     });
   }
 
+  /**
+  * @desc deletes only admin users per its ID.
+  * @param {number} id - The admin user to be deleted (specified in AdminUsersController)
+  */
+  function deleteAdmin(id) {
+    console.log("deleteAdmin");
+    // $http.delete('/users/delete/' + id).then(function(response) {
+    //   getAllUsers();
+    // });
+  }
+
   //--------CRUD FORMs-----------
   /**
   * @desc gets all forms from db
