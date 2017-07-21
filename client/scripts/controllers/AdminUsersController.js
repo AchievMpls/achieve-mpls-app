@@ -176,8 +176,8 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         .ok('Yes')
         .cancel('No');
       $mdDialog.show(confirm).then(function() {
-        console.log("user id and role are: ", user.id, user.role);
-        // AdminService.deleteAdmin(user.id);
+        // console.log("user id and role are: ", user.id, user.role);
+        AdminService.deleteAdmin(user.id);
       });
     };
 

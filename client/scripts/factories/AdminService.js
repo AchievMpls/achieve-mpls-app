@@ -124,10 +124,10 @@ function($http, $location, $mdDialog) {
   * @param {number} id - The admin user to be deleted (specified in AdminUsersController)
   */
   function deleteAdmin(id) {
-    console.log("deleteAdmin");
-    // $http.delete('/users/delete/' + id).then(function(response) {
-    //   getAllUsers();
-    // });
+    // console.log("deleteAdmin in service", id);
+    $http.delete('/users/delete/' + id).then(function(response) {
+      getAllUsers();
+    });
   }
 
   //--------CRUD FORMs-----------
@@ -391,6 +391,7 @@ function($http, $location, $mdDialog) {
     specificSession: specificSession,
     deleteSession: deleteSession,
     deleteEvent: deleteEvent,
+    deleteAdmin: deleteAdmin,
     addNewEvent: addNewEvent,
     meetingConflictPopup: meetingConflictPopup,
     updateEvent: updateEvent,
