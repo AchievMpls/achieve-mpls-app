@@ -18,7 +18,6 @@ function(AuthService, $mdDialog, $routeParams, $http, $location, $filter){
   * @return
   */
   user.loginUser = function(user) {
-    console.log('login gets here', user);
     if( user.username === '' || user.password === '') {
       $mdDialog.show(
         $mdDialog.alert()
