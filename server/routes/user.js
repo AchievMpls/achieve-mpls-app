@@ -6,7 +6,7 @@ var path = require('path');
 // Handles Ajax request for user information if user is authenticated
 router.get('/', function(req, res) {
   // check if logged in
-  if(req.isAuthenticated()) {
+  if (req.isAuthenticated()) {
     // send back user object from database
     var userInfo = {
       username : req.user.email,

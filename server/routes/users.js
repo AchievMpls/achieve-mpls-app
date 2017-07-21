@@ -10,7 +10,7 @@ var pool = require('../modules/db');
 */
 
 router.get('/', function(req, res) {
-if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role === "admin") {
       pool.connect(function(errorConnectingToDb, db, done) {
         if (errorConnectingToDb) {
           res.sendStatus(500);
@@ -34,7 +34,7 @@ if (req.isAuthenticated()) {
 
 router.get('/clearance', function(req, res) {
   // check if logged in
-  if(req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role === "admin") {
     // send back user object from database
     //prepare an object = { }
     res.send(req.user);
@@ -47,7 +47,7 @@ router.get('/clearance', function(req, res) {
 
 router.put('/deactivateUser', function(req, res) {
   var id = req.body.id;
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role === "admin") {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
@@ -74,6 +74,7 @@ router.post('/postUser', function(req, res) {
   var session_count = parseInt(req.body.session_count);
   var session_id = parseInt(req.body.session_id);
   var year = parseInt(req.body.year);
+  if (req.isAuthenticated() && req.user.role === "admin") {
   pool.connect(function(errorConnectingToDb, db, done) {
     if (errorConnectingToDb) {
       res.sendStatus(500);
@@ -91,6 +92,9 @@ router.post('/postUser', function(req, res) {
       });
     }
   });
+} else {
+  res.sendStatus(401);
+}
 });//end router.post
 
 router.put('/updateUser', function(req, res) {
@@ -102,7 +106,7 @@ router.put('/updateUser', function(req, res) {
     session_count = null;
   }
   var body = req.body;
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role === "admin") {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);

@@ -4,7 +4,7 @@ var pg = require('pg');
 var pool = require('../modules/db');
 
 router.get('/years', function(req, res) {
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role === "admin") {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
@@ -27,7 +27,7 @@ router.get('/years', function(req, res) {
 
 router.get('/:year', function(req, res) {
   var year = req.params.year;
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role === "admin") {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
@@ -60,7 +60,7 @@ router.post('/add', function(req, res) {
   var start_time = req.body.start_time;
   var school = req.body.school;
   var newSessionID;
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role === "admin") {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
@@ -115,7 +115,7 @@ router.put('/update', function(req, res) {
   var day = req.body.day;
   var start_time = req.body.start_time;
   var school = req.body.school;
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role === "admin") {
     pool.connect(function(errorConnectingToDb, db, done) {
     if (errorConnectingToDb) {
       res.sendStatus(500);
@@ -139,7 +139,7 @@ router.put('/update', function(req, res) {
 
 router.delete('/delete/:id', function(req, res) {
   var sessionID = req.params.id;
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role === "admin") {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);

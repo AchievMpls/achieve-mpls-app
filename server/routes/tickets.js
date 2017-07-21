@@ -6,7 +6,7 @@ var pool = require('../modules/db');
 router.get('/:year', function(req, res) {
   var year = parseInt(req.params.year);
   var arrayToSend = [];
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role === "admin") {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
@@ -52,7 +52,7 @@ router.post('/filteredtickets/', function(req, res) {
   for (var i = 1; i <= (paramArray.length - q1BlingArrayLimit); i++) {
     blingParamCountArray.push('$' + (i + q1BlingArrayOffset));
   }
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role === "admin") {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);

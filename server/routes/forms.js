@@ -5,7 +5,7 @@ var pool = require('../modules/db');
 
 router.get('/', function(req, res) {
   var formActive = 'TRUE';
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role === "admin") {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(501);
@@ -32,7 +32,7 @@ router.post('/add', function(req, res) {
   var questions = req.body.promptsArray;
   var formActive = 'TRUE';
   var form_id = '';
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role === "admin") {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
@@ -71,7 +71,7 @@ router.put('/update', function(req, res) {
   var form_name = req.body.form_name;
   var form_id = req.body.form_id;
   var questions = req.body.prompts;
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role === "admin") {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
@@ -104,7 +104,7 @@ router.delete('/delete/:id', function(req, res) {
   var formID = req.params.id;
   var formActive = 'FALSE';
   console.log('form to delete is ', formID);
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() && req.user.role === "admin") {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);

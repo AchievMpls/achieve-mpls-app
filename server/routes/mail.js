@@ -24,7 +24,7 @@ router.post('/', function(req, res, next) {
         email : req.body.email,
         chance_expiration: req.body.chance_expiration
         };
-      if (req.isAuthenticated()) {
+      if (req.isAuthenticated() && req.user.role === "admin") {
         pool.connect(function(errConnectingToDb, db, done) {
          if (errConnectingToDb) {
            next(err);
