@@ -34,7 +34,7 @@ router.get('/', function(req, res) {
 
 router.get('/clearance', function(req, res) {
   // check if logged in
-  if (req.isAuthenticated() && req.user.role === "admin") {
+  if (req.isAuthenticated()) {
     // send back user object from database
     //prepare an object = { }
     res.send(req.user);
