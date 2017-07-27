@@ -8,7 +8,6 @@
 myApp.controller('AdminHomeController', ['AdminService',
   function(AdminService) {
     var home = this;
-    home.tenScale = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     var chosenYear = '';
     home.filterParams = {};
 
@@ -46,6 +45,9 @@ myApp.controller('AdminHomeController', ['AdminService',
 
     home.currentTicket = {};
 
+    /**
+     * @desc {object} that defines a blank ticket
+     */
     home.blankTicket = {
       fname: '',
       lname: '',
@@ -67,31 +69,22 @@ myApp.controller('AdminHomeController', ['AdminService',
       q5_answer: ''
     };
 
+    /**
+     * @function populateTicket
+     * @desc populates the ticket
+     * @param ticket object
+     * @return {object} that is used on the ticket popup
+     */
     home.populateTicket = function(ticket) {
       home.clearFields();
-      home.currentTicket = {
-        fname: ticket.fname,
-        lname: ticket.lname,
-        email: ticket.email,
-        session_id: ticket.session_id,
-        year: ticket.year,
-        session_count: ticket.session_count,
-        grade: ticket.grade,
-        facilitator: ticket.facilitator,
-        day: ticket.day,
-        start_time: ticket.start_time,
-        school: ticket.school,
-        event_id: ticket.event_id,
-        date_form_completed: ticket.date_form_completed,
-        q1_answer: ticket.q1_answer,
-        q2_answer: ticket.q2_answer,
-        q3_answer: ticket.q3_answer,
-        q4_answer: ticket.q4_answer,
-        q5_answer: ticket.q5_answer,
-      };
+      angular.copy(ticket, home.currentTicket);
       console.log(home.currentTicket);
     };
 
+    /**
+     * @function clearFields
+     * @desc copies a blank ticket to the current ticket
+     */
     home.clearFields = function() {
       angular.copy(home.newSession, home.currentTicket);
     };
