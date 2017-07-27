@@ -1,4 +1,3 @@
-
 /**
 * Admin Service Factory
 * @desc Manages all of the functions related to the Admin
@@ -194,6 +193,7 @@ function($http, $location, $mdDialog) {
       );
     } else {
       $http.get('/sessions/' + year).then(function(response) {
+        console.log('getYearsSessions called');
         specificYear.sessions = response.data;
 
       });
@@ -345,6 +345,7 @@ function($http, $location, $mdDialog) {
       );
     } else {
       $http.get('/tickets/' + year).then(function(response) {
+        console.log(response.data);
         specificYear.tickets = response.data;
       });
     }

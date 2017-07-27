@@ -12,7 +12,6 @@ function(AdminService){
   var chosenYear = '';
   home.filterParams = {};
   home.sessionYear = AdminService.sessionYear;
-  AdminService.getSessionYears();
 
   home.getYearsTickets = AdminService.getYearsTickets;
   home.specificYear = AdminService.specificYear;
