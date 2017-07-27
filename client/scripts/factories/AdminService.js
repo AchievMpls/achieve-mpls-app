@@ -26,6 +26,9 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      */
     var sessionYear = {};
 
+    /**
+    * @desc {object} that has the sessions and the completed exit tickets
+    */
     var specificYear = {};
     var currentSessionForEvents;
     var specificSession = {};
@@ -33,6 +36,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     getYearsSessions(moment().format('YYYY'));
     getSessionYears();
     getAllForms();
+    getAllUsers();
 
     //----------CRUD USERs ------------
     /**

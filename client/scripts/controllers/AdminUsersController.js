@@ -37,10 +37,21 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      */
     users.yearDropdown = AdminService.yearDropdown;
 
+    /**
+     * @desc {object} that has the sessions and the completed exit tickets
+     */
     users.specificYear = AdminService.specificYear;
 
+    /**
+     * @desc takes the user to a new view displaying
+     * student view landing page, or from an individual entry.
+     * @param {number} session_id the session whose events are to be returned
+     */
     users.routeToEvents = AdminService.routeToEvents;
 
+    /**
+     * @desc {object} that contains all of the users
+     */
     users.allUsers = AdminService.allUsers;
     /**
      * @desc splits array of users between years
@@ -49,6 +60,9 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      */
     users.filterUserArray = AdminService.filterUserArray;
 
+    /**
+     * @desc {array} with all of the users
+     */
     users.userArray = AdminService.userArray;
 
     /**
@@ -71,22 +85,13 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      */
     users.editingUser = false;
 
+
     /**
-     * Admin Users Controller
-     * @desc controls the Admin Users View
-     * @param AdminService
-     * @return AllUser objects
+     * @function deactivateUser
+     * @desc displays a popup when 'delete' button is clicked, then
+     * deletes specific user if popup is confirmed
+     * @param the user object to be deleted
      */
-    AdminService.getAllUsers(function(results) {
-      users.allUsers = results;
-    });
-
-    /**
-
-    * @desc displays a popup when 'delete' button is clicked, then
-    * deletes specific user if popup is confirmed
-    * @param the user object to be deleted
-    */
     users.deactivateUser = function(user) {
       console.log('here the user to deactivate', user);
       AdminService.deactivateUser(user, function(rows) {
@@ -99,7 +104,8 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      * @param {object} item - The entry to be added (specified in AdminController.)
      */
     users.sendUser = function(user) {
-      eval('var _session='+user.session);
+      //eval needs to be in here, because the user.session object is a string and needs to be changed into an object
+      eval('var _session=' + user.session);
       var userToSend = {
         id: user.id,
         fname: user.fname,
