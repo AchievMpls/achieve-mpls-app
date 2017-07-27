@@ -25,6 +25,7 @@
       </div>
     </div>
     <div layout="row" layout-align="space-between none" flex="30">
+      <div layout="column">
       <md-input-container class="md-block" flex-gt-sm>
         <label>School Year</label>
         <md-select flex="30" ng-model="users.sessionYear.currentYear"
@@ -33,7 +34,11 @@
             {{year.year}}
           </md-option>
         </md-select>
+      </div>
       </md-input-container>
+      <div layout="column">
+        <label> Search <input ng-model="search.$"></label>
+      </div>
     </div>
   <!-- end raised add user button -->
   <!-- start users table code -->
@@ -57,7 +62,8 @@
             <tr md-row md-auto-select="options.autoSelect"
               ng-repeat="user in users.userArray
               | orderBy: userArray.query.order
-              | limitTo: userArray.query.limit : (users.query.page - 1) * users.query.limit">
+              | limitTo: userArray.query.limit : (users.query.page - 1) * users.query.limit
+              | filter:search:strict">
               <td md-cell>
                 <md-button flex="45" aria-label="warn" class="md-raised md-primary admin-button" ng-click="users.activeUser(user)">
                   Register
