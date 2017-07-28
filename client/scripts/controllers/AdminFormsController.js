@@ -21,7 +21,10 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
      */
     forms.prompts = {
       form_name: '',
-      promptsArray: [{question_id: '', question: 'On a scale of 1-10 how would you rate your event today?'}],
+      promptsArray: [{
+        question_id: '',
+        question: 'On a scale of 1-10 how would you rate your event today?'
+      }],
       form_id: '',
     };
 
@@ -31,16 +34,9 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
      */
     forms.editingForm = false;
     /**
-    * @global allForms
-    */
-    forms.allForms = AdminService.allForms;
-
-    /**
-     * @desc Admin gets all the forms
-     * @param
-     * @return all forms object
+     * @global allForms
      */
-    // AdminService.getAllForms();
+    forms.allForms = AdminService.allForms;
 
     /**
      * @desc clears all ng-model fields
@@ -48,19 +44,25 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
     forms.clearFields = function() {
       forms.prompts = {
         form_name: '',
-        promptsArray: [{question_id: '', question: 'On a scale of 1-10 how would you rate your event today?'}],
+        promptsArray: [{
+          question_id: '',
+          question: 'On a scale of 1-10 how would you rate your event today?'
+        }],
         form_id: '',
       };
     };
 
     /**
-    * @function addQuestion
-    * @desc adds a question to the form
-    * @param empty question string
-    * @return pushes new question into promptsArray
-    */
-    forms.addQuestion = function () {
-      var newQuestion = {question_id: '', question: ''};
+     * @function addQuestion
+     * @desc adds a question to the form
+     * @param empty question string
+     * @return pushes new question into promptsArray
+     */
+    forms.addQuestion = function() {
+      var newQuestion = {
+        question_id: '',
+        question: ''
+      };
       forms.prompts.promptsArray.push(newQuestion);
     };
 
@@ -161,7 +163,6 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
         itemToClose.classList.add("ng-hide");
         itemToClose.setAttribute("aria-hidden", true);
         forms.clearFields();
-        console.log("onkeydown");
       }
     };
 
