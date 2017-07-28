@@ -13,25 +13,27 @@
         </md-button>
       </md-input-container>
     </div>
-    <div layout="row" layout-align="center">
+    <div layout="row" layout-align="space-between center">
+      <div layout="column">
         <md-input-container>
           <label>First Name</label>
           <textarea rows="1" cols="20" ng-model="users.user.fname">{{users.user.fname}}</textarea>
         </md-input-container>
       </div>
-      <div layout="row" layout-align="center">
+      <div layout="column">
         <md-input-container>
           <label>Last Name</label>
           <textarea rows="1" cols="20" ng-model="users.user.lname">{{users.user.lname}}</textarea>
         </md-input-container>
       </div>
-      <div layout="row" layout-align="center">
-        <md-input-container>
-          <label>E-Mail</label>
-          <textarea rows="1" cols="20" ng-model="users.user.email">{{users.user.email}}</textarea>
-        </md-input-container>
     </div>
-    <div layout="row" layout-align="space-around center">
+    <div layout="row" flex layout-align="center">
+      <md-input-container flex>
+        <label>E-Mail</label>
+        <textarea rows="1" cols="20" ng-model="users.user.email">{{users.user.email}}</textarea>
+      </md-input-container>
+    </div>
+    <div layout="row" layout-align="space-between center">
       <div layout="column">
         <md-input-container>
           <label>Role</label>
@@ -53,8 +55,10 @@
       <div layout="column">
         <md-input-container>
           <label>Session</label>
-          <md-select ng-model="users.user.session">
-            <md-option ng-repeat="session in users.sessionArray" value="{{session}}">{{session.session_count}}</md-option>
+          <md-select ng-model="users.user.session.session_count">
+            <md-option ng-repeat="session in users.sessionArray" value="{{session.session_count}}">
+              {{session.session_count}}
+            </md-option>
           </md-select>
         </md-input-container>
       </div>
@@ -64,5 +68,5 @@
         <i class="material-icons" id="addButton">done</i>
       </md-button>
     </div>
-  </div>
-  <div class="_md-panel-focus-trap" tabindex="0"></div>
+</div>
+<div class="_md-panel-focus-trap" tabindex="0"></div>

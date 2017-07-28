@@ -24,7 +24,9 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @desc {object} that contains the current year and the unique years with deactivated and all users
      * @return populated by the populateYearDropdown function and used in the Admin User View
      */
-    var sessionYear = {};
+    var sessionYear = {
+      currentYear: moment().format('YYYY')
+    };
 
     /**
     * @desc {object} that has the sessions and the completed exit tickets
@@ -33,10 +35,12 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     var currentSessionForEvents;
     var specificSession = {};
 
+    //functions to load the initial data for the application
     getYearsSessions(moment().format('YYYY'));
     getSessionYears();
     getAllForms();
     getAllUsers();
+    getYearsTickets(moment().format('YYYY'));
 
     //----------CRUD USERs ------------
     /**
@@ -64,6 +68,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       console.log('get all users called');
       $http.get('/users').then(function(response) {
         allUsers.users = response.data;
+        console.log('get all users ', response.data);
         filterUserArray(response.data, sessionYear.currentYear);
       });
     }
@@ -74,7 +79,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @return new {array} that includes
      */
     function filterUserArray(users, year) {
-      console.log('year being passed through filter is ', year);
+      console.log('year and users being passed through filter is ', year, ' ', users);
       if (userArray.length > 0) {
         userArray.length = 0;
       }
@@ -338,6 +343,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @param {number} year the year whose tickets are to be returned
      */
     function getYearsTickets(year) {
+      console.log('get tickets called');
       if (!year) {
         $mdDialog.show(
           $mdDialog.alert()

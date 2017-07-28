@@ -27,7 +27,7 @@
       <div layout="column">
         <md-input-container flex="25" class="md-block" flex-gt-sm>
           <label>School Year</label>
-          <md-select ng-model="users.sessionYear.currentYear" ng-change="users.filterUserArray(users.allUsers, users.sessionYear.currentYear); users.getYearsSessions(users.sessionYear.currentYear)">
+          <md-select ng-model="users.sessionYear.currentYear" ng-change="users.filterUserArray(users.allUsers.users, users.sessionYear.currentYear); users.getYearsSessions(users.sessionYear.currentYear)">
             <md-option ng-repeat="year in users.sessionYear.uniques" ng-value="{{year.year}}">
               {{year.year}}-{{(year.year)+1}}
             </md-option>
