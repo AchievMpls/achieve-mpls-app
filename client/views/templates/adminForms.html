@@ -1,8 +1,7 @@
-
-<div class= "main">
-<ng-include src="'./views/partials/nav.html'"></ng-include>
-<div layout="row" layout-align="space-between center" ng-keypress="forms.formHide($event)">
-  <h1>Feedback Form Templates</h1>
+<div class="main">
+  <ng-include src="'./views/partials/nav.html'"></ng-include>
+  <div layout="row" layout-align="space-between center" ng-keypress="forms.formHide($event)">
+    <h1>Feedback Form Templates</h1>
     <md-card class="card" flex="30">
       <div layout="row" layout-align="space-between center">
         <div layout="column">
@@ -13,56 +12,52 @@
           </md-card-title-text>
         </div>
         <div layout="column">
-          <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add New Form"
-            ng-click="forms.clearFields(); forms.toggleForm()">
+          <md-button class="md-fab md-primary demo-dialog-open-button" aria-label="Add New Form" ng-click="forms.clearFields(); forms.toggleForm()">
             <i class="material-icons" id="addButton">add</i>
           </md-button>
         </div>
       </div>
     </md-card>
   </div>
-<div layout="row" layout-align="center center" class="admin_table">
-  <md-card md-whiteframe="8" flex="90">
-    <md-table-container>
-      <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
-        <thead md-head md-order="forms.query.order">
-          <tr md-row>
-            <th md-column class=""><span>Delete/Edit</span></th>
-            <th md-column md-order-by="form_name" class=""><span>Form Name</span></th>
-          </tr>
-        </thead>
-        <tbody md-body>
+  <div layout="row" layout-align="center center" class="admin_table">
+    <md-card md-whiteframe="8" flex="90">
+      <md-table-container>
+        <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
+          <thead md-head md-order="forms.query.order">
+            <tr md-row>
+              <th md-column class=""><span>Delete/Edit</span></th>
+              <th md-column md-order-by="form_name" class=""><span>Form Name</span></th>
+              <th md-column md-order-by=""><span>Assign Form</span>
+            </tr>
+          </thead>
+          <tbody md-body>
 
-          <tr md-row md-auto-select="options.autoSelect"
-          ng-repeat="form in forms.allForms
+            <tr md-row md-auto-select="options.autoSelect" ng-repeat="form in forms.allForms
           | orderBy: forms.query.order
           | limitTo: forms.query.limit: (forms.query.page - 1) * forms.query.limit">
-            <td md-cell>
-              <md-button flex="10" aria-label="delete" ng-click="forms.confirmDelete(form)">
-              <i class="material-icons" >delete</i>
-                <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_clear_black_48px.svg"></md-icon> -->
-              </md-button>
-              <md-button flex="10" aria-label="edit" ng-click="forms.editForm(form); forms.toggleForm()">
-                <i class="material-icons">create</i>
-                <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_mode_edit_white_48px.svg"></md-icon> -->
-              </md-button>
-            </td>
-            <td md-cell class="">{{form.form_name}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </md-table-container>
-    <md-table-pagination md-limit="forms.query.limit"
-
-    md-page="forms.query.page"
-    md-total="{{forms.allForms.length}}"
-    md-page-select="options.pageSelect"
-    md-boundary-links="options.boundaryLinks"
-    md-on-paginate="forms.logPagination"></md-table-pagination>
-  </md-card>
-</div>
-<div id="form-container" ng-show="forms.form">
-  <div id="forms-background-darken"></div>
-  <ng-include src="'./views/partials/newFormForm.html'"></ng-include>
-</div>
+              <td md-cell>
+                <md-button flex="10" aria-label="delete" ng-click="forms.confirmDelete(form)">
+                  <i class="material-icons">delete</i>
+                  <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_clear_black_48px.svg"></md-icon> -->
+                </md-button>
+                <md-button flex="10" aria-label="edit" ng-click="forms.editForm(form); forms.toggleForm()">
+                  <i class="material-icons">create</i>
+                  <!-- <md-icon layout-fill md-svg-src="/media/icons/ic_mode_edit_white_48px.svg"></md-icon> -->
+                </md-button>
+              </td>
+              <td md-cell class="">{{form.form_name}}</td>
+              <td md-cell class="">
+                <md-button class="md-raised md-primary admin-button">Assign</md-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </md-table-container>
+      <md-table-pagination md-limit="forms.query.limit" md-page="forms.query.page" md-total="{{forms.allForms.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="forms.logPagination"></md-table-pagination>
+    </md-card>
+  </div>
+  <div id="form-container" ng-show="forms.form">
+    <div id="forms-background-darken"></div>
+    <ng-include src="'./views/partials/newFormForm.html'"></ng-include>
+  </div>
 </div>
