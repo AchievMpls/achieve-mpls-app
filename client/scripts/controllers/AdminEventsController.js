@@ -8,14 +8,42 @@
 myApp.controller('AdminEventsController', ['AdminService', '$mdDialog', '$filter',
   function(AdminService, $mdDialog, $filter) {
     var events = this;
+
+    /**
+     * @desc grabs all events from a single session, based on which session
+     * was most-recently clicked on to call the routeToEvents() function
+     * Calling this here causes there to be an error upon refresh.  Might be
+     * good to change the way this works on future iterations of the app (if there
+     * is nothing better to do)
+     */
     AdminService.getSessionsEvents();
-    events.specificSession = AdminService.specificSession;
+
+    /**
+     * @desc gets all forms from db
+     * @param nothing goes in, everything comes out
+     * @return AllForms {object} that is shown on the form dropdown on the popup
+     */
     AdminService.getAllForms();
+
+    /**
+    * @desc {object} that has the information for the particular session
+    */
+    events.specificSession = AdminService.specificSession;
+
+    /**
+     * @desc {array} that contains all of the available forms
+     */
     events.allForms = AdminService.allForms;
     console.log('the data for all of the forms is ', events.allForms);
 
+    /**
+    * @desc {boolean} if true, sends it to editing, if false, sends it to new
+    */
     events.editingEvent = false;
 
+    /**
+    * @desc blank {object} for an event
+    */
     events.event = {
       meeting_count : '',
       form : '',
