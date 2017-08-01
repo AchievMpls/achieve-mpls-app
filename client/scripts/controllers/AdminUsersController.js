@@ -74,7 +74,10 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         lname: '',
         email: '',
         role: '',
-        session: {},
+        session: {
+          session_count: '',
+          session_id: '',
+        },
         year: ''
       };
     };
@@ -99,21 +102,59 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
     };
 
     /**
+    * @function createSessionObject
+    * @desc compares the session_count with the sessionArray and creates a session {object}
+    * @param number for session_count
+    * @return {object} with session_count and session_id
+    */
+    var _session = {};
+
+    users.createSessionObject = function (session) {
+      (users.sessionArray).forEach(function (_obj){
+        if (_obj.session_count == session){
+          _session = {
+            session_count: _obj.session_count,
+            session_id: _obj.session_id
+          };
+        } else {
+          return;
+        }
+      });
+    };
+
+    /**
      * @desc routes through items.js to add a new dictionary entry.
      * @param {object} item - The entry to be added (specified in AdminController.)
      */
     users.sendUser = function(user) {
-      var userToSend = {
+      users.createSessionObject(user.session.session_count);
+      console.log('_session is ', _session);
+    var userToSend = {};
+    if (user.role === 'coach'){
+      userToSend = {
         id: user.id,
         fname: user.fname,
         lname: user.lname,
         email: user.email,
         role: user.role,
-        session_count: user.session.session_count,
-        session_id: user.session.session_id,
+        session_count: _session.session_count,
+        session_id: _session.session_id,
         year: user.year,
         password: user.password
       };
+    } else {
+      userToSend = {
+        id: user.id,
+        fname: user.fname,
+        lname: user.lname,
+        email: user.email,
+        role: user.role,
+        session_count: '',
+        session_id: '',
+        year: '',
+        password: user.password
+      };
+    }
       console.log('user to send is ', userToSend);
       if (!user.fname || !user.lname) {
         completeFields();
@@ -208,6 +249,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
 
     //the rest of this is code to get $mdPanel to work.
     this._mdPanel = $mdPanel;
+
 
     /**
      * @desc displays an item for editing
