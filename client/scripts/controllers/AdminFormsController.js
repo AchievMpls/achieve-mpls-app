@@ -39,6 +39,24 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
     forms.allForms = AdminService.allForms;
 
     /**
+     * @global formToAssign
+     * @desc stores the data for the form to assign when assign button pressed
+     */
+    forms.formToAssign = {};
+
+    /**
+     * @global gradeArray
+     * @desc array of grades that go in the assign form grade dropdown
+     */
+    forms.gradeArray = [ 9, 12 ];
+
+    /**
+     * @desc {object} that contains the current year and the unique years with deactivated and all users
+     * @return populated by the populateYearDropdown function and used in the Admin User View
+     */
+    forms.sessionYear = AdminService.sessionYear;
+
+    /**
      * @desc clears all ng-model fields
      */
     forms.clearFields = function() {
@@ -148,6 +166,45 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
       });
     };
 
+    /**
+     * @function assignThisForm
+     * @desc copies the form selected to the formToAssign object
+     */
+    forms.assignThisForm = function ( form ) {
+      angular.copy( form, forms.formToAssign );
+    };
+
+    /**
+     * @function prepareForm
+     * @desc prepares the form to send to the DB
+     * @param form {object} contains year, grade, start date, end date, form
+     * @return calls Adminservice.assignForm to add form to the DB
+     */
+    forms.prepareForm = function(form) {
+      console.log('formToAssign before the change is ', forms.formToAssign);
+      var formAssign = {
+        year: form.year,
+        event: form.event,
+        formId: forms.formToAssign.id,
+        grade: form.grade,
+        date_form_open: form.date_form_open,
+        date_form_close: form.date_form_close,
+      };
+      console.log('form to assign is ', formAssign);
+      //sending the form on it's way!
+      AdminService.assignForm(formAssign);
+      forms.clearAssign();
+    };
+
+    /**
+     * @function clearAssign
+     * @desc resets the {object} formToAssign
+     */
+    forms.clearAssign = function () {
+      var blankObj = {};
+      angular.copy( blankObj, forms.formToAssign );
+    };
+
 
     /**
      * @function On Key Press
@@ -188,6 +245,17 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
     forms.toggleForm = function() {
       var itemToOpen = document.getElementById('form-container');
       itemToOpen.classList.toggle("ng-hide");
+    };
+
+    /**
+     * @function toggleAssign
+     * @desc toggles the assign form popup
+     * @param used on the assign button
+     * @return toggles the class ng-hide on assign-container
+     */
+    forms.toggleAssign = function() {
+      var openAssign = document.getElementById('assign-container');
+      openAssign.classList.toggle("ng-hide");
     };
 
     forms.falseForm = function() {

@@ -29,8 +29,8 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     };
 
     /**
-    * @desc {object} that has the sessions and the completed exit tickets
-    */
+     * @desc {object} that has the sessions and the completed exit tickets
+     */
     var specificYear = {};
     var currentSessionForEvents;
     var specificSession = {};
@@ -164,6 +164,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
         formToSend.prompts = [];
       });
     }
+
     /**
      * @desc removes an exit-ticket form, per its ID.
      * @param {number} id - The form to be removed (specified in AdminFormsController.)
@@ -173,6 +174,19 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
         getAllForms(callback);
       });
     }
+
+    /**
+     * @function assignForm
+     * @desc assigns the form to all of the events associated with a particular grade
+     * @param {object} contains year, grade, start date, end date, form, event
+     * @return form is assigned
+     */
+    function assignForm(form) {
+      $http.post('/forms/assign/', form).then(function(response) {
+        getAllForms();
+      });
+    }
+
     //--------CRUD Sessions-----------
     /**
      * @desc selects (one of) each year for which there is currently
@@ -388,6 +402,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       addNewForm: addNewForm,
       updateForm: updateForm,
       deleteForm: deleteForm,
+      assignForm: assignForm,
       getSessionYears: getSessionYears,
       sessionYear: sessionYear,
       getYearsSessions: getYearsSessions,

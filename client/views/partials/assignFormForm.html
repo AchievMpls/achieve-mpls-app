@@ -1,0 +1,71 @@
+<div class="_md-panel-focus-trap" tabindex="0"></div>
+<div class="form-wrapper">
+  <md-card class="card-panel">
+    <div layout="row" layout-align="end center">
+      <md-card-title>
+        <md-card-title-text>
+          <ng-model="assign.form">
+            <span class="md-headline">Assign Form {{forms.formToAssign.form_name}}</span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-input-container class="close-button">
+        <md-button class="md-fab  md-primary" aria-label="Close Form" ng-click="forms.toggleAssign(); forms.clearAssign()">
+          <i class="material-icons" id="addButton">clear</i>
+        </md-button>
+      </md-input-container>
+    </div>
+    <div layout="row" layout-align="space-around center">
+      <div layout="column">
+        <md-input-container>
+          <label>Year</label>
+          <md-select ng-model="assign.year">
+            <md-option ng-repeat="year in forms.sessionYear.uniques" value={{year.year}}>
+              {{year.year}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div layout="column">
+        <md-input-container>
+          <label>Grade</label>
+          <md-select ng-model="assign.grade">
+            <md-option ng-repeat="grade in forms.gradeArray" value={{grade}}>
+              {{grade}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+    </div>
+    <div layout="row" layout-align="center">
+      <div layout="column">
+        <md-input-container>
+          <label>Open Date</label>
+          <md-datepicker ng-model="assign.date_form_open"></md-datepicker>
+        </md-input-container>
+      </div>
+      <div layout="column">
+        <md-input-container>
+          <label>Close Date</label>
+          <md-datepicker ng-model="assign.date_form_close"></md-datepicker>
+        </md-input-container>
+      </div>
+    </div>
+
+    <div layout="row" layout-align="center">
+      <div layout="column">
+        <md-input-container>
+          <label>Event Number</label>
+          <textarea rows="1" cols="20" ng-model="assign.event"></textarea>
+
+          <!-- event number input -->
+
+          <div layout="row">
+            <md-input-container>
+              <md-button class="md-fab md-primary" aria-label="Assign Form" ng-click="forms.prepareForm(assign); forms.toggleAssign()">
+                <i class="material-icons" id="addButton">done</i>
+              </md-button>
+            </md-input-container>
+          </div>
+  </md-card>
+  </div>
+  <div class="_md-panel-focus-trap" tabindex="0"></div>

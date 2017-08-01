@@ -47,7 +47,7 @@
               </td>
               <td md-cell class="">{{form.form_name}}</td>
               <td md-cell class="">
-                <md-button class="md-raised md-primary admin-button">Assign</md-button>
+                <md-button class="md-raised md-primary admin-button" ng-click="forms.toggleAssign(); forms.assignThisForm(form)">Assign</md-button>
               </td>
             </tr>
           </tbody>
@@ -59,5 +59,9 @@
   <div id="form-container" ng-show="forms.form">
     <div id="forms-background-darken"></div>
     <ng-include src="'./views/partials/newFormForm.html'"></ng-include>
+  </div>
+  <div id="assign-container" ng-show="forms.assign">
+    <div id="forms-background-darken"></div>
+    <ng-include src="'./views/partials/assignFormForm.html'" />
   </div>
 </div>

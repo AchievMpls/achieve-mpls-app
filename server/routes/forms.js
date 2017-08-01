@@ -10,7 +10,7 @@ router.get('/', function(req, res) {
       if (errorConnectingToDb) {
         res.sendStatus(501);
       } else {
-        db.query('SELECT "forms"."id","forms"."form_name", "forms"."form_active", array_to_json(array_agg(row_to_json((SELECT d FROM (SELECT "questions"."id", "questions"."question")d)))) AS "questions" FROM "questions" JOIN "forms" ON "forms"."id" = "questions"."form_id" WHERE "forms"."form_active"=$1 GROUP BY "forms"."id","forms"."form_name", "forms"."form_active" ORDER BY "id";',[formActive],
+        db.query('SELECT "forms"."id","forms"."form_name", "forms"."form_active", array_to_json(array_agg(row_to_json((SELECT d FROM (SELECT "questions"."id", "questions"."question")d)))) AS "questions" FROM "questions" JOIN "forms" ON "forms"."id" = "questions"."form_id" WHERE "forms"."form_active"=$1 GROUP BY "forms"."id","forms"."form_name", "forms"."form_active" ORDER BY "id";', [formActive],
           function(queryError, result) {
             done();
             if (queryError) {
@@ -37,8 +37,8 @@ router.post('/add', function(req, res) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
       } else {
-        db.query('INSERT INTO "forms" ("form_name", "form_active") VALUES ($1,$2);', [form_name,formActive]);
-        db.query('SELECT "id" FROM "forms" WHERE "form_name" = $1 AND "form_active" = $2;', [form_name,formActive],
+        db.query('INSERT INTO "forms" ("form_name", "form_active") VALUES ($1,$2);', [form_name, formActive]);
+        db.query('SELECT "id" FROM "forms" WHERE "form_name" = $1 AND "form_active" = $2;', [form_name, formActive],
           function(queryError, result) {
             if (queryError) {
               res.sendStatus(500);
@@ -109,7 +109,7 @@ router.delete('/delete/:id', function(req, res) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
       } else {
-        db.query('UPDATE "forms" SET "form_active" = $2 WHERE "id" = $1;', [formID,formActive],
+        db.query('UPDATE "forms" SET "form_active" = $2 WHERE "id" = $1;', [formID, formActive],
           function(queryError, result) {
             done();
             if (queryError) {
@@ -124,6 +124,44 @@ router.delete('/delete/:id', function(req, res) {
     res.sendStatus(401);
   }
 }); //end router.delete
+
+router.post('/assign', function(req, res) {
+  var assign = req.body;
+  if (req.isAuthenticated()) {
+    pool.connect(function(error, db, done) {
+      if (error) {
+        res.sendStatus(500);
+      } else {
+        //get all events associated with a particular grade - assign.grade
+        db.query('SELECT "sessions"."id" FROM "sessions" where "sessions"."year" = $1 and "sessions"."grade" = $2;', [assign.year, assign.grade],
+          function(error, result) {
+            done();
+            if (error) {
+              res.sendStatus(500);
+            } else {
+              var sessionIDArray = result.rows;
+              console.log('session id is ', sessionIDArray);
+              console.log('stuff to assign is ', assign);
+              var status;
+              //loop through all of those events and assign the form (assign.formID, assign.date_form_open, assign.date_form_closed)
+              sessionIDArray.forEach(function(session) {
+                db.query('UPDATE "events" SET "form_id" = $1, "date_form_open" = $2, "date_form_close" = $3 WHERE "session_id" = $4 and "meeting_count" = $5;', [assign.formId, assign.date_form_open, assign.date_form_close, session.id, assign.event],
+                  function(error, result) {
+                    if (error) {
+                      console.log('in error');
+                      status = 500;
+                    } else {
+                      console.log('in success');
+                      status = 201;
+                    }
+                  });
+              });
+            } // end else
+          }); //end query
+      } // end else
+    }); // end pool connect
+  } // end isAuthenticated
+}); //end function
 
 
 
