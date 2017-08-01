@@ -114,6 +114,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         year: user.year,
         password: user.password
       };
+      console.log('user to send is ', userToSend);
       if (!user.fname || !user.lname) {
         completeFields();
         return;

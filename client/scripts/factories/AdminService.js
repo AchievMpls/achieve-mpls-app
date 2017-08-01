@@ -126,30 +126,30 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
         getAllUsers();
       });
     }
-    
-  /**
-  * @desc deletes only admin users per its ID.
-  * @param {number} id - The admin user to be deleted (specified in AdminUsersController)
-  */
-  function deleteAdmin(id) {
-    // console.log("deleteAdmin in service", id);
-    $http.delete('/users/delete/' + id).then(function(response) {
-      getAllUsers();
-    });
-  }
 
-  //--------CRUD FORMs-----------
-  /**
-  * @desc gets all forms from db
-  * @param
-  * @return AllForms object
-  */
-  function getAllForms() {
-    $http.get('/forms').then(function(response){
-      allForms.length = 0;
-      response.data.forEach(function(form){
-        allForms.push(form);
->>>>>>> 8f4ba08b740cdce998caec35991a4319f067b874
+    /**
+     * @desc deletes only admin users per its ID.
+     * @param {number} id - The admin user to be deleted (specified in AdminUsersController)
+     */
+    function deleteAdmin(id) {
+      // console.log("deleteAdmin in service", id);
+      $http.delete('/users/delete/' + id).then(function(response) {
+        getAllUsers();
+      });
+    }
+
+    //--------CRUD FORMs-----------
+    /**
+     * @desc gets all forms from db
+     * @param
+     * @return AllForms object
+     */
+    function getAllForms() {
+      $http.get('/forms').then(function(response) {
+        allForms.length = 0;
+        response.data.forEach(function(form) {
+          allForms.push(form);
+        });
       });
     }
     /**
@@ -363,7 +363,6 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     }
 
 
-<<<<<<< HEAD
     /**
      * @desc selects all tickets for a single school year
      * @param {number} year the year whose tickets are to be returned
@@ -414,7 +413,6 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       addNewForm: addNewForm,
       updateForm: updateForm,
       deleteForm: deleteForm,
-      assignForm: assignForm,
       getSessionYears: getSessionYears,
       sessionYear: sessionYear,
       getYearsSessions: getYearsSessions,
@@ -424,6 +422,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       specificSession: specificSession,
       deleteSession: deleteSession,
       deleteEvent: deleteEvent,
+      deleteAdmin: deleteAdmin,
       addNewEvent: addNewEvent,
       meetingConflictPopup: meetingConflictPopup,
       updateEvent: updateEvent,
@@ -436,40 +435,4 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
     };
 
   }
-=======
-  return {
-    getAllUsers: getAllUsers,
-    allUsers: allUsers,
-    addNewUser: addNewUser,
-    updateUser: updateUser,
-    deactivateUser: deactivateUser,
-    getAllForms: getAllForms,
-    allForms: allForms,
-    addNewForm: addNewForm,
-    updateForm: updateForm,
-    deleteForm: deleteForm,
-    getSessionYears: getSessionYears,
-    sessionYear: sessionYear,
-    getYearsSessions: getYearsSessions,
-    specificYear: specificYear,
-    routeToEvents: routeToEvents,
-    getSessionsEvents: getSessionsEvents,
-    specificSession: specificSession,
-    deleteSession: deleteSession,
-    deleteEvent: deleteEvent,
-    deleteAdmin: deleteAdmin,
-    addNewEvent: addNewEvent,
-    meetingConflictPopup: meetingConflictPopup,
-    updateEvent: updateEvent,
-    sessionConflictPopup: sessionConflictPopup,
-    addNewSession: addNewSession,
-    updateSession: updateSession,
-    getYearsTickets: getYearsTickets,
-    getFilteredTickets: getFilteredTickets,
-    userArray : userArray,
-    filterUserArray : filterUserArray
-  };
-
-}
->>>>>>> 8f4ba08b740cdce998caec35991a4319f067b874
 ]);
