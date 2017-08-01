@@ -165,6 +165,23 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
       });
     };
 
+    /**
+     * @desc displays a popup when 'delete' button is clicked, then
+     * deletes specific admin if popup is confirmed
+     * @param {object} user the admin to be deleted
+     */
+    users.confirmDelete = function(user) {
+      var confirm = $mdDialog.confirm()
+        .title('Are you sure you want to delete this administrator?')
+        .textContent('This will remove the administrator forever.')
+        .ok('Yes')
+        .cancel('No');
+      $mdDialog.show(confirm).then(function() {
+        // console.log("user id and role are: ", user.id, user.role);
+        AdminService.deleteAdmin(user.id);
+      });
+    };
+
     users.roleArray = ['coach', 'admin'];
     users.sessionArray = [];
 

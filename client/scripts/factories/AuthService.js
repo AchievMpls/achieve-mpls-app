@@ -137,7 +137,7 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
               $mdDialog.alert()
               .clickOutsideToClose(true)
               .title('Login Issue!')
-              .textContent('Your email or passwork incorrect')
+              .textContent('Your email or password were incorrect')
               .ariaLabel('Alert Dialog')
               .ok('OK!')
             );

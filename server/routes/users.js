@@ -124,4 +124,30 @@ router.put('/updateUser', function(req, res) {
   }
 });//end router.put
 
+router.delete('/delete/:id', function(req, res) {
+  console.log("hit admin delete", req.params.id);
+  var userId = req.params.id;
+  if (req.isAuthenticated() && req.user.role === "admin") {
+        console.log("isAuthenticated works: ", req.user.role);
+    pool.connect(function(errorConnectingToDb, db, done) {
+      if (errorConnectingToDb) {
+        res.sendStatus(500);
+      } else {
+        console.log("pool connected!");
+        db.query('DELETE FROM "users" WHERE "id" = $1;', [userId],
+          function(queryError, result) {
+            done();
+            if (queryError) {
+              res.sendStatus(500);
+            } else {
+              res.sendStatus(200);
+            }
+          });
+      }
+    });
+  } else {
+       res.sendStatus(401);
+  }
+}); //end router.delete
+
 module.exports = router;
