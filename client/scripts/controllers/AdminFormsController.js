@@ -45,6 +45,12 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
     forms.formToAssign = {};
 
     /**
+     * @global assign
+     * @desc the form that gets submitted
+     */
+    forms.assign = {};
+
+    /**
      * @global gradeArray
      * @desc array of grades that go in the assign form grade dropdown
      */
@@ -203,6 +209,7 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
     forms.clearAssign = function () {
       var blankObj = {};
       angular.copy( blankObj, forms.formToAssign );
+      angular.copy( blankObj, forms.assign);
     };
 
 
