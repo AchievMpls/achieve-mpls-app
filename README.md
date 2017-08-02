@@ -4,10 +4,11 @@
 The Coach Experience Application for achieve mpls is a full stack application that digitizes the process of delivering, filling out, collecting, and analyzing feedback forms for the achieve mpls coaching program.  The application features an desktop oriented admin view that allows the administrator to manage users, create and assign forms, and set up the new school year.  There is also a mobile-first coach view that allows the coaches to complete forms that are assigned to them.  This application helps ease the strain on administrators for form delivery and collection, makes it more likely that the coaches will fill out and return the forms, and gives the administrators a way to interact with the completed forms.
 
 ---
+## App Setup
 
 In order to generate and send emails from within the app, the following variables will need to have replacements that are proprietary to the organization:
 
-## in mail.js
+### in mail.js
 lines 11-14:
 var transporter = nodeMailer.createTransport({
     service: 'MAILSERVICE',
@@ -25,6 +26,10 @@ var mailOptions = {
    subject: 'Welcome to Achieve Mpls!',
    text: 'Thank you for volunteering for AchieveMpls, ' + mailer.fname + '! To activate your account, please click here: ' + 'HOSTING PLATFORM'
 };
+
+### Database Setup
+
+The database information is in the database.sql file.  It will set up the necessary tables and the default form.  
 
 
 ## Demo
@@ -51,7 +56,7 @@ Express
 Grunt
 Angular
 Angular Routes
-Angular Materials
+Angular Material
 PostgresSQL
 Postico
 Heroku

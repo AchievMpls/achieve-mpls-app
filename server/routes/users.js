@@ -93,9 +93,9 @@ router.post('/postUser', function(req, res) {
 });//end router.post
 
 router.put('/updateUser', function(req, res) {
-  console.log('update user ', req.body);
   var id = req.body.id;
   var session_count = parseInt(req.body.session_count);
+  var session_id = parseInt(req.body.session_id);
   var year = parseInt(req.body.year);
   if (isNaN(session_count)) {
     session_count = null;
@@ -106,8 +106,8 @@ router.put('/updateUser', function(req, res) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
       } else {
-        db.query('UPDATE "users" SET "fname"=$1, "lname"=$2, "email"=$3, "role"=$4, "session_count"=$5, "year"=$6 WHERE "id" = $7;',
-        [body.fname, body.lname, body.email, body.role, session_count, year, id],
+        db.query('UPDATE "users" SET "fname"=$1, "lname"=$2, "email"=$3, "role"=$4, "session_id"=$5, "session_count"=$6, "year"=$7 WHERE "id" = $8;',
+        [body.fname, body.lname, body.email, body.role, session_id, session_count, year, id],
           function(queryError, result) {
             done();
             if (queryError) {

@@ -18,17 +18,15 @@ router.get('/tickets/:userSession/:userID', function(req, res) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
       } else {
-        db.query('SELECT * FROM "events" WHERE "session_id"= $1 AND "date_form_open" <= $2 AND "date_form_close" > $2 AND "events"."id" NOT IN (SELECT "event_id" FROM "form_responses" WHERE user_id = 2) ORDER BY "date_form_close" ASC LIMIT 1;', [session_id, today],
+        db.query('SELECT * FROM "events" WHERE "session_id"= $1 AND "date_form_open" <= $2 AND "date_form_close" > $2 AND "events"."id" NOT IN (SELECT "event_id" FROM "form_responses" WHERE user_id = $3) ORDER BY "date_form_close" ASC LIMIT 1;', [session_id, today, user_id],
           function(queryError, result) {
             if (queryError) {
               res.sendStatus(500);
             } else {
-              console.log('open events are ', result.rows);
               var incompleteTicketArray = result.rows;
               if (incompleteTicketArray.length === 0) {
                 res.sendStatus(200);
               } else {
-                console.log('incompleteTicketArray ', incompleteTicketArray);
                 db.query('SELECT "forms"."id","forms"."form_name", array_to_json(array_agg(row_to_json((SELECT d FROM (SELECT "questions"."id", "questions"."question")d)))) AS "questions" FROM "questions" JOIN "forms" ON "forms"."id" = "questions"."form_id" WHERE "forms"."id"=$1 GROUP BY "forms"."id","forms"."form_name" ORDER BY "id";', [incompleteTicketArray[0].form_id],
                   function(queryError, result) {
                     if (queryError) {
@@ -91,7 +89,6 @@ router.post('/completedTicket', function(req, res) {
           _query.question_id = _q.id;
           _query.question = _q.question;
           _query.answer = _q.answer;
-          console.log('_query', _query);
           db.query('INSERT INTO "form_responses" ("user_id", "event_id", "session_id", "question_id", "question", "answer", "date_form_completed", "form_id" ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8);', [_query.user_id, _query.event_id, _query.session_id, _query.question_id, _query.question, _query.answer, dateToday, _query.form_id],
             function(queryError, result) {
               done();
