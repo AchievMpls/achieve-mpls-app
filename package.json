@@ -2,7 +2,7 @@
   "name": "achieve-mpls-app",
   "version": "1.0.0",
   "engines": {
-    "node": "7.7.2"
+    "node": "8.1.4"
   },
   "description": "Exit Ticket App for Achieve Minneapolis",
   "main": "Gruntfile.js",
