@@ -60,3 +60,7 @@ CREATE TABLE "form_responses" (
   "question" varchar (500),
   "answer" varchar (500)
 );
+
+INSERT into "forms" ("form_name", "form_active") VALUES ('default', 'true');
+
+INSERT into "questions" ("form_id", "form_name", "question") VALUES ('1', 'default', 'On a scale of 1-10 how would you rate your event today?'); 
