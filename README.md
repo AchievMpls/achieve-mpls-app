@@ -59,6 +59,11 @@ Heroku
 
 ## Version:
 1.0.0
+1.1.0
+  * ability to work with multiple years added
+  * search function on home page and users page added
+  * ability to assign forms to events from the ticket template view added
+  * made the amount of questions per form variable instead of fixed
 
 ## Authors:
 Kevin Dahlberg, Emily Hoang, Teigen Leonard and Y Paul Sussman
