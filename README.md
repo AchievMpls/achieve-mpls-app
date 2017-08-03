@@ -69,6 +69,8 @@ Heroku
   * search function on home page and users page added
   * ability to assign forms to events from the ticket template view added
   * made the amount of questions per form variable instead of fixed
+1.1.1
+  * fixed add admin and update admin bug
 
 ## Authors:
 Kevin Dahlberg, Emily Hoang, Teigen Leonard and Y Paul Sussman
