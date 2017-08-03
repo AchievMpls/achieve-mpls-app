@@ -78,7 +78,8 @@ router.post('/postUser', function(req, res) {
       res.sendStatus(500);
     } else {
       if (role === 'admin') {
-        db.query('INSERT INTO users (fname, lname, email, password, role) VALUES ($1, $2, $3, $4, $5)', [req.body.fname, req.body.lname, req.body.email, req.body.role, req.body.password],
+        console.log('admin');
+        db.query('INSERT INTO users (fname, lname, email, role, password) VALUES ($1, $2, $3, $4, $5);', [req.body.fname, req.body.lname, req.body.email, req.body.role, req.body.password],
           function(error, result) {
             done();
             if (error) {
@@ -88,7 +89,7 @@ router.post('/postUser', function(req, res) {
             }
           });
       } else {
-        console.log('request is ', req.body.fname, req.body.lname, req.body.email, req.body.role, req.body.password, session_count, year, session_id);
+        console.log('coach request is ', req.body.fname, req.body.lname, req.body.email, req.body.role, req.body.password, session_count, year, session_id);
         db.query('INSERT INTO "users" ("fname", "lname", "email", "role", "password", "session_count", "year", "session_id") VALUES ($1,$2,$3,$4,$5,$6,$7,$8);', [req.body.fname, req.body.lname, req.body.email, req.body.role, req.body.password, session_count, year, session_id],
           function(queryError, result) {
             done();
