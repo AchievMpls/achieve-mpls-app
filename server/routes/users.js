@@ -4,18 +4,18 @@ var pg = require('pg');
 var pool = require('../modules/db');
 
 /**
-* @desc router get request the list of coach only
-* @param
-* @return the results
-*/
+ * @desc router get request the list of coach only
+ * @param
+ * @return the results
+ */
 
 router.get('/', function(req, res) {
-if (req.isAuthenticated()) {
-      pool.connect(function(errorConnectingToDb, db, done) {
-        if (errorConnectingToDb) {
-          res.sendStatus(500);
-        } else {
-          db.query('SELECT * from "users" ORDER BY "fname" ASC ;',
+  if (req.isAuthenticated()) {
+    pool.connect(function(errorConnectingToDb, db, done) {
+      if (errorConnectingToDb) {
+        res.sendStatus(500);
+      } else {
+        db.query('SELECT * from "users" ORDER BY "fname" ASC ;',
           function(queryError, result) {
             done();
             if (queryError) {
@@ -24,16 +24,16 @@ if (req.isAuthenticated()) {
               res.send(result.rows);
             }
           });
-        }
-      });
-    } else {
-         res.sendStatus(401);
-    }
-});//end router.get
+      }
+    });
+  } else {
+    res.sendStatus(401);
+  }
+}); //end router.get
 
 router.get('/clearance', function(req, res) {
   // check if logged in
-  if(req.isAuthenticated()) {
+  if (req.isAuthenticated()) {
     // send back user object from database
     //prepare an object = { }
     res.send(req.user);
@@ -51,8 +51,7 @@ router.put('/deactivateUser', function(req, res) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
       } else {
-        db.query('UPDATE "users" SET "session_count"=$1 WHERE "id" = $2;',
-        [null, id],
+        db.query('UPDATE "users" SET "session_count"=$1 WHERE "id" = $2;', [null, id],
           function(queryError, result) {
             done();
             if (queryError) {
@@ -64,33 +63,46 @@ router.put('/deactivateUser', function(req, res) {
       }
     });
   } else {
-  res.sendStatus(401);
+    res.sendStatus(401);
   }
-});//end router.put
+}); //end router.put
 
 router.post('/postUser', function(req, res) {
   console.log('postUser', req.body);
   var session_count = parseInt(req.body.session_count);
   var session_id = parseInt(req.body.session_id);
   var year = parseInt(req.body.year);
+  var role = req.body.role;
   pool.connect(function(errorConnectingToDb, db, done) {
     if (errorConnectingToDb) {
       res.sendStatus(500);
     } else {
-      console.log('request is ', req.body.fname, req.body.lname, req.body.email, req.body.role, req.body.password, session_count, year, session_id);
-      db.query('INSERT INTO "users" ("fname", "lname", "email", "role", "password", "session_count", "year", "session_id") VALUES ($1,$2,$3,$4,$5,$6,$7,$8);',
-      [req.body.fname, req.body.lname, req.body.email, req.body.role, req.body.password, session_count, year, session_id],
-      function(queryError, result) {
-        done();
-        if (queryError) {
-          res.sendStatus(500);
-        } else {
-          res.sendStatus(201);
-        }
-      });
+      if (role === 'admin') {
+        console.log('admin');
+        db.query('INSERT INTO users (fname, lname, email, role, password) VALUES ($1, $2, $3, $4, $5);', [req.body.fname, req.body.lname, req.body.email, req.body.role, req.body.password],
+          function(error, result) {
+            done();
+            if (error) {
+              res.sendStatus(500);
+            } else {
+              res.sendStatus(201);
+            }
+          });
+      } else {
+        console.log('coach request is ', req.body.fname, req.body.lname, req.body.email, req.body.role, req.body.password, session_count, year, session_id);
+        db.query('INSERT INTO "users" ("fname", "lname", "email", "role", "password", "session_count", "year", "session_id") VALUES ($1,$2,$3,$4,$5,$6,$7,$8);', [req.body.fname, req.body.lname, req.body.email, req.body.role, req.body.password, session_count, year, session_id],
+          function(queryError, result) {
+            done();
+            if (queryError) {
+              res.sendStatus(500);
+            } else {
+              res.sendStatus(201);
+            }
+          });
+      }
     }
   });
-});//end router.post
+}); //end router.post
 
 router.put('/updateUser', function(req, res) {
   var id = req.body.id;
@@ -121,13 +133,13 @@ router.put('/updateUser', function(req, res) {
   } else {
     res.sendStatus(401);
   }
-});//end router.put
+}); //end router.put
 
 router.delete('/delete/:id', function(req, res) {
   console.log("hit admin delete", req.params.id);
   var userId = req.params.id;
   if (req.isAuthenticated() && req.user.role === "admin") {
-        console.log("isAuthenticated works: ", req.user.role);
+    console.log("isAuthenticated works: ", req.user.role);
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
@@ -145,7 +157,7 @@ router.delete('/delete/:id', function(req, res) {
       }
     });
   } else {
-       res.sendStatus(401);
+    res.sendStatus(401);
   }
 }); //end router.delete
 

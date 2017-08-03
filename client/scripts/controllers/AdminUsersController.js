@@ -131,6 +131,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
       console.log('_session is ', _session);
     var userToSend = {};
     if (user.role === 'coach'){
+      console.log('user is a coach');
       userToSend = {
         id: user.id,
         fname: user.fname,
@@ -142,7 +143,8 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         year: user.year,
         password: user.password
       };
-    } else {
+    } else if (user.role === 'admin'){
+      console.log('user is an admin');
       userToSend = {
         id: user.id,
         fname: user.fname,

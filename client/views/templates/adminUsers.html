@@ -68,6 +68,9 @@
                   <md-button ng-show="user.session_count" flex="45" aria-label="delete" class="md-raised admin-button" ng-click="users.deactivateUser(user)">
                     Deactivate
                   </md-button>
+                  <md-button ng-show="user.role==='admin'" flex="45" aria-label="delete" class="md-raised admin-button md-warn" ng-click="users.confirmDelete(user)">
+                    Delete
+                  </md-button>
                 </td>
                 <td md-cell>
                   <md-button flex="45" aria-label="edit" class="md-icon-button" ng-click="users.editUser(user); users.toggleForm(); users.populateSessionArray()">
