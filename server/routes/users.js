@@ -118,16 +118,29 @@ router.put('/updateUser', function(req, res) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
       } else {
-        db.query('UPDATE "users" SET "fname"=$1, "lname"=$2, "email"=$3, "role"=$4, "session_id"=$5, "session_count"=$6, "year"=$7 WHERE "id" = $8;',
-        [body.fname, body.lname, body.email, body.role, session_id, session_count, year, id],
-          function(queryError, result) {
-            done();
-            if (queryError) {
-              res.sendStatus(500);
-            } else {
+        if (req.body.role === 'admin') {
+          session_count = null;
+          session_id = null;
+          year = null;
+          db.query('UPDATE "users" SET "fname"=$1, "lname"=$2, "email"=$3, "role"=$4, "session_id"=$5, "session_count"=$6, "year"=$7 WHERE "id" = $8;', [body.fname, body.lname, body.email, body.role, session_id, session_count, year, id],
+            function(error, result) {
+              if (error) {
+                res.sendStatus(500);
+              } else {
               res.sendStatus(201);
-            }
-          });
+              }
+            });
+        } else {
+          db.query('UPDATE "users" SET "fname"=$1, "lname"=$2, "email"=$3, "role"=$4, "session_id"=$5, "session_count"=$6, "year"=$7 WHERE "id" = $8;', [body.fname, body.lname, body.email, body.role, session_id, session_count, year, id],
+            function(queryError, result) {
+              done();
+              if (queryError) {
+                res.sendStatus(500);
+              } else {
+                res.sendStatus(201);
+              }
+            });
+        }
       }
     });
   } else {
