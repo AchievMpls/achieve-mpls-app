@@ -98,11 +98,12 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @desc adds new users to db
      * @param userToSend object to user data
      */
-    function addNewUser(userToSend) {
+    function addNewUser(userToSend, callback) {
       console.log("addNewUser function: ", userToSend);
+      console.log("callback in addnewUser=", callback);
       userToSend.password = generateId(10);
       $http.post('/users/postUser', userToSend).then(function(response) {
-        getAllUsers();
+        getAllUsers(callback);
       });
     }
     /**
@@ -412,7 +413,6 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       addNewForm: addNewForm,
       updateForm: updateForm,
       deleteForm: deleteForm,
-      assignForm: assignForm,
       getSessionYears: getSessionYears,
       sessionYear: sessionYear,
       getYearsSessions: getYearsSessions,
