@@ -143,6 +143,10 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
       templateUrl: 'views/register.html',
       controller: 'UserAuthController as admin',
     })
+    .when('/forgotpw', {
+      templateUrl: '/views/forgotPassword.html',
+      controller: 'ForgotPasswordController as pw',
+    })
     .when('/home', {
       templateUrl: '/views/templates/adminHome.html',
       controller: 'AdminHomeController as home',
@@ -200,10 +204,6 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
     .when('/logout', {
       controller: 'UserAuthController as user',
       template: '<h1 ng-init="user.logout()">logout</h1>',
-    })
-    .when('/forgotpw', {
-      templateUrl: '/views/login.html',
-      controller: 'ForgotPasswordController as pw'
     })
     .otherwise({
       redirectTo: 'login'

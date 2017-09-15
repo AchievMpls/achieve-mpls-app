@@ -5,10 +5,10 @@
  * @return
  */
 
-myApp.controller('ForgotPasswordController', ['AdminService', 'AuthService', '$mdDialog',
-  function(AdminService, AuthService, $mdDialog) {
-    console.log('Admin Users sourced: ');
-    var pw = this;
+ myApp.controller('ForgotPasswordController', ['AdminService', 'AuthService', '$mdDialog',
+   function(AdminService, AuthService, $mdDialog, $mdPanel) {
+     var pw = this;
 
-  }
-]);
+
+   }
+ ]);
