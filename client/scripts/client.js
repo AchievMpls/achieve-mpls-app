@@ -201,6 +201,10 @@ function($routeProvider, $locationProvider, $mdThemingProvider) {
       controller: 'UserAuthController as user',
       template: '<h1 ng-init="user.logout()">logout</h1>',
     })
+    .when('/forgotpw', {
+      templateUrl: '/views/login.html',
+      controller: 'ForgotPasswordController as pw'
+    })
     .otherwise({
       redirectTo: 'login'
     });
