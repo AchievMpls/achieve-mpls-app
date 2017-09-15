@@ -165,6 +165,16 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
       });
     }
 
+    /**
+     * @function forgot pw
+     * @desc emails user the new password link
+     * @param email
+     * @return pw email sent
+     */
+    function forgotPW(email) {
+      $http.
+    }
+
     return {
       sendActivation: sendActivation,
       clearance: clearance,
