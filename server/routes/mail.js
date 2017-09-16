@@ -84,7 +84,19 @@ router.post('/forgotpw', function(req, res, next) {
         })
       }
     }
-  })
-})
+  });
+  var mailOptions = {
+    from: '"Achieve Mpls" gradcoaches@gmail.com',
+    to: mailer.email,
+    subject: 'Achieve Mpls Password Reset',
+    text: 'Thank you for volunteering for AchieveMpls, ' + mailer.fname + '! To activate your account, please click here: ' + 'http://localhost:5000/#/createPassword/' + user.code + ' Thank you and we look forward to working with you.'
+  };
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      res.sendStatus(500);
+    }
+  });
+  res.send(200);
+});
 
 module.exports = router;
