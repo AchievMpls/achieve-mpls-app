@@ -57,15 +57,15 @@ router.post('/', function(req, res, next) {
 
 router.post('/forgotpw', function(req, res, next) {
   var email = req.body.email
-  var dbEmail;
+  var user;
   db.query('SELECT * from "users" WHERE "email" = $1;', [email],
   function(error, result) {
     done();
     if (error) {
       res.sendStatus(500);
     } else {
-      dbEmail = result;
-      if (email === dbEmail) {
+      user = result;
+      if (email === user.email) {
         var newPW = {
           // generate a random string and store in database for user with e-mail & id
           code: chance.string({length: 15, pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'}),
@@ -87,9 +87,9 @@ router.post('/forgotpw', function(req, res, next) {
   });
   var mailOptions = {
     from: '"Achieve Mpls" gradcoaches@gmail.com',
-    to: mailer.email,
+    to: email,
     subject: 'Achieve Mpls Password Reset',
-    text: 'Thank you for volunteering for AchieveMpls, ' + mailer.fname + '! To activate your account, please click here: ' + 'http://localhost:5000/#/createPassword/' + user.code + ' Thank you and we look forward to working with you.'
+    text: 'Hi ' + user.fname + '. You have recently requested a password reset for your account with Achieve Mpls. To reset your password, please click here: ' + 'http://localhost:5000/#/createPassword/' + newPW.code + ' Thank you, and have a great day!'
   };
   transporter.sendMail(mailOptions, function(error, info) {
     if (error) {
