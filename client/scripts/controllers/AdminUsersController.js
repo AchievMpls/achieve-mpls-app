@@ -128,14 +128,15 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
      */
     users.sendUser = function(user) {
       users.createSessionObject(user.session.session_count);
-      console.log('_session is ', _session);
+      // console.log('_session is ', _session);
+    var lowercaseEmail = user.email.toLowerCase();
     var userToSend = {};
     if (user.role === 'coach'){
       userToSend = {
         id: user.id,
         fname: user.fname,
         lname: user.lname,
-        email: user.email,
+        email: lowercaseEmail,
         role: user.role,
         session_count: _session.session_count,
         session_id: _session.session_id,
@@ -147,7 +148,7 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         id: user.id,
         fname: user.fname,
         lname: user.lname,
-        email: user.email,
+        email: lowercaseEmail,
         role: user.role,
         session_count: '',
         session_id: '',

@@ -28,7 +28,13 @@ myApp.controller('UserAuthController', ['AuthService', '$mdDialog', '$routeParam
           .ok('OK')
         );
       } else {
-        AuthService.loginUser(user);
+        var lowercaseEmail = user.email.toLowerCase();
+        var userToSend = {
+          email: lowercaseEmail,
+          password: user.password
+        }
+        console.log(userToSend);
+        AuthService.loginUser(userToSend);
       }
     };
 

@@ -66,7 +66,11 @@ Heroku
   * made the amount of questions per form variable instead of fixed
 1.1.1
   * fixed bug that prevented adding a new admin
-  
+1.1.2
+  * Added forgot PW functionality
+  * user login is no longer case sensitive
+
+
 
 ## Authors:
 Kevin Dahlberg, Emily Hoang, Teigen Leonard and Y Paul Sussman
