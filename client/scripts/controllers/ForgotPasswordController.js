@@ -5,8 +5,8 @@
  * @return
  */
 
- myApp.controller('ForgotPasswordController', ['AdminService', 'AuthService', '$mdDialog',
-   function(AdminService, AuthService, $mdDialog, $mdPanel) {
+ myApp.controller('ForgotPasswordController', ['AuthService', '$mdDialog',
+   function(AuthService, $mdDialog, $mdPanel) {
      var pw = this;
 
      /**
@@ -16,6 +16,7 @@
       * @return user pw reset, email sent to user with reset pw link
       */
      pw.forgotpw = function(email) {
+          AuthService.forgotPW(email);
          $mdDialog.show(
            $mdDialog.alert()
            .clickOutsideToClose(true)
@@ -24,7 +25,6 @@
            .ariaLabel('Alert Dialog')
            .ok('OK')
          );
-         AuthService.forgotPW(email);
        };
    }
  ]);

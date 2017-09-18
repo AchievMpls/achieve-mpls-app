@@ -164,9 +164,9 @@ myApp.factory('AuthService', [
         email: email,
         chance_expiration: chance_expiration
       }
-      console.log('email is ', email);
+      // console.log('email is ', email);
       $http.post('/mail/forgotpw', emailToSend).then(function(response) {
-        console.log(response);
+        $location.path('/login')
       });
     }
 
