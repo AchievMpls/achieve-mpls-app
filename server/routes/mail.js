@@ -56,47 +56,50 @@ router.post('/', function(req, res, next) {
 });
 
 router.post('/forgotpw', function(req, res, next) {
-  var email = req.body.email
+  // console.log('request is ', req.body);
+  var email = req.body.email;
+  var chanceExpiration = req.body.chance_expiration;
   var user;
-  db.query('SELECT * from "users" WHERE "email" = $1;', [email],
-  function(error, result) {
-    done();
-    if (error) {
-      res.sendStatus(500);
-    } else {
-      user = result;
-      if (email === user.email) {
-        var newPW = {
-          // generate a random string and store in database for user with e-mail & id
-          code: chance.string({length: 15, pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'}),
-          email: email,
-          chance_expiration: req.body.chance_expiration
-        };
-        db.query('UPDATE "users" SET "chance_token" = ($1), "chance_expiration" = ($2) WHERE "email" = ($3);', [
-          newPW.code, newPW.chance_expiration, newPW.email
-        ], function(queryError, result) {
-          done();
-          if(querryError) {
-            result.sendStatus(500);
-          } else {
-            result.sendStatus(200);
-          }
-        })
+  pool.connect(function(errConnectingToDb, db, done) {
+    if (errConnectingToDb) {
+      next(err);
+    }
+    db.query('SELECT * from "users" WHERE "email" = $1;', [email], function(error, result) {
+      done();
+      if (error) {
+        res.sendStatus(500);
+      } else {
+        // console.log('after first db call ', result.rows[0]);
+        user = result.rows[0];
+        if (email === user.email) {
+          var newPW = {
+            // generate a random string and store in database for user with e-mail & id
+            code: chance.string({length: 15, pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'}),
+            email: email,
+            chance_expiration: chanceExpiration
+          };
+          db.query('UPDATE "users" SET "chance_token" = ($1), "chance_expiration" = ($2) WHERE "email" = ($3);', [
+            newPW.code, newPW.chance_expiration, newPW.email
+          ], function(queryError, result) {
+            done();
+            if (queryError) {
+              res.sendStatus(500);
+            } else {
+              var mailOptions = {
+                from: '"Achieve Mpls" gradcoaches@gmail.com',
+                to: email,
+                subject: 'Achieve Mpls Password Reset',
+                text: 'Hi ' + user.fname + '. You have recently requested a password reset for your account with Achieve Mpls. To reset your password, please click here: ' + 'http://localhost:5000/#/createPassword/' + newPW.code + ' Thank you, and have a great day!'
+              };
+              transporter.sendMail(mailOptions, function(error, info) {
+                res.sendStatus(200);
+              })
+            }
+          })
+        }
       }
-    }
+    });
   });
-  var mailOptions = {
-    from: '"Achieve Mpls" gradcoaches@gmail.com',
-    to: email,
-    subject: 'Achieve Mpls Password Reset',
-    text: 'Hi ' + user.fname + '. You have recently requested a password reset for your account with Achieve Mpls. To reset your password, please click here: ' + 'http://localhost:5000/#/createPassword/' + newPW.code + ' Thank you, and have a great day!'
-  };
-  transporter.sendMail(mailOptions, function(error, info) {
-    if (error) {
-      res.sendStatus(500);
-    }
-  });
-  res.send(200);
 });
 
 module.exports = router;

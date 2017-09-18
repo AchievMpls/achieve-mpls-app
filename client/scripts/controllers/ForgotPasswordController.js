@@ -24,7 +24,7 @@
            .ariaLabel('Alert Dialog')
            .ok('OK')
          );
-         AuthService.resetpw(email);
+         AuthService.forgotPW(email);
        };
    }
  ]);

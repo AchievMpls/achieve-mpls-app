@@ -5,7 +5,12 @@
  * @return the user is logged in
  */
 
-myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService', '$filter',
+myApp.factory('AuthService', [
+  '$http',
+  '$location',
+  '$mdDialog',
+  'CoachService',
+  '$filter',
   function($http, $location, $mdDialog, CoachService, $filter) {
 
     var auth = this;
@@ -25,8 +30,7 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
       var chance_expiration = new Date();
       chance_expiration.setDate(chance_expiration.getDate() + 30);
       userObject.chance_expiration = $filter('date')((chance_expiration), "yyyy-MM-dd");
-      $http.post('/mail', userObject).then(function(response) {
-      });
+      $http.post('/mail', userObject).then(function(response) {});
     }
     /**
      * clearance function
@@ -82,28 +86,16 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
       $http.post('/register/addPwd', user).then(function(response) {
         $location.path('/login');
         console.log('add pwd user', user);
-        $http({
-            method: 'GET',
-            url: '/register',
-            params: user
-          })
-          .then(function(response) {
-            if (response.data.length !== 0) {
-              user.userId = response.data[0].id;
-              $http.post('/register/addPwd', user).then(function(response) {
-                $location.path('/coach');
-              });
-            } else {
-              $mdDialog.show(
-                $mdDialog.alert()
-                .clickOutsideToClose(true)
-                .title('The active code is expired!')
-                .textContent('Please contact the AchieveMpls Admin.')
-                .ariaLabel('Alert Dialog')
-                .ok('OK!')
-              );
-            }
-          });
+        $http({method: 'GET', url: '/register', params: user}).then(function(response) {
+          if (response.data.length !== 0) {
+            user.userId = response.data[0].id;
+            $http.post('/register/addPwd', user).then(function(response) {
+              $location.path('/coach');
+            });
+          } else {
+            $mdDialog.show($mdDialog.alert().clickOutsideToClose(true).title('The active code is expired!').textContent('Please contact the AchieveMpls Admin.').ariaLabel('Alert Dialog').ok('OK!'));
+          }
+        });
       });
     }
     /**
@@ -133,17 +125,9 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
             };
             $location.path("/coach");
           } else {
-            $mdDialog.show(
-              $mdDialog.alert()
-              .clickOutsideToClose(true)
-              .title('Login Issue!')
-              .textContent('Your email or password were incorrect')
-              .ariaLabel('Alert Dialog')
-              .ok('OK!')
-            );
+            $mdDialog.show($mdDialog.alert().clickOutsideToClose(true).title('Login Issue!').textContent('Your email or password were incorrect').ariaLabel('Alert Dialog').ok('OK!'));
             $location.path("/login");
           }
-
 
         } else {
           console.log('failure: ', response);
@@ -172,7 +156,18 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
      * @return pw email sent
      */
     function forgotPW(email) {
-      $http.
+      //set the expiration date for the chance
+      var chance_expiration = new Date();
+      chance_expiration.setDate(chance_expiration.getDate() + 30);
+      userObject.chance_expiration = $filter('date')((chance_expiration), "yyyy-MM-dd");
+      var emailToSend = {
+        email: email,
+        chance_expiration: chance_expiration
+      }
+      console.log('email is ', email);
+      $http.post('/mail/forgotpw', emailToSend).then(function(response) {
+        console.log(response);
+      });
     }
 
     return {
@@ -182,7 +177,8 @@ myApp.factory('AuthService', ['$http', '$location', '$mdDialog', 'CoachService',
       loginUser: loginUser,
       registerAdmin: registerAdmin,
       addUserPwd: addUserPwd,
-      coach: coach
+      coach: coach,
+      forgotPW: forgotPW
     };
 
   }
