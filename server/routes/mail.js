@@ -35,24 +35,26 @@ router.post('/', function(req, res, next) {
         done();
         if (queryError) {
           res.sendStatus(500);
-        } else {}
+        } else {
+          var mailOptions = {
+            from: '"Achieve Mpls" gradcoaches@gmail.com',
+            to: mailer.email,
+            subject: 'Welcome to Achieve Mpls!',
+            text: 'Thank you for volunteering for AchieveMpls, ' + mailer.fname + '! To activate your account, please click here: ' + 'http://localhost:5000/#/createPassword/' + user.code + ' Thank you and we look forward to working with you.'
+          };
+          transporter.sendMail(mailOptions, function(error, info) {
+            if (error) {
+              res.sendStatus(500);
+            } else {
+              res.sendStatus(200);
+            }
+          }
+        });
       });
-    });
-  } else {
-    res.sendStatus(401);
-  }
-  var mailOptions = {
-    from: '"Achieve Mpls" gradcoaches@gmail.com',
-    to: mailer.email,
-    subject: 'Welcome to Achieve Mpls!',
-    text: 'Thank you for volunteering for AchieveMpls, ' + mailer.fname + '! To activate your account, please click here: ' + 'http://localhost:5000/#/createPassword/' + user.code + ' Thank you and we look forward to working with you.'
-  };
-  transporter.sendMail(mailOptions, function(error, info) {
-    if (error) {
-      res.sendStatus(500);
+    } else {
+      res.sendStatus(401);
     }
   });
-  res.send(200);
 });
 
 router.post('/forgotpw', function(req, res, next) {
