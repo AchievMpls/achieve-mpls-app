@@ -48,8 +48,8 @@ router.post('/', function(req, res, next) {
             } else {
               res.sendStatus(200);
             }
-          }
-        });
+          });
+        }
       });
     } else {
       res.sendStatus(401);
