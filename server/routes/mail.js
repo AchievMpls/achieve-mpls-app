@@ -5,14 +5,12 @@ var pg = require('pg');
 var Chance = require('chance');
 var chance = new Chance();
 var pool = require('../modules/db');
+var mailCredentials = require('../modules/mailCredentials')
 
 var transporter = nodeMailer.createTransport({
   //@TODO dummy e-mail for development purposes, should be replaced with new email and variables going live
-  service: 'gmail',
-  auth: {
-    user: 'gradcoaches@gmail.com',
-    pass: '@chievempls'
-  }
+  service: mailCredentials.service,
+  auth: mailCredentials.auth
 });
 
 router.post('/', function(req, res, next) {
