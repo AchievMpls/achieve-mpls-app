@@ -143,14 +143,33 @@ router.post('/assign', function(req, res) {
               var status;
               //loop through all of those events and assign the form (assign.formID, assign.date_form_open, assign.date_form_closed)
               sessionIDArray.forEach(function(session) {
-                db.query('UPDATE "events" SET "form_id" = $1, "date_form_open" = $2, "date_form_close" = $3 WHERE "session_id" = $4 and "meeting_count" = $5;', [assign.formId, assign.date_form_open, assign.date_form_close, session.id, assign.event],
-                  function(error, result) {
+                db.query('SELECT "events"."id" from "events" where "events"."session_id" = $1 and "events"."meeting_count" = $2;', [session.id, assign.event],
+                  function (error, result){
+                    console.log('result ', result.rows, ' session id, ', session.id, ' assign.event, ', assign.event );
                     if (error) {
-                      console.log('in error');
                       status = 500;
                     } else {
-                      console.log('in success');
-                      status = 201;
+                      if (result.rows.length>0) {
+                      db.query('UPDATE "events" SET "form_id" = $1, "date_form_open" = $2, "date_form_close" = $3 WHERE "session_id" = $4 and "meeting_count" = $5;', [assign.formId, assign.date_form_open, assign.date_form_close, session.id, assign.event],
+                        function(error, result) {
+                          if (error) {
+                            console.log('in error');
+                            status = 500;
+                          } else {
+                            console.log('in success');
+                            status = 201;
+                          }
+                        });
+                      } else {
+                        db.query('INSERT into "events" ("form_id", "date_form_open", "date_form_close", "session_id", "meeting_count") VALUES ($1, $2, $3, $4, $5);', [assign.formId, assign.date_form_open, assign.date_form_close, session.id, assign.event],
+                          function(error, result) {
+                            if(error) {
+                              status = 500;
+                            } else {
+                              status = 201;
+                            }
+                          });
+                      }
                     }
                   });
               });
