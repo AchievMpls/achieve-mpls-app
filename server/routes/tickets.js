@@ -17,7 +17,6 @@ router.get('/:year', function(req, res) {
             if (queryError) {
               res.sendStatus(500);
             } else {
-              console.log('result of the crazy query is ', result.rows);
               res.send(result.rows);
             }
           });

@@ -78,7 +78,6 @@ router.post('/postUser', function(req, res) {
       res.sendStatus(500);
     } else {
       if (req.body.role === 'coach') {
-        console.log('request is ', req.body.fname, req.body.lname, req.body.email, req.body.role, req.body.password, session_count, year, session_id);
         db.query('INSERT INTO "users" ("fname", "lname", "email", "role", "password", "session_count", "year", "session_id") VALUES ($1,$2,$3,$4,$5,$6,$7,$8);',
         [req.body.fname, req.body.lname, req.body.email, req.body.role, req.body.password, session_count, year, session_id],
         function(queryError, result) {
@@ -140,12 +139,10 @@ router.delete('/delete/:id', function(req, res) {
   console.log("hit admin delete", req.params.id);
   var userId = req.params.id;
   if (req.isAuthenticated() && req.user.role === "admin") {
-        console.log("isAuthenticated works: ", req.user.role);
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
       } else {
-        console.log("pool connected!");
         db.query('DELETE FROM "users" WHERE "id" = $1;', [userId],
           function(queryError, result) {
             done();

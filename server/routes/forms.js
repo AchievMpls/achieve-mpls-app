@@ -140,8 +140,6 @@ router.post('/assign', function(req, res) {
               res.sendStatus(500);
             } else {
               var sessionIDArray = result.rows;
-              console.log('session id is ', sessionIDArray);
-              console.log('stuff to assign is ', assign);
               var status;
               //loop through all of those events and assign the form (assign.formID, assign.date_form_open, assign.date_form_closed)
               sessionIDArray.forEach(function(session) {
