@@ -69,7 +69,10 @@ Heroku
 1.1.2
   * Added forgot PW functionality
   * user login is no longer case sensitive
-
+1.1.3
+  * fixed bug on assign ticket to event
+  * added register all coaches feature
+  * changed register to reset pw on the manage users screen
 
 
 ## Authors:

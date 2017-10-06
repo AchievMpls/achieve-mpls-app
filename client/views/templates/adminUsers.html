@@ -21,6 +21,9 @@
             </div>
           </div>
         </md-card>
+        <md-button class="md-raised admin-button" ng-click="users.registerAllCoaches(users.sessionYear.currentYear)">
+          Register All Coaches
+        </md-button>
       </div>
     </div>
     <div layout="row" layout-align="space-between center">
@@ -63,7 +66,7 @@
               | filter:search:strict">
                 <td md-cell>
                   <md-button flex="45" aria-label="warn" class="md-raised md-primary admin-button" ng-click="users.activeUser(user)">
-                    Register
+                    Reset PW
                   </md-button>
                   <md-button ng-show="user.session_count" flex="45" aria-label="delete" class="md-raised admin-button" ng-click="users.deactivateUser(user)">
                     Deactivate

@@ -32,6 +32,25 @@ myApp.factory('AuthService', [
       userObject.chance_expiration = $filter('date')((chance_expiration), "yyyy-MM-dd");
       $http.post('/mail', userObject).then(function(response) {});
     }
+
+    /**
+     * @function registerAllCoaches
+     * @desc Sends registration email to all coaches
+     * @param year, chanceExp
+     * @return sends email to all coaches with new pw link
+     */
+    function registerAllCoaches(year) {
+      console.log('register fired!');
+      var chanceExp = new Date();
+      chanceExp.setDate(chanceExp.getDate() + 30);
+      objectToSend = {
+        chanceExp: $filter('date')((chanceExp), "yyyy-MM-dd"),
+        year: year
+      }
+      $http.post('/mail/registerAll', objectToSend).then(function(response) {
+        console.log('it worked!');
+      });
+    }
     /**
      * clearance function
      * @desc function to run server GET request for client side user validation
@@ -172,6 +191,7 @@ myApp.factory('AuthService', [
 
     return {
       sendActivation: sendActivation,
+      registerAllCoaches: registerAllCoaches,
       clearance: clearance,
       coachClearance: coachClearance,
       loginUser: loginUser,

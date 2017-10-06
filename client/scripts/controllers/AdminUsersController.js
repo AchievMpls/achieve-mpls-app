@@ -156,7 +156,6 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         password: user.password
       };
     }
-      console.log('user to send is ', userToSend);
       if (!user.fname || !user.lname) {
         completeFields();
         return;
@@ -207,6 +206,11 @@ myApp.controller('AdminUsersController', ['AdminService', 'AuthService', '$mdDia
         AuthService.sendActivation(user);
       });
     };
+
+    /**
+     * @function calls Register All Coaches function with year @param
+     */
+     users.registerAllCoaches = AuthService.registerAllCoaches;
 
     /**
      * @desc displays a popup when 'delete' button is clicked, then

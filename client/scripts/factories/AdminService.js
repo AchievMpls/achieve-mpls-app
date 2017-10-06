@@ -99,8 +99,6 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @param userToSend object to user data
      */
     function addNewUser(userToSend, callback) {
-      console.log("addNewUser function: ", userToSend);
-      console.log("callback in addnewUser=", callback);
       userToSend.password = generateId(10);
       $http.post('/users/postUser', userToSend).then(function(response) {
         getAllUsers(callback);
