@@ -23,7 +23,8 @@ router.post('/', function(req, res, next) {
     chance_expiration: req.body.chance_expiration
   };
   if (req.isAuthenticated()) {
-    resetUserPassword(user, mail)
+    resetUserPassword(user, mail);
+    res.sendStatus(200);
   } else {
     res.sendStatus(401);
   }
