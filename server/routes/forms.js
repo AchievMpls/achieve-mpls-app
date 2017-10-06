@@ -153,10 +153,8 @@ router.post('/assign', function(req, res) {
                       db.query('UPDATE "events" SET "form_id" = $1, "date_form_open" = $2, "date_form_close" = $3 WHERE "session_id" = $4 and "meeting_count" = $5;', [assign.formId, assign.date_form_open, assign.date_form_close, session.id, assign.event],
                         function(error, result) {
                           if (error) {
-                            console.log('in error');
                             status = 500;
                           } else {
-                            console.log('in success');
                             status = 201;
                           }
                         });
@@ -176,6 +174,7 @@ router.post('/assign', function(req, res) {
             } // end else
           }); //end query
       } // end else
+      res.sendStatus(200);
     }); // end pool connect
   } // end isAuthenticated
 }); //end function
