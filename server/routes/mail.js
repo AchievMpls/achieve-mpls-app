@@ -7,11 +7,7 @@ var chance = new Chance();
 var pool = require('../modules/db');
 var mailCredentials = require('../modules/mailCredentials')
 
-var transporter = nodeMailer.createTransport({
-  //@TODO dummy e-mail for development purposes, should be replaced with new email and variables going live
-  service: mailCredentials.service,
-  auth: mailCredentials.auth
-});
+var transporter = nodeMailer.createTransport(mailCredentials);
 
 router.post('/', function(req, res, next) {
   var mail = req.body;
@@ -62,7 +58,8 @@ router.post('/forgotpw', function(req, res, next) {
               res.sendStatus(500);
             } else {
               var mailOptions = {
-                from: '"Achieve Mpls" gradcoaches@gmail.com',
+                //set email before sending
+                from: '"Achieve Mpls" <youremail@email.com>',
                 to: email,
                 subject: 'Achieve Mpls Password Reset',
                 text: 'Hi ' + user.fname + '. You have recently requested a password reset for your account with Achieve Mpls. To reset your password, please click here: ' + 'http://localhost:5000/#/createPassword/' + newPW.code + ' Thank you, and have a great day!'
@@ -163,8 +160,10 @@ function resetUserPassword(userObject, mailer) {
  * @return sends emial to the user
 */
 function newUserEmail(mailerObject, code) {
+  console.log('Mailer Object is ', mailerObject);
   var mailOptions = {
-    from: '"Achieve Mpls" gradcoaches@gmail.com',
+    //set email before sending
+    from: '"Achieve Mpls" <youremail@email.com>',
     to: mailerObject.email,
     subject: 'Welcome to Achieve Mpls!',
     text: 'Thank you for volunteering for AchieveMpls, ' + mailerObject.fname + '! Tao activate your account, please click here: ' + 'http://localhost:5000/#/createPassword/' + code + ' Thank you and we look forward to working with you.'
@@ -172,9 +171,9 @@ function newUserEmail(mailerObject, code) {
     transporter.sendMail(mailOptions, function(error, info) {
       console.log('mail sending!');
       if (error) {
-        return 'error';
+        console.log('error, ', error);
       } else {
-        return 'success';
+        console.log('success ', info);
       }
     });
 }
