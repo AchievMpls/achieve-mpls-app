@@ -103,6 +103,14 @@ myApp.controller('UserAuthController', ['AuthService', '$mdDialog', '$routeParam
             .ok('OK!')
           );
         } else {
+          $mdDialog.show(
+            $mdDialog.alert()
+            .clickOutsideToClose(true)
+            .title('Password Created')
+            .textContent('Your New Password Has Been Created!')
+            .ariaLabel('Alert Dialog')
+            .ok('OK!')
+          )
           user = {
             chance_token: $routeParams.code,
             timestamp: $filter('date')(timestamp, "yyyy-MM-dd"),
