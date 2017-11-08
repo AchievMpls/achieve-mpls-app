@@ -18,6 +18,7 @@ function($http, $location, $mdDialog) {
   * into the ticketArray.
   */
   function getTickets(user) {
+    console.log('user in get tickets is ', user)
     $http.get('/coach/tickets/' + user.session_count +'/'+user.user_id).then(function(response) {
       if (response.data){
         angular.copy(response.data, tickets);

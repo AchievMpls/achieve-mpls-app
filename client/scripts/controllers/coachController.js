@@ -37,6 +37,8 @@ myApp.controller('coachController', ['CoachService', 'AuthService', '$mdDialog',
         questions: answers.questions
       };
       console.log('objectToSend ', objectToSend);
+      coach.ticketToComplete.length = 0;
+      
         CoachService.ticketToSend(objectToSend);
     };
 

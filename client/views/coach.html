@@ -64,7 +64,7 @@
         </md-menu-item>
     </md-menu>
   </div>
-  <md-card ng-hide="coach.tickets.open==='no open, incomplete tickets!'">
+  <md-card ng-hide="coach.tickets.noneOpen">
     <md-card-title>
       <md-card-title-text>
         <span class="md-headline">Meeting #{{coach.tickets.session_count}}</span>
@@ -72,8 +72,8 @@
     </md-card-title>
     <div ng-repeat="_q in coach.tickets.questions track by $index">
     <md-input-container>
-      <label>{{_q.question}}</label>
-      <textarea rows="2" cols="100" ng-model="coach.tickets.questions[$index].answer"></textarea>
+      <p>{{_q.question}}</p>
+      <textarea rows="2" cols="100" wrap= "soft" ng-model="coach.tickets.questions[$index].answer"></textarea>
     </md-input-container>
   </div>
     <md-input-container>
@@ -83,7 +83,7 @@
     </md-input-container>
   </md-card>
 
-  <md-card ng-show="coach.tickets.open==='no open, incomplete tickets!'">
+  <md-card ng-show="coach.tickets.noneOpen">
     <md-card-title>
       <md-card-title-text>
         <span class="md-headline">All feedback complete! </span>

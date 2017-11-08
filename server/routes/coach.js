@@ -9,23 +9,30 @@ var incompleteTicketArray = [];
  * @return the tickets associated with that username should be sent back.
  */
 router.get('/tickets/:userSession/:userID', function(req, res) {
-  var session_id = req.params.userSession;
+  console.log('request params are ', req.params)
+  var session_count = req.params.userSession;
   var user_id = req.params.userID;
   var today = new Date();
+  console.log('today is ', today)
   var ticketsToSend = [];
   if (req.isAuthenticated()) {
     pool.connect(function(errorConnectingToDb, db, done) {
       if (errorConnectingToDb) {
         res.sendStatus(500);
       } else {
-        db.query('SELECT * FROM "events" WHERE "session_id"= $1 AND "date_form_open" <= $2 AND "date_form_close" > $2 AND "events"."id" NOT IN (SELECT "event_id" FROM "form_responses" WHERE user_id = $3) ORDER BY "date_form_close" ASC LIMIT 1;', [session_id, today, user_id],
+        console.log('going into the query: meeting_count ', session_count, ' user_id ', user_id)
+        db.query('SELECT * FROM "events" WHERE "session_id"=(SELECT "id" from "sessions" where "session_count"=$1) AND "date_form_open" <= $2 AND "date_form_close" > $2 AND "events"."id" NOT IN (SELECT "event_id" FROM "form_responses" WHERE user_id = $3) ORDER BY "date_form_close" ASC LIMIT 1;', [session_count, today, user_id],
           function(queryError, result) {
             if (queryError) {
               res.sendStatus(500);
             } else {
               var incompleteTicketArray = result.rows;
+              console.log('incomplete ticket array is ', incompleteTicketArray)
               if (incompleteTicketArray.length === 0) {
-                res.sendStatus(200);
+                var noTicket = {
+                  noneOpen: true
+                }
+                res.send(noTicket);
               } else {
                 db.query('SELECT "forms"."id","forms"."form_name", array_to_json(array_agg(row_to_json((SELECT d FROM (SELECT "questions"."id", "questions"."question")d)))) AS "questions" FROM "questions" JOIN "forms" ON "forms"."id" = "questions"."form_id" WHERE "forms"."id"=$1 GROUP BY "forms"."id","forms"."form_name" ORDER BY "id";', [incompleteTicketArray[0].form_id],
                   function(queryError, result) {

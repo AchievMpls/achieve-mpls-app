@@ -10,7 +10,7 @@ var pool;
 
 var config = {
   // user: process.env.PGUSER || 'emilyh', //env var: PGUSER
-  database: process.env.PGDATABASE || 'achieveDB', //env var: PGDATABASE //--> be descriptive of what it's holding
+  database: process.env.PGDATABASE || 'localAchieveDB', //env var: PGDATABASE //--> be descriptive of what it's holding
   host: process.env.PGHOST || 'localhost',
   password: process.env.PGPASSWORD || '', //env var: PGPASSWORD
   port: process.env.PGPORT || 5432, //env var: PGPORT
