@@ -34,12 +34,16 @@ router.get('/tickets/:userSession/:userID', function(req, res) {
                 }
                 res.send(noTicket);
               } else {
-                db.query('SELECT "forms"."id","forms"."form_name", array_to_json(array_agg(row_to_json((SELECT d FROM (SELECT "questions"."id", "questions"."question")d)))) AS "questions" FROM "questions" JOIN "forms" ON "forms"."id" = "questions"."form_id" WHERE "forms"."id"=$1 GROUP BY "forms"."id","forms"."form_name" ORDER BY "id";', [incompleteTicketArray[0].form_id],
+                db.query('SELECT "forms"."id","forms"."form_name", array_to_json(array_agg(row_to_json((SELECT d FROM (SELECT "questions"."id", "questions"."question" )d)))) AS "questions" FROM "questions" JOIN "forms" ON "forms"."id" = "questions"."form_id" WHERE "forms"."id"=$1 GROUP BY "forms"."id","forms"."form_name" ORDER BY "id";', [incompleteTicketArray[0].form_id],
                   function(queryError, result) {
                     if (queryError) {
                       done();
                       res.sendStatus(500);
                     } else {
+                        var sortedQuestions = result.rows[0].questions.sort(function (a,b) {
+                          return a.id - b.id;
+                        })
+                        console.log('sorted questions is ', sortedQuestions)
                         var formToSend = {
                           user: user_id,
                           event_id: incompleteTicketArray[0].id,

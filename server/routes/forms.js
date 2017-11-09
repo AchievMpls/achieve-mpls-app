@@ -16,7 +16,12 @@ router.get('/', function(req, res) {
             if (queryError) {
               res.sendStatus(500);
             } else {
-              var dataToSend = result.rows;
+              var dataToSend = result.rows.map(function(row) {
+                row.questions.sort(function (a,b) {
+                  return a.id - b.id;
+                });
+                return row
+              });
               res.send(dataToSend);
             }
           });

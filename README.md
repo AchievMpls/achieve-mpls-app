@@ -73,6 +73,11 @@ Heroku
   * fixed bug on assign ticket to event
   * added register all coaches feature
   * changed register to reset pw on the manage users screen
+1.1.4
+  * fixed bug where incomplete tickets didn't show up
+  * fixed order of questions on the coach, form and home template screens
+  * Provided dropdown for question 1 (the 1-10 question)
+
 
 
 ## Authors:

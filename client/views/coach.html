@@ -71,7 +71,18 @@
       </md-card-title-text>
     </md-card-title>
     <div ng-repeat="_q in coach.tickets.questions track by $index">
-    <md-input-container>
+    <md-input-container ng-if="$index===0">
+      <p>{{_q.question}}</p>
+      <md-input-container>
+        <label>Choose 1-10:</label>
+        <md-select ng-model="coach.tickets.questions[0].answer">
+          <md-option ng-repeat="item in [10,9,8,7,6,5,4,3,2,1] track by $index" value={{item}}>
+            {{item}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </md-input-container>
+    <md-input-container ng-if="$index!==0">
       <p>{{_q.question}}</p>
       <textarea rows="2" cols="100" wrap= "soft" ng-model="coach.tickets.questions[$index].answer"></textarea>
     </md-input-container>
