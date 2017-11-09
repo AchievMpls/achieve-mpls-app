@@ -21,6 +21,10 @@ if (req.isAuthenticated()) {
             if (queryError) {
               res.sendStatus(500);
             } else {
+              var objectToSend = result.rows.map(function(row){
+                row.status = registrationStatus(row);
+                return row;
+              })
               res.send(result.rows);
             }
           });
@@ -30,6 +34,20 @@ if (req.isAuthenticated()) {
          res.sendStatus(401);
     }
 });//end router.get
+
+function registrationStatus(user) {
+  var status;
+  if (user.password.length === 10 && user.chance_token === null) {
+    status = "New User"
+  } else if (user.password.length === 10 && user.chance_token) {
+    status = "PW Sent"
+  } else if (user.password.length > 10) {
+    status = "Registered"
+  } else {
+    status = "Not Active"
+  }
+  return status;
+}
 
 router.get('/clearance', function(req, res) {
   // check if logged in

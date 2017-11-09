@@ -57,6 +57,7 @@
                 <th md-column md-order-by="email" md-desc class=""><span>Email Address</span></th>
                 <th md-column md-order-by="role" md-desc class=""><span>Role</span></th>
                 <th md-column md-order-by="session" md-desc class=""><span>Session</span></th>
+                <th md-column md-order-by="status" md-desc class=""><span>Status</span></th>
               </tr>
             </thead>
             <tbody md-body>
@@ -85,6 +86,7 @@
                 <td md-cell class="">{{user.email}}</td>
                 <td md-cell class="">{{user.role}}</td>
                 <td md-cell class="">{{user.session_count}}</td>
+                <td md-cell>{{user.status}}</td>
               </tr>
             </tbody>
           </table>
