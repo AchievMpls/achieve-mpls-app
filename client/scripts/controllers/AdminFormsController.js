@@ -91,6 +91,36 @@ myApp.controller('AdminFormsController', ['$mdDialog', 'AdminService', '$mdPanel
     };
 
     /**
+     * @function removeQuestion
+     * @desc removes the most recent question from the form
+     * @param
+     * @return pops off the last question of the array
+     */
+    forms.removeQuestion = function() {
+      var arr = forms.prompts.promptsArray
+      if (forms.editingForm = true && arr.length > 1) {
+        var question = arr[arr.length-1];
+        if (question.id) {
+          AdminService.removeLastQuestion((arr[arr.length - 1]))
+          arr.pop();
+        } else {
+          arr.pop();
+        }
+      } else if (arr.length > 1) {
+        arr.pop();
+      } else {
+        $mdDialog.show(
+          $mdDialog.alert()
+          .clickOutsideToClose(true)
+          .title('Error')
+          .textContent('The form must contain at least 1 question.')
+          .ariaLabel('Alert Dialog')
+          .ok('OK!')
+        );
+      }
+    }
+
+    /**
      * @function editForm
      * @desc displays an item for editing
      * @param {object} form

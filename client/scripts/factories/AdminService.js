@@ -166,9 +166,9 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      * @desc updates form
      * @param {object} formToSend the exit-ticket form to be altered
      */
-    function updateForm(formToSend, callback) {
+    function updateForm(formToSend) {
       $http.put('/forms/update', formToSend).then(function(response) {
-        getAllForms(callback);
+        getAllForms();
         formToSend.form_name = '';
         formToSend.prompts = [];
       });
@@ -196,6 +196,16 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       });
     }
 
+    /**
+     * @function removeLastQuestion
+     * @desc removes the last question from the form
+     * @param question
+     * @return 
+     */
+    function removeLastQuestion(question) {
+      $http.delete('/forms/deleteQuestion/' + question.id)
+    }
+
     //--------CRUD Sessions-----------
     /**
      * @desc selects (one of) each year for which there is currently
@@ -203,7 +213,6 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
      */
     function getSessionYears() {
       $http.get('/sessions/years').then(function(response) {
-        console.log('get session years triggered with ', response.data);
         sessionYear.uniques = response.data;
         sessionYear.currentYear = moment().format('YYYY');
       });
@@ -412,6 +421,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       updateForm: updateForm,
       deleteForm: deleteForm,
       assignForm: assignForm,
+      removeLastQuestion: removeLastQuestion,
       getSessionYears: getSessionYears,
       sessionYear: sessionYear,
       getYearsSessions: getYearsSessions,
@@ -431,6 +441,7 @@ myApp.factory('AdminService', ['$http', '$location', '$mdDialog',
       getYearsTickets: getYearsTickets,
       userArray: userArray,
       filterUserArray: filterUserArray
+
     };
 
   }

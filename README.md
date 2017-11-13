@@ -77,6 +77,10 @@ Heroku
   * fixed bug where incomplete tickets didn't show up
   * fixed order of questions on the coach, form and home template screens
   * Provided dropdown for question 1 (the 1-10 question)
+1.1.5
+  * added user status (registered, new user, pw sent) to user table
+  * added ability to delete questions on forms
+  
 
 
 

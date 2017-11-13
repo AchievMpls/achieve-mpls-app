@@ -130,6 +130,30 @@ router.delete('/delete/:id', function(req, res) {
   }
 }); //end router.delete
 
+/**
+ * @desc deletes a question from the DB
+ */
+router.delete('/deleteQuestion/:id', function(req, res) {
+  var questionID = req.params.id;
+  if (req.isAuthenticated()) {
+    pool.connect(function(error, db, done){
+      if (error) {
+        res.sendStatus(500);
+      } else {
+        db.query('DELETE FROM "questions" WHERE "id" = $1;', [questionID],
+          function(querryError, result) {
+            done();
+            if (querryError) {
+              res.sendStatus(500);
+            } else {
+              res.sendStatus(201);
+            }
+          });
+      }
+    });
+  }
+})
+
 router.post('/assign', function(req, res) {
   var assign = req.body;
   if (req.isAuthenticated()) {
